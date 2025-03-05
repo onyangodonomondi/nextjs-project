@@ -1,0 +1,20 @@
+.serviceCard {
+  @apply relative bg-white rounded-2xl p-6 sm:p-8 shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-xl overflow-hidden;
+}
+
+.serviceCard::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-0 transition-all duration-500;
+}
+
+.serviceCard:hover::before {
+  @apply opacity-100;
+}
+
+.iconWrapper {
+  @apply relative w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-6 bg-primary/10 transition-transform duration-500 z-10;
+}
+
+.serviceCard:hover .iconWrapper {
+  @apply transform scale-110 rotate-3;
+} 
