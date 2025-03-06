@@ -10,7 +10,7 @@ interface ImageItem {
   id: number;
   src: string;
   alt: string;
-  category: string;
+  category?: string;
   title?: string;
   description?: string;
 }
@@ -29,6 +29,13 @@ interface Props {
   graphics: ImageItem[];
   fliers: ImageItem[];
   websites: ImageItem[];
+}
+
+interface ImageCardProps {
+  item: ImageItem;
+  index: number;
+  aspectRatio?: string;
+  isLogo?: boolean;
 }
 
 function getRandomItems<T>(array: T[], count: number): T[] {
@@ -128,7 +135,7 @@ export default function RecentWork({ logos, graphics, fliers, websites }: Props)
   );
 
   // Image card component
-  const ImageCard = ({ item, index, aspectRatio = 'aspect-square', isLogo = false }) => (
+  const ImageCard = ({ item, index, aspectRatio = 'aspect-square', isLogo = false }: ImageCardProps) => (
     <div
       key={item.id}
       className={`group relative ${aspectRatio} bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer`}

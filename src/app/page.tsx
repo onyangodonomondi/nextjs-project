@@ -8,12 +8,23 @@ import Testimonials from '@/components/Testimonials';
 import Stats from '@/components/Stats';
 import WhyChooseUs from '@/components/WhyChooseUs';
 
+// Add category to the images when getting them
 export default async function Home() {
-  // Fetch recent work
-  const logos = await getImagesFromDirectory('/images/logos');
-  const graphics = await getImagesFromDirectory('/images/branding');
-  const fliers = await getImagesFromDirectory('/images/portfolio/fliers');
-  const websites = await getImagesFromDirectory('/images/portfolio/websites');
+  const logos = await getImagesFromDirectory('/images/logos').then(images =>
+    images.map(img => ({ ...img, category: 'logo' }))
+  );
+  
+  const graphics = await getImagesFromDirectory('/images/branding').then(images =>
+    images.map(img => ({ ...img, category: 'graphics' }))
+  );
+  
+  const fliers = await getImagesFromDirectory('/images/portfolio/fliers').then(images =>
+    images.map(img => ({ ...img, category: 'flier' }))
+  );
+  
+  const websites = await getImagesFromDirectory('/images/portfolio/websites').then(images =>
+    images.map(img => ({ ...img, category: 'website' }))
+  );
 
   return (
     <>
@@ -21,7 +32,6 @@ export default async function Home() {
       <main>
         <Hero />
         <Services />
-        <WhyChooseUs />
         <Process />
         <RecentWork 
           logos={logos} 
@@ -31,6 +41,7 @@ export default async function Home() {
         />
         <Stats />
         <Testimonials />
+        <WhyChooseUs />
       </main>
     </>
   );
