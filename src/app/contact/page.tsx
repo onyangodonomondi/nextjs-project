@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -49,21 +50,21 @@ export default function Contact() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 bg-gray-50">
+      <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-primary to-accent text-white py-20">
+        <section className="bg-gradient-to-r from-primary to-secondary text-white py-20 mt-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
               <h1 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
-              <p className="text-xl text-blue-100">Let's create something amazing together</p>
+              <p className="text-xl text-gray-100">Let's create something amazing together</p>
             </div>
           </div>
         </section>
 
         {/* Contact Cards */}
-        <section className="py-16">
+        <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
               <div className="bg-white rounded-xl p-8 shadow-lg" data-aos="fade-up">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6 mx-auto">
                   <i className="fas fa-map-marker-alt text-2xl text-primary"></i>
@@ -100,7 +101,7 @@ export default function Contact() {
         {/* Contact Form and Map Section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
               {/* Form Side */}
               <div className="bg-white rounded-xl shadow-lg p-8" data-aos="fade-right">
                 <h2 className="text-3xl font-bold mb-8 text-gradient">Send Us a Message</h2>
@@ -215,18 +216,8 @@ export default function Contact() {
             </div>
           </div>
         </section>
-
-        {/* WhatsApp Button */}
-        <div className="fixed bottom-8 right-8 z-50" data-aos="fade-up">
-          <a
-            href="https://wa.me/254741590670"
-            className="flex items-center justify-center w-16 h-16 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition-colors"
-            aria-label="Chat on WhatsApp"
-          >
-            <i className="fab fa-whatsapp text-3xl"></i>
-          </a>
-        </div>
       </main>
+      <Footer />
     </>
   );
 } 

@@ -59,7 +59,7 @@ export default function Navbar() {
                   priority
                 />
               </div>
-              <span className="text-primary font-bold text-xl">Mocky Digital</span>
+              <span className="text-primary font-bold text-xl">MOCKY</span>
             </Link>
           </div>
 
