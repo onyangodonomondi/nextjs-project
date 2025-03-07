@@ -1,6 +1,13 @@
 'use client';
 
+import { useInView } from 'react-intersection-observer';
+
 export default function Process() {
+  const { ref, inView } = useInView({
+    threshold: 0.3,
+    triggerOnce: true
+  });
+
   const steps = [
     {
       number: '01',
@@ -25,27 +32,40 @@ export default function Process() {
   ];
 
   return (
-    <section className="process bg-gray-50 py-20" data-aos="fade-up">
+    <section className="py-16 bg-[#0A2558] w-full">
       <div className="container mx-auto px-4">
-        <div className="section-header text-center mb-16">
-          <span className="text-orange-500 font-semibold mb-2 block">How We Work</span>
-          <h2 className="text-3xl font-bold mb-4">Our Process</h2>
-          <p className="text-xl text-gray-600">We follow a systematic approach to deliver the best results</p>
+        <div className="text-center mb-12">
+          <span className="text-orange-500 font-medium mb-2 block">
+            How We Work
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Our Process
+          </h2>
+          <p className="text-white/80 max-w-2xl mx-auto">
+            We follow a systematic approach to deliver the best results
+          </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
-            <div 
+
+        <div 
+          ref={ref}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto"
+        >
+          {steps.map((step) => (
+            <div
               key={step.number}
-              className="process-step text-center" 
-              data-aos="fade-up" 
-              data-aos-delay={index * 100}
+              className="bg-white/10 backdrop-blur-sm p-6 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 border border-white/10"
             >
-              <div className="step-number text-4xl font-bold text-orange-500 mb-4">
-                {step.number}
+              <div className="flex flex-col items-center text-center space-y-4">
+                <span className="text-4xl font-bold text-orange-500">
+                  {step.number}
+                </span>
+                <h3 className="text-xl font-bold text-white">
+                  {step.title}
+                </h3>
+                <p className="text-white/80">
+                  {step.description}
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-              <p className="text-gray-600">{step.description}</p>
             </div>
           ))}
         </div>

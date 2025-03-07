@@ -29,6 +29,42 @@
   }
 }
 
+@keyframes blob {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+  }
+}
+
 @layer base {
   body {
     @apply bg-gray-50 min-h-screen font-sans antialiased;
@@ -131,33 +167,35 @@
     }
 
     .hamburger {
-      @apply absolute w-6 h-0.5 bg-gray-800 transition-all duration-300 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+      @apply relative w-6 h-5;
     }
 
-    .hamburger::before,
-    .hamburger::after {
-      content: '';
-      @apply absolute w-6 h-0.5 bg-gray-800 transition-all duration-300 left-0;
+    .hamburger span {
+      @apply absolute left-0 w-full h-0.5 bg-gray-700 transition-all duration-300 rounded-full;
     }
 
-    .hamburger::before {
-      @apply -translate-y-2;
+    .hamburger span:first-child {
+      @apply top-0;
     }
 
-    .hamburger::after {
-      @apply translate-y-2;
+    .hamburger span:nth-child(2) {
+      @apply top-1/2 -translate-y-1/2;
     }
 
-    .nav-toggle.active .hamburger {
-      @apply bg-transparent;
+    .hamburger span:last-child {
+      @apply bottom-0;
     }
 
-    .nav-toggle.active .hamburger::before {
-      @apply rotate-45 translate-y-0;
+    .hamburger.active span:first-child {
+      @apply top-1/2 -translate-y-1/2 rotate-45;
     }
 
-    .nav-toggle.active .hamburger::after {
-      @apply -rotate-45 translate-y-0;
+    .hamburger.active span:nth-child(2) {
+      @apply opacity-0;
+    }
+
+    .hamburger.active span:last-child {
+      @apply bottom-1/2 translate-y-1/2 -rotate-45;
     }
   }
 
@@ -180,6 +218,22 @@
 
     .nav-menu a:hover::after {
       @apply w-full;
+    }
+
+    .nav-menu > li:hover > ul {
+      @apply opacity-100 visible translate-y-0;
+    }
+
+    .nav-menu ul {
+      @apply absolute top-full left-0 min-w-[200px] bg-white shadow-lg rounded-lg 
+      opacity-0 invisible translate-y-2 transition-all duration-300 border border-gray-100
+      p-1;
+    }
+
+    .nav-menu li > a,
+    .nav-menu li > button {
+      @apply block px-4 py-2 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-50 
+      transition-all whitespace-nowrap;
     }
   }
 
@@ -448,7 +502,7 @@
   }
 
   .animate-float {
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite;
   }
 
   /* Glassmorphism */
@@ -674,5 +728,409 @@
 
   .cta p {
     @apply text-base sm:text-lg lg:text-xl;
+  }
+
+  /* Add these to your existing styles */
+
+  .nav-menu li {
+    position: relative;
+  }
+
+  .nav-menu li > a,
+  .nav-menu li > button {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-menu li > button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Desktop styles */
+  @media (min-width: 1024px) {
+    .nav-menu > li:hover > ul {
+      display: block;
+    }
+
+    .nav-menu ul {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 200px;
+      background: white;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      border-radius: 0.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s;
+    }
+
+    .nav-menu li:hover > ul {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+
+  /* Mobile styles */
+  @media (max-width: 1023px) {
+    .nav-menu ul {
+      background: rgba(0,0,0,0.05);
+      margin: 0.5rem 0;
+      border-radius: 0.5rem;
+    }
+  }
+
+  /* Add to your existing animations */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes blob {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes particle-float {
+    0% {
+      transform: translateY(0) rotate(0deg);
+    }
+    100% {
+      transform: translateY(-100vh) rotate(360deg);
+    }
+  }
+
+  /* Add these utility classes */
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animate-gradient {
+    background: linear-gradient(to right, #ff7e33, #ff4b1f);
+    background-size: 200% 200%;
+    animation: gradient 3s ease infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  /* Particle styles */
+  .particle {
+    opacity: 0.6;
+    animation: particle-float linear infinite;
+  }
+
+  /* Add to your existing animations */
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: scale(0.9) rotate(6deg) translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0) translateY(0);
+    }
+  }
+
+  .fade-in-out {
+    animation: fadeInOut 0.5s ease-in-out forwards;
+  }
+
+  /* Update/Add these animations */
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) scale(0.8) rotate(0deg);
+    }
+    20% {
+      transform: translateY(80vh) scale(1) rotate(45deg);
+    }
+    100% {
+      transform: translateY(-20vh) scale(0.8) rotate(90deg);
+    }
+  }
+
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.1),
+                  0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    100% {
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+                  0 0 20px rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  /* Update particle styles */
+  .particle {
+    will-change: transform;
+    transform: translateZ(0);
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  /* Add these new utility classes */
+  .animate-float-slow {
+    animation: float 35s linear infinite;
+  }
+
+  .animate-float-medium {
+    animation: float 30s linear infinite;
+  }
+
+  .animate-float-fast {
+    animation: float 25s linear infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Add to your existing animations */
+  @keyframes ripple {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+    }
+  }
+
+  .ripple {
+    animation: ripple 1s ease-out forwards;
+    will-change: transform, opacity;
+  }
+
+  /* Optional: Add a subtle gradient to the ripples */
+  .ripple-gradient {
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 70%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  /* Add these new animations and styles */
+  .bg-gradient-mesh {
+    background-color: #0c1d48;
+    background-image: 
+      radial-gradient(at 40% 20%, rgba(28,99,242,0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(33,150,243,0.15) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(50,108,255,0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, rgba(76,81,191,0.15) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(28,99,242,0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 100%, rgba(33,150,243,0.15) 0px, transparent 50%),
+      radial-gradient(at 0% 0%, rgba(50,108,255,0.15) 0px, transparent 50%);
+    animation: gradientShift 15s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Update Animated Lines styles */
+  .lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    margin: auto;
+    width: 100vw;
+    z-index: 1;
+  }
+
+  .line {
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    opacity: 0.3;
+  }
+
+  .line::after {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 15vh;
+    width: 100%;
+    top: -50%;
+    left: 0;
+    background: linear-gradient(to bottom, 
+      rgba(255, 255, 255, 0) 0%, 
+      rgba(255, 255, 255, 0.5) 75%,
+      rgba(255, 255, 255, 0.7) 100%
+    );
+    animation: drop 7s 0s infinite;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
+  }
+
+  .line:nth-child(1) { margin-left: -20%; }
+  .line:nth-child(2) { margin-left: 0%; }
+  .line:nth-child(3) { margin-left: 20%; }
+  .line:nth-child(4) { margin-left: -30%; }
+  .line:nth-child(5) { margin-left: 30%; }
+  .line:nth-child(6) { margin-left: -40%; }
+
+  .line:nth-child(1)::after { animation-delay: 2s; }
+  .line:nth-child(2)::after { animation-delay: 1s; }
+  .line:nth-child(3)::after { animation-delay: 3s; }
+  .line:nth-child(4)::after { animation-delay: 2.5s; }
+  .line:nth-child(5)::after { animation-delay: 1.5s; }
+  .line:nth-child(6)::after { animation-delay: 3.5s; }
+
+  @keyframes drop {
+    0% {
+      top: -50%;
+    }
+    100% {
+      top: 110%;
+    }
+  }
+
+  .line::after {
+    animation-duration: 10s;
+  }
+
+  /* Add these new animations */
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Add these utility classes */
+  .animate-slideUp {
+    animation: slideUp 0.6s ease-out forwards;
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  /* Optional: Add hover effects for inputs */
+  input:hover, select:hover, textarea:hover {
+    border-color: theme('colors.gray.300');
+  }
+
+  /* Add focus transition for all form elements */
+  input, select, textarea, button {
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* Add these new animations */
+  @keyframes bounce-slow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 3s ease-in-out infinite;
+  }
+
+  /* Update existing animations for smoother transitions */
+  .animate-fadeInUp {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .animate-fadeIn {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
   }
 }

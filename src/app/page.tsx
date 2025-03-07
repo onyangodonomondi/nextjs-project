@@ -7,6 +7,8 @@ import RecentWork from '@/components/RecentWork';
 import Testimonials from '@/components/Testimonials';
 import Stats from '@/components/Stats';
 import WhyChooseUs from '@/components/WhyChooseUs';
+import { getTestimonials } from '@/utils/getTestimonials';
+import CallbackForm from '@/components/CallbackForm';
 
 // Add category to the images when getting them
 export default async function Home() {
@@ -26,11 +28,14 @@ export default async function Home() {
     images.map(img => ({ ...img, category: 'website' }))
   );
 
+  const testimonials = await getTestimonials();
+
   return (
     <>
       <Navbar />
       <main>
         <Hero />
+        <CallbackForm />
         <Services />
         <Process />
         <RecentWork 
@@ -40,7 +45,7 @@ export default async function Home() {
           websites={websites}
         />
         <Stats />
-        <Testimonials />
+        <Testimonials testimonials={testimonials} />
         <WhyChooseUs />
       </main>
     </>
