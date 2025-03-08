@@ -41,7 +41,7 @@ Message: ${formData.message}
   };
 
   return (
-    <section className="relative -mt-16 pb-20">
+    <section className="relative -mt-16 pb-20 pt-32 md:pt-0">
       <div className="container mx-auto px-4">
         <div className="max-w-[90%] lg:max-w-[90%] xl:max-w-[1080px] mx-auto relative z-20">
           <form 

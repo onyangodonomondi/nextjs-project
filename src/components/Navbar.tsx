@@ -79,7 +79,7 @@ export default function Navbar() {
   return (
     <>
       <header 
-        className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+        className={`fixed w-full top-0 z-[100] transition-all duration-300 ${
           isScrolled 
             ? 'py-2 bg-white/80 backdrop-blur-lg shadow-lg' 
             : 'py-4 bg-white'

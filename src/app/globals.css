@@ -18,6 +18,7 @@
   --border-color: #e2e8f0;
   --border-radius: 0.5rem;
   --transition: all 0.3s ease-in-out;
+  --foreground: #171717;
 }
 
 @keyframes float {
