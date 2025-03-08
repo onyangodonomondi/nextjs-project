@@ -67,7 +67,7 @@
 }
 
 @layer base {
-  body {
+body {
     @apply bg-gray-50 min-h-screen font-sans antialiased;
   }
 
