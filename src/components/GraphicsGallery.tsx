@@ -26,19 +26,30 @@ interface Props {
   categories: Categories;
 }
 
+// Define the type for categoryTitles
+type CategoryTitles = {
+  all: string;
+  branding: string;
+  packaging: string;
+  cards: string;
+  fliers: string;
+  letterheads: string;
+}
+
 export default function GraphicsGallery({ categories }: Props) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [activeCategory, setActiveCategory] = useState<keyof CategoryTitles>('all');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const categoryTitles = {
-    all: 'All Work',
-    branding: 'Merchandise',
-    packaging: 'Identity Mockups',
-    cards: 'Business Cards',
-    fliers: 'Marketing Fliers',
-    letterheads: 'Corporate Letterheads'
+  // Type the categoryTitles object
+  const categoryTitles: CategoryTitles = {
+    all: 'All Graphics',
+    branding: 'Branding',
+    packaging: 'Packaging',
+    cards: 'Cards',
+    fliers: 'Fliers',
+    letterheads: 'Letterheads'
   };
 
   const renderSection = (title: string, description: string, items: ImageItem[], aspectRatio: string = 'aspect-square') => (
@@ -114,9 +125,9 @@ export default function GraphicsGallery({ categories }: Props) {
                 {Object.entries(categoryTitles).slice(1).map(([key, title]) => (
                   <button
                     key={key}
-                    onClick={() => setActiveCategory(key)}
+                    onClick={() => setActiveCategory(key as keyof CategoryTitles)}
                     className={`px-6 py-3 rounded-full font-medium transition-colors ${
-                      activeCategory === key
+                      activeCategory === key as keyof CategoryTitles
                         ? 'bg-primary text-white'
                         : 'bg-white text-gray-600 hover:bg-gray-100'
                     }`}
@@ -147,11 +158,11 @@ export default function GraphicsGallery({ categories }: Props) {
                     <button
                       key={key}
                       onClick={() => {
-                        setActiveCategory(key);
+                        setActiveCategory(key as keyof CategoryTitles);
                         setShowMobileMenu(false);
                       }}
                       className={`w-full px-6 py-3 text-left transition-colors ${
-                        activeCategory === key
+                        activeCategory === key as keyof CategoryTitles
                           ? 'bg-primary text-white'
                           : 'text-gray-600 hover:bg-gray-50'
                       }`}
