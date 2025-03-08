@@ -10,6 +10,11 @@ interface ImageItem {
 export async function getImagesFromDirectory(dirPath: string): Promise<ImageItem[]> {
   try {
     const fullPath = path.join(process.cwd(), 'public', dirPath);
+    
+    if (!fs.existsSync(fullPath)) {
+      return [];
+    }
+    
     const files = fs.readdirSync(fullPath)
       .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file))
       .sort((a, b) => {
