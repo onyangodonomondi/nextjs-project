@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 const menuItems = [
   { label: 'Home', path: '/' },
+  { label: 'About', path: '/about' },
   { label: 'Capabilities', path: '/capabilities' },
   { label: 'Portfolio', path: '/graphics' },
   { 

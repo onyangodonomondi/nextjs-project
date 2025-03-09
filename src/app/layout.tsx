@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from '@/components/Footer';
 import ClientLayout from '@/components/ClientLayout';
+import Navbar from '@/components/Navbar';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +22,10 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
         <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-        <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
+        <script src="https://unpkg.com/@phosphor-icons/web"></script>
       </head>
       <body className={inter.className}>
+        <Navbar />
         <ClientLayout>
           {children}
         </ClientLayout>
