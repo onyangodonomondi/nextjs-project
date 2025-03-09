@@ -113,26 +113,35 @@ export default function Graphics() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     
     // Format the message for WhatsApp without icons
     const message = `New Graphics Design Request
-      
-Type: ${formData.projectType}
-Name: ${formData.name}
-Phone: ${formData.phone}
-Email: ${formData.email}
-Company: ${formData.companyName}
+
+Type: ${formData.get('projectType')}
+Name: ${formData.get('name')}
+Phone: ${formData.get('phone')}
+Email: ${formData.get('email')}
+Brand Name: ${formData.get('brandName')}
+Industry: ${formData.get('industry')}
+Website: ${formData.get('website')}
 
 Project Description:
-${formData.description}
+${formData.get('description')}
 
-Timeline: ${formData.timeline}
-Preferred Colors: ${formData.preferredColors}
+Timeline: ${formData.get('timeline')}
+Brand Colors: ${[
+  formData.get('color1'),
+  formData.get('color2'),
+  formData.get('color3')
+].filter(Boolean).join(', ')}
 
-Reference Examples:
-${formData.references || 'None provided'}`;
+Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}`;
 
     // Encode the message for URL
     const encodedMessage = encodeURIComponent(message);
@@ -146,8 +155,10 @@ ${formData.references || 'None provided'}`;
     // Open WhatsApp in a new tab
     window.open(whatsappUrl, '_blank');
     
-    // Close the form
-    onClose();
+    // Reset form
+    form.reset();
+    setSelectedFiles([]);
+    setIsSubmitting(false);
   };
 
   const handleCopy = (text: string, type: string) => {
