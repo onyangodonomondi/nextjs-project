@@ -16,7 +16,7 @@ const values = [
   },
   {
     title: 'Integrity',
-    icon: 'fas fa-shield-heart',
+    icon: 'fas fa-shield',
     description: 'Building trust through honest business practices'
   },
   {
@@ -74,10 +74,10 @@ export default function About() {
       </section>
 
       {/* CEO Section */}
-      <section className="py-20">
+      <section className="py-16 md:py-20">
         <div className="container">
           <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -98,15 +98,15 @@ export default function About() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                className="space-y-8"
+                className="space-y-6 md:space-y-8"
               >
                 <div className="space-y-4">
-                  <p className="text-xl text-gray-600 leading-relaxed">
+                  <p className="text-base md:text-xl text-gray-600 leading-relaxed">
                     "When I started Mocky Digital, I had a simple goal - to help local businesses thrive in the digital world. 
                     Growing up in Kenya, I saw many talented entrepreneurs struggling to make their mark online. That's why 
                     we focus on creating practical, results-driven solutions that actually work for our clients."
                   </p>
-                  <p className="text-xl text-gray-600 leading-relaxed">
+                  <p className="text-base md:text-xl text-gray-600 leading-relaxed">
                     "What makes us different is our hands-on approach. I personally ensure that each project gets the attention 
                     it deserves. Whether you're a small startup or an established business, we treat your digital presence 
                     with the same dedication and creativity. It's not just about delivering a service - it's about building 
@@ -114,16 +114,16 @@ export default function About() {
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-primary">Don Omondi</h3>
-                  <p className="text-lg text-gray-600">Founder & CEO</p>
-                  <div className="flex gap-4 mt-4">
+                  <h3 className="text-xl md:text-2xl font-bold text-primary">Don Omondi</h3>
+                  <p className="text-base md:text-lg text-gray-600">Founder & CEO</p>
+                  <div className="flex gap-4 mt-3">
                     <a 
                       href="https://www.linkedin.com/in/don-omondi-242367206/" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-gray-600 hover:text-primary transition-colors"
                     >
-                      <i className="fab fa-linkedin text-2xl"></i>
+                      <i className="fab fa-linkedin text-xl md:text-2xl"></i>
                     </a>
                     <a 
                       href="https://x.com/onyango__omondi" 
@@ -131,7 +131,7 @@ export default function About() {
                       rel="noopener noreferrer"
                       className="text-gray-600 hover:text-primary transition-colors"
                     >
-                      <i className="fab fa-twitter text-2xl"></i>
+                      <i className="fab fa-twitter text-xl md:text-2xl"></i>
                     </a>
                   </div>
                 </div>
@@ -142,7 +142,7 @@ export default function About() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20">
+      <section className="py-20 bg-gray-50">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -151,13 +151,14 @@ export default function About() {
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            <span className="text-primary font-medium mb-4 block">What Drives Us</span>
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">
-              Our Core Values
+            <span className="text-primary font-medium mb-4 block">Our Principles</span>
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+              Core Values that <span className="text-primary">Drive Us</span>
             </h2>
+            <div className="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {values.map((value, index) => (
               <motion.div
                 key={value.title}
@@ -165,26 +166,29 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="relative group"
+                className="group relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500"
               >
                 {/* Icon Container */}
-                <div className="mb-6 relative">
-                  <div className="w-14 h-14 bg-primary rounded-lg flex items-center justify-center transform -rotate-6 group-hover:rotate-0 transition-transform duration-300">
-                    <i className={`${value.icon} text-2xl text-white`}></i>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:rotate-6 transition-all duration-500">
+                    <i className={`${value.icon} text-2xl text-primary group-hover:text-white transition-colors duration-500`}></i>
                   </div>
-                  <div className="absolute inset-0 bg-black/5 rounded-lg transform rotate-6 group-hover:rotate-0 transition-transform duration-300"></div>
+                  
+                  {/* Content */}
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors duration-300">
+                    {value.title}
+                  </h3>
+                  <p className="text-gray-600 relative z-10">
+                    {value.description}
+                  </p>
                 </div>
-                
-                {/* Content */}
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  {value.title}
-                </h3>
-                <p className="text-gray-600">
-                  {value.description}
-                </p>
 
-                {/* Decorative Line */}
-                <div className="absolute -left-4 top-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300"></div>
+                {/* Decorative Elements */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 rounded-b-2xl"></div>
+                
+                {/* Corner Accent */}
+                <div className="absolute top-0 right-0 w-8 h-8 bg-primary/0 group-hover:bg-primary/10 rounded-tr-2xl transition-colors duration-500"></div>
               </motion.div>
             ))}
           </div>
@@ -194,9 +198,9 @@ export default function About() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
-            className="text-center mt-20"
+            className="text-center mt-16"
           >
-            <div className="max-w-3xl mx-auto px-6 py-8 bg-gray-50 rounded-2xl">
+            <div className="max-w-3xl mx-auto px-8 py-6 bg-white rounded-2xl shadow-sm border border-gray-100">
               <p className="text-gray-600 text-lg">
                 These core values shape our approach to every project and guide our commitment to delivering exceptional digital solutions.
               </p>
