@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 const processSteps = [
   {
@@ -99,7 +101,219 @@ const websiteTypes = [
   }
 ];
 
+const hostingPlans = [
+  {
+    provider: 'Hostinger',
+    plans: [
+      {
+        name: 'Premium',
+        price: '$2.99/mo × 12 = $35.88/year',
+        originalPrice: '$11.99/mo × 12 = $143.88/year',
+        savings: 'SAVE 75%',
+        features: [
+          '100 websites',
+          '100 GB SSD storage',
+          '~25,000 visits monthly',
+          'Free domain (US$ 9.99 value)',
+          'Free SSL certificate',
+          'Weekly backups',
+          'WordPress optimization'
+        ],
+        bestFor: 'Everything you need to create your website',
+        popular: false,
+        renewal: 'US$ 7.99/mo when you renew'
+      },
+      {
+        name: 'Business',
+        price: '$3.99/mo × 12 = $47.88/year',
+        originalPrice: '$13.99/mo × 12 = $167.88/year',
+        savings: 'SAVE 71%',
+        features: [
+          '100 websites',
+          '200 GB NVMe storage',
+          '~100,000 visits monthly',
+          'Free domain & SSL',
+          'Daily backups',
+          'Advanced WordPress features',
+          'Priority support'
+        ],
+        bestFor: 'Level up with more power and enhanced features',
+        popular: true,
+        renewal: 'US$ 8.99/mo when you renew'
+      },
+      {
+        name: 'Cloud Startup',
+        price: '$7.99/mo × 12 = $95.88/year',
+        originalPrice: '$27.99/mo × 12 = $335.88/year',
+        savings: 'SAVE 71%',
+        features: [
+          '300 websites',
+          '200 GB NVMe storage',
+          '~200,000 visits monthly',
+          'Free domain & SSL',
+          'Daily backups',
+          'Dedicated resources',
+          'VIP support'
+        ],
+        bestFor: 'Enjoy optimized performance & powerful resources',
+        popular: false,
+        renewal: 'US$ 19.99/mo when you renew'
+      }
+    ]
+  }
+];
+
+const domainExtensions = [
+  {
+    ext: '.com',
+    description: 'Most popular global domain, ideal for commercial websites',
+    price: '$8.99/year',
+    renewal: '$13.99/year',
+    features: [
+      'Global Recognition',
+      'Best for Business',
+      'High Availability',
+      'Brand Protection'
+    ]
+  },
+  {
+    ext: '.co.ke',
+    description: 'Kenya\'s official country-specific domain',
+    price: '$20/year',
+    renewal: '$20/year',
+    features: [
+      'Local Presence',
+      'Better Local SEO',
+      'Kenyan Identity',
+      'Government Recognition'
+    ]
+  },
+  {
+    ext: '.org',
+    description: 'Trusted domain for organizations and non-profits',
+    price: '$12.99/year',
+    renewal: '$17.99/year',
+    features: [
+      'Non-profit Status',
+      'Trust Building',
+      'Global Recognition',
+      'Community Focus'
+    ]
+  },
+  {
+    ext: '.net',
+    description: 'Popular for technology and network companies',
+    price: '$10.99/year',
+    renewal: '$15.99/year',
+    features: [
+      'Tech Credibility',
+      'Network Services',
+      'Alternative to .com',
+      'Professional Image'
+    ]
+  },
+  {
+    ext: '.biz',
+    description: 'Specifically for business entities',
+    price: '$9.99/year',
+    renewal: '$14.99/year',
+    features: [
+      'Business Focus',
+      'Good Availability',
+      'Professional Brand',
+      'Global Recognition'
+    ]
+  }
+];
+
+const sendHostingPlanToWhatsApp = (plan: any) => {
+  const message = `Hello! I'm interested in the following hosting plan:
+
+Plan Name: ${plan.name}
+Price: ${plan.price}
+Features:
+${plan.features.map((feature: string) => `- ${feature}`).join('\n')}
+
+Please help me get started with this plan.`;
+
+  const encodedMessage = encodeURIComponent(message);
+  window.open(`https://wa.me/254741590670?text=${encodedMessage}`, '_blank');
+};
+
+const sendDomainRequestToWhatsApp = (domain: any) => {
+  const message = `Hello! I'm interested in registering a domain:
+
+Extension: ${domain.ext}
+Price: ${domain.price}
+Renewal: ${domain.renewal}
+
+Please help me register this domain.`;
+
+  const encodedMessage = encodeURIComponent(message);
+  window.open(`https://wa.me/254741590670?text=${encodedMessage}`, '_blank');
+};
+
 export default function WebDevelopment() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    projectType: 'business',
+    budget: 'below-50k',
+    timeline: 'not-urgent',
+    description: '',
+    hostingPlan: '',
+    domainExtension: '',
+    domainName: '',
+    needHosting: false,
+    needDomain: false,
+    needSEO: false,
+    needMaintenance: false,
+    needSSL: false,
+    needAnalytics: false,
+    needCustomEmail: false,
+    needContentCreation: false
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const additionalFeatures = [
+      formData.needSEO && 'SEO',
+      formData.needMaintenance && 'Monthly Maintenance',
+      formData.needSSL && 'SSL Certificate',
+      formData.needAnalytics && 'Google Analytics',
+      formData.needCustomEmail && 'Custom Email',
+      formData.needContentCreation && 'Content Creation'
+    ].filter(Boolean);
+
+    const message = `New Web Project Quote Request:
+
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Project Type: ${formData.projectType}
+Budget: ${formData.budget}
+Timeline: ${formData.timeline}
+
+Hosting Details:
+${formData.needHosting ? `Selected Plan: ${formData.hostingPlan}` : 'No hosting required'}
+
+Domain Details:
+${formData.needDomain ? `
+Domain Extension: ${formData.domainExtension}
+Desired Domain Name: ${formData.domainName}` : 'No domain required'}
+
+Additional Features Required:
+${additionalFeatures.length > 0 ? additionalFeatures.join('\n') : 'None selected'}
+
+Project Description:
+${formData.description}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/254741590670?text=${encodedMessage}`, '_blank');
+  };
+
   return (
     <>
       <Navbar />
@@ -317,6 +531,395 @@ export default function WebDevelopment() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Hosting Plans Section */}
+        <section className="py-20 bg-white">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-3xl font-bold mb-4">Web Hosting Solutions</h2>
+              <p className="text-gray-600">Professional hosting plans with premium features</p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {hostingPlans[0].plans.map((plan, index) => (
+                <motion.div
+                  key={plan.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className={`bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all relative ${
+                    plan.popular ? 'border-2 border-primary' : ''
+                  }`}
+                >
+                  {plan.popular && (
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                      <span className="bg-primary text-white px-4 py-1 rounded-full text-sm">Most Popular</span>
+                    </div>
+                  )}
+                  <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
+                  <p className="text-sm text-gray-600 mb-4">{plan.bestFor}</p>
+                  <div className="mb-6">
+                    <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm inline-block mb-3">
+                      {plan.savings}
+                    </div>
+                    <p className="text-3xl font-bold text-primary">{plan.price}</p>
+                    <p className="text-sm text-gray-500 line-through mb-2">{plan.originalPrice}</p>
+                    <p className="text-sm text-gray-600">{plan.renewal}</p>
+                  </div>
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map((feature, i) => (
+                      <li key={i} className="flex items-center text-gray-600">
+                        <i className="fas fa-check text-primary mr-2"></i>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    onClick={() => sendHostingPlanToWhatsApp(plan)}
+                    className="w-full py-3 rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors"
+                  >
+                    Choose Plan
+                    <i className="fab fa-whatsapp ml-2"></i>
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Domain Extensions Section */}
+        <section className="py-20 bg-gray-50">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-3xl font-bold mb-4">Domain Extensions</h2>
+              <p className="text-gray-600">Choose the perfect domain for your brand</p>
+            </motion.div>
+
+            <div className="max-w-4xl mx-auto">
+              {domainExtensions.map((domain, index) => (
+                <motion.div
+                  key={domain.ext}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-white rounded-lg p-6 mb-6 shadow-sm hover:shadow-md transition-all"
+                >
+                  <div className="flex flex-wrap items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-primary mb-2">{domain.ext}</h3>
+                      <p className="text-gray-600 mb-4">{domain.description}</p>
+                      <div className="grid grid-cols-2 gap-4">
+                        {domain.features.map((feature, i) => (
+                          <div key={i} className="flex items-center text-gray-600">
+                            <i className="fas fa-check text-primary mr-2"></i>
+                            {feature}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-primary">{domain.price}</p>
+                      <p className="text-sm text-gray-500">Renewal: {domain.renewal}</p>
+                      <button
+                        onClick={() => sendDomainRequestToWhatsApp(domain)}
+                        className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                      >
+                        Register Now
+                        <i className="fab fa-whatsapp ml-2"></i>
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Quote Request Form */}
+        <section className="py-20">
+          <div className="container">
+            <div className="max-w-3xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <h2 className="text-3xl font-bold mb-4">Request a Quote</h2>
+                <p className="text-gray-600">Fill out the form below and we'll get back to you with a custom quote</p>
+              </motion.div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-gray-700 mb-2">Name</label>
+                    <input
+                      type="text"
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 mb-2">Email</label>
+                    <input
+                      type="email"
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2">Phone</label>
+                  <input
+                    type="tel"
+                    required
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-gray-700 mb-2">Project Type</label>
+                    <select
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                      value={formData.projectType}
+                      onChange={(e) => setFormData({...formData, projectType: e.target.value})}
+                    >
+                      <option value="">Select project type</option>
+                      <optgroup label="Business Websites">
+                        <option value="business">Corporate Website</option>
+                        <option value="ecommerce">E-commerce Store</option>
+                        <option value="portfolio">Portfolio/Personal</option>
+                        <option value="landing">Landing Page</option>
+                      </optgroup>
+                      <optgroup label="Specialized Websites">
+                        <option value="education">Educational Institution</option>
+                        <option value="healthcare">Healthcare/Medical</option>
+                        <option value="real-estate">Real Estate</option>
+                        <option value="restaurant">Restaurant/Food</option>
+                        <option value="travel">Travel/Tourism</option>
+                        <option value="ngo">NGO/Non-Profit</option>
+                      </optgroup>
+                      <optgroup label="Web Applications">
+                        <option value="crm">CRM System</option>
+                        <option value="booking">Booking System</option>
+                        <option value="membership">Membership Portal</option>
+                        <option value="marketplace">Online Marketplace</option>
+                      </optgroup>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-700 mb-2">Budget Range</label>
+                    <select
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                      value={formData.budget}
+                      onChange={(e) => setFormData({...formData, budget: e.target.value})}
+                    >
+                      <option value="below-50k">Below 50K</option>
+                      <option value="50k-100k">50K - 100K</option>
+                      <option value="100k-200k">100K - 200K</option>
+                      <option value="above-200k">Above 200K</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-700 mb-2">Timeline</label>
+                    <select
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                      value={formData.timeline}
+                      onChange={(e) => setFormData({...formData, timeline: e.target.value})}
+                    >
+                      <option value="urgent">Urgent (1-2 weeks)</option>
+                      <option value="normal">Normal (2-4 weeks)</option>
+                      <option value="not-urgent">Not Urgent (4+ weeks)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="checkbox"
+                      id="needHosting"
+                      checked={formData.needHosting}
+                      onChange={(e) => setFormData({...formData, needHosting: e.target.checked})}
+                      className="w-4 h-4 text-primary"
+                    />
+                    <label htmlFor="needHosting" className="text-gray-700">I need web hosting</label>
+                  </div>
+
+                  {formData.needHosting && (
+                    <div>
+                      <label className="block text-gray-700 mb-2">Select Hosting Plan</label>
+                      <select
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                        value={formData.hostingPlan}
+                        onChange={(e) => setFormData({...formData, hostingPlan: e.target.value})}
+                      >
+                        <option value="">Select a plan</option>
+                        {hostingPlans[0].plans.map(plan => (
+                          <option key={plan.name} value={plan.name}>
+                            {plan.name} - {plan.price}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="checkbox"
+                      id="needDomain"
+                      checked={formData.needDomain}
+                      onChange={(e) => setFormData({...formData, needDomain: e.target.checked})}
+                      className="w-4 h-4 text-primary"
+                    />
+                    <label htmlFor="needDomain" className="text-gray-700">I need a domain name</label>
+                  </div>
+
+                  {formData.needDomain && (
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-gray-700 mb-2">Domain Extension</label>
+                        <select
+                          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                          value={formData.domainExtension}
+                          onChange={(e) => setFormData({...formData, domainExtension: e.target.value})}
+                        >
+                          <option value="">Select extension</option>
+                          {domainExtensions.map(domain => (
+                            <option key={domain.ext} value={domain.ext}>
+                              {domain.ext} - {domain.price}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-gray-700 mb-2">Desired Domain Name</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., mycompany"
+                          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                          value={formData.domainName}
+                          onChange={(e) => setFormData({...formData, domainName: e.target.value})}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 mb-2">Project Description</label>
+                  <textarea
+                    rows={4}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    value={formData.description}
+                    onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  ></textarea>
+                </div>
+
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold text-gray-900">Additional Features</h3>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="needSEO"
+                        checked={formData.needSEO}
+                        onChange={(e) => setFormData({...formData, needSEO: e.target.checked})}
+                        className="w-4 h-4 text-primary"
+                      />
+                      <label htmlFor="needSEO" className="text-gray-700">Search Engine Optimization (SEO)</label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="needMaintenance"
+                        checked={formData.needMaintenance}
+                        onChange={(e) => setFormData({...formData, needMaintenance: e.target.checked})}
+                        className="w-4 h-4 text-primary"
+                      />
+                      <label htmlFor="needMaintenance" className="text-gray-700">Monthly Maintenance</label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="needSSL"
+                        checked={formData.needSSL}
+                        onChange={(e) => setFormData({...formData, needSSL: e.target.checked})}
+                        className="w-4 h-4 text-primary"
+                      />
+                      <label htmlFor="needSSL" className="text-gray-700">SSL Certificate</label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="needAnalytics"
+                        checked={formData.needAnalytics}
+                        onChange={(e) => setFormData({...formData, needAnalytics: e.target.checked})}
+                        className="w-4 h-4 text-primary"
+                      />
+                      <label htmlFor="needAnalytics" className="text-gray-700">Google Analytics Setup</label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="needCustomEmail"
+                        checked={formData.needCustomEmail}
+                        onChange={(e) => setFormData({...formData, needCustomEmail: e.target.checked})}
+                        className="w-4 h-4 text-primary"
+                      />
+                      <label htmlFor="needCustomEmail" className="text-gray-700">Custom Email Setup</label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="needContentCreation"
+                        checked={formData.needContentCreation}
+                        onChange={(e) => setFormData({...formData, needContentCreation: e.target.checked})}
+                        className="w-4 h-4 text-primary"
+                      />
+                      <label htmlFor="needContentCreation" className="text-gray-700">Content Creation</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    className="px-8 py-4 bg-primary text-white rounded-full hover:bg-primary-dark transition-all hover:scale-105"
+                  >
+                    Send Quote Request
+                    <i className="fab fa-whatsapp ml-2"></i>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </section>
