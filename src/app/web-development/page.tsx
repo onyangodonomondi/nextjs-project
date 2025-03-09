@@ -1911,11 +1911,10 @@ ${formData.description}`;
                           const message = `Hi! I'm interested in a web development project:\n\nWebsite Type: ${calculator.websiteType}\nSelected Features:\n${calculator.selectedFeatures.join('\n')}\n\nEstimated Cost: KES ${calculator.totalCost.toLocaleString()}\n\nPlease provide me with more information.`;
                           window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
                         }}
-                        className="px-8 py-4 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark 
-                          transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
+                        className="px-8 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark 
+                          transition-all shadow-lg shadow-primary/20"
                       >
-                        Get Detailed Quote
-                        <i className="fab fa-whatsapp text-xl"></i>
+                        Submit
                       </motion.button>
                     </div>
                   </div>
