@@ -598,7 +598,7 @@ ${formData.description}`;
         </section>
 
         {/* Domain Extensions Section */}
-        <section className="py-20 bg-gray-50">
+        <section className="py-16 md:py-20 bg-gray-50">
           <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -607,43 +607,63 @@ ${formData.description}`;
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl font-bold mb-4">Domain Extensions</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Domain Extensions
+              </h2>
               <p className="text-gray-600">Choose the perfect domain for your brand</p>
             </motion.div>
 
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-4xl mx-auto space-y-4">
               {domainExtensions.map((domain, index) => (
                 <motion.div
                   key={domain.ext}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white rounded-lg p-6 mb-6 shadow-sm hover:shadow-md transition-all"
+                  className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
                 >
-                  <div className="flex flex-wrap items-start justify-between">
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-primary mb-2">{domain.ext}</h3>
-                      <p className="text-gray-600 mb-4">{domain.description}</p>
-                      <div className="grid grid-cols-2 gap-4">
-                        {domain.features.map((feature, i) => (
-                          <div key={i} className="flex items-center text-gray-600">
-                            <i className="fas fa-check text-primary mr-2"></i>
-                            {feature}
-                          </div>
-                        ))}
+                  <div className="p-6">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                      {/* Left side - Extension and Description */}
+                      <div className="flex-1">
+                        <div className="flex items-center gap-4 mb-3">
+                          <h3 className="text-2xl font-bold text-primary">{domain.ext}</h3>
+                          {domain.ext === '.com' && (
+                            <span className="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full">
+                              Most Popular
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-gray-600 text-sm mb-4">{domain.description}</p>
+                        <div className="grid grid-cols-2 gap-3">
+                          {domain.features.map((feature, i) => (
+                            <div key={i} className="flex items-center text-sm text-gray-600">
+                              <i className="fas fa-check text-primary mr-2 text-xs"></i>
+                              <span className="line-clamp-1">{feature}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-2xl font-bold text-primary">{domain.price}</p>
-                      <p className="text-sm text-gray-500">Renewal: {domain.renewal}</p>
-                      <button
-                        onClick={() => sendDomainRequestToWhatsApp(domain)}
-                        className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                      >
-                        Register Now
-                        <i className="fab fa-whatsapp ml-2"></i>
-                      </button>
+
+                      {/* Right side - Pricing and Button */}
+                      <div className="flex flex-col items-center md:items-end gap-2 pt-4 md:pt-0 border-t md:border-t-0 mt-4 md:mt-0">
+                        <div className="text-center md:text-right">
+                          <div className="text-2xl font-bold text-primary mb-1">
+                            {domain.price}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            Renewal: {domain.renewal}
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => sendDomainRequestToWhatsApp(domain)}
+                          className="w-full md:w-auto px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center justify-center gap-2"
+                        >
+                          <span>Register Now</span>
+                          <i className="fab fa-whatsapp"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
