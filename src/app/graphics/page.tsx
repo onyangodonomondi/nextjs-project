@@ -93,6 +93,23 @@ export default function Graphics() {
     color2: '#000000',
     color3: '#000000'
   });
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Add useEffect to handle mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Check on mount
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Handle click outside to close menu
   useEffect(() => {
@@ -190,11 +207,7 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
   // Add this useEffect near your other hooks
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.hidden) {
-        swiperRef.current?.autoplay?.stop();
-      } else {
-        swiperRef.current?.autoplay?.start();
-      }
+      swiperRef.current?.autoplay?.stop();
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -525,11 +538,11 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
             spaceBetween={24}
             slidesPerView="auto"
             loop={true}
-            autoplay={{
+            autoplay={!isMobile ? {
               delay: 3000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
+              disableOnInteraction: true,
+              pauseOnMouseEnter: true
+            } : false}
             observer={true}
             observeParents={true}
             className="services-slider"
@@ -537,7 +550,7 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
               swiperRef.current = swiper;
             }}
             onBeforeDestroy={(swiper) => {
-              swiper.autoplay.stop();
+              swiper.autoplay?.stop();
             }}
           >
             {services.map((service) => (
