@@ -165,127 +165,457 @@ const developmentTimeline = {
   ]
 };
 
-const technologies = [
+// First, let's define better types for our technologies
+type TechStack = {
+  id: string;
+  category: string;
+  icon: string;
+  description: string;
+  items: {
+    name: string;
+    icon: string;
+    level: 'Basic' | 'Advanced' | 'Expert';
+    experience: string;
+  }[];
+  bgColor: string;
+  textColor: string;
+};
+
+const technologies: TechStack[] = [
   {
+    id: 'frontend',
     category: 'Frontend',
-    icon: 'fas fa-desktop',
-    items: ['React', 'Next.js', 'Vue.js', 'Tailwind CSS', 'TypeScript']
-  },
-  {
-    category: 'Backend',
-    icon: 'fas fa-server',
-    items: ['Node.js', 'Python', 'PHP', 'Laravel', 'Express']
-  },
-  {
-    category: 'Database',
-    icon: 'fas fa-database',
-    items: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis']
-  },
-  {
-    category: 'CMS',
-    icon: 'fas fa-file-code',
-    items: ['WordPress', 'Strapi', 'Sanity', 'Contentful']
-  }
-];
-
-const websiteTypes = [
-  {
-    icon: '🏢',
-    title: 'Corporate Websites',
-    description: 'Professional websites for businesses that establish credibility and showcase services.',
-    features: ['Company Profile', 'Service Showcase', 'Team Profiles', 'Contact Integration']
-  },
-  {
-    icon: '🛍️',
-    title: 'E-commerce Websites',
-    description: 'Online stores with secure payment gateways and inventory management.',
-    features: ['Product Catalog', 'Shopping Cart', 'Payment Integration', 'Order Management']
-  },
-  {
-    icon: '📱',
-    title: 'Portfolio Websites',
-    description: 'Creative platforms to showcase your work and attract potential clients.',
-    features: ['Project Gallery', 'Case Studies', 'Client Testimonials', 'Contact Forms']
-  },
-  {
-    icon: '🏥',
-    title: 'Healthcare Websites',
-    description: 'User-friendly websites for medical practices and healthcare providers.',
-    features: ['Appointment Booking', 'Service Information', 'Doctor Profiles', 'Patient Resources']
-  },
-  {
-    icon: '🎓',
-    title: 'Educational Websites',
-    description: 'Interactive platforms for schools, colleges, and educational institutions.',
-    features: ['Course Catalog', 'Student Portal', 'Learning Resources', 'Event Calendar']
-  },
-  {
-    icon: '⚖️',
-    title: 'Legal Websites',
-    description: 'Professional websites for law firms and legal consultants.',
-    features: ['Practice Areas', 'Attorney Profiles', 'Case Studies', 'Client Portal']
-  }
-];
-
-const hostingPlans = [
-  {
-    provider: 'Hostinger',
-    plans: [
+    icon: 'fas fa-laptop-code',
+    description: 'Modern and responsive user interfaces',
+    bgColor: 'bg-gradient-to-br from-blue-50 to-indigo-50',
+    textColor: 'text-blue-600',
+    items: [
       {
-        name: 'Premium',
-        price: '$2.99/mo × 12 = $35.88/year',
-        originalPrice: '$11.99/mo × 12 = $143.88/year',
-        savings: 'SAVE 75%',
-        features: [
-          '100 websites',
-          '100 GB SSD storage',
-          '~25,000 visits monthly',
-          'Free domain (US$ 9.99 value)',
-          'Free SSL certificate',
-          'Weekly backups',
-          'WordPress optimization'
-        ],
-        bestFor: 'Everything you need to create your website',
-        popular: false,
-        renewal: 'US$ 7.99/mo when you renew'
+        name: 'React/Next.js',
+        icon: 'fab fa-react',
+        level: 'Expert',
+        experience: '5+ years'
       },
       {
-        name: 'Business',
-        price: '$3.99/mo × 12 = $47.88/year',
-        originalPrice: '$13.99/mo × 12 = $167.88/year',
-        savings: 'SAVE 71%',
-        features: [
-          '100 websites',
-          '200 GB NVMe storage',
-          '~100,000 visits monthly',
-          'Free domain & SSL',
-          'Daily backups',
-          'Advanced WordPress features',
-          'Priority support'
-        ],
-        bestFor: 'Level up with more power and enhanced features',
-        popular: true,
-        renewal: 'US$ 8.99/mo when you renew'
+        name: 'TypeScript',
+        icon: 'fas fa-code',
+        level: 'Expert',
+        experience: '4+ years'
       },
       {
-        name: 'Cloud Startup',
-        price: '$7.99/mo × 12 = $95.88/year',
-        originalPrice: '$27.99/mo × 12 = $335.88/year',
-        savings: 'SAVE 71%',
-        features: [
-          '300 websites',
-          '200 GB NVMe storage',
-          '~200,000 visits monthly',
-          'Free domain & SSL',
-          'Daily backups',
-          'Dedicated resources',
-          'VIP support'
-        ],
-        bestFor: 'Enjoy optimized performance & powerful resources',
-        popular: false,
-        renewal: 'US$ 19.99/mo when you renew'
+        name: 'Tailwind CSS',
+        icon: 'fas fa-paint-brush',
+        level: 'Expert',
+        experience: '3+ years'
+      },
+      {
+        name: 'Vue.js',
+        icon: 'fab fa-vuejs',
+        level: 'Advanced',
+        experience: '3+ years'
       }
     ]
+  },
+  {
+    id: 'backend',
+    category: 'Backend',
+    icon: 'fas fa-server',
+    description: 'Scalable and secure server solutions',
+    bgColor: 'bg-gradient-to-br from-green-50 to-emerald-50',
+    textColor: 'text-green-600',
+    items: [
+      {
+        name: 'Node.js',
+        icon: 'fab fa-node-js',
+        level: 'Expert',
+        experience: '5+ years'
+      },
+      {
+        name: 'Python',
+        icon: 'fab fa-python',
+        level: 'Advanced',
+        experience: '4+ years'
+      },
+      {
+        name: 'PHP/Laravel',
+        icon: 'fab fa-php',
+        level: 'Expert',
+        experience: '5+ years'
+      },
+      {
+        name: 'Express',
+        icon: 'fas fa-server',
+        level: 'Expert',
+        experience: '4+ years'
+      }
+    ]
+  },
+  {
+    id: 'database',
+    category: 'Database',
+    icon: 'fas fa-database',
+    description: 'Reliable data storage solutions',
+    bgColor: 'bg-gradient-to-br from-purple-50 to-fuchsia-50',
+    textColor: 'text-purple-600',
+    items: [
+      {
+        name: 'MySQL',
+        icon: 'fas fa-database',
+        level: 'Expert',
+        experience: '6+ years'
+      },
+      {
+        name: 'PostgreSQL',
+        icon: 'fas fa-database',
+        level: 'Advanced',
+        experience: '4+ years'
+      },
+      {
+        name: 'MongoDB',
+        icon: 'fas fa-leaf',
+        level: 'Expert',
+        experience: '4+ years'
+      },
+      {
+        name: 'Redis',
+        icon: 'fas fa-bolt',
+        level: 'Advanced',
+        experience: '3+ years'
+      }
+    ]
+  },
+  {
+    id: 'cms',
+    category: 'CMS',
+    icon: 'fas fa-file-code',
+    description: 'Content management solutions',
+    bgColor: 'bg-gradient-to-br from-orange-50 to-amber-50',
+    textColor: 'text-orange-600',
+    items: [
+      {
+        name: 'WordPress',
+        icon: 'fab fa-wordpress',
+        level: 'Expert',
+        experience: '7+ years'
+      },
+      {
+        name: 'Strapi',
+        icon: 'fas fa-box',
+        level: 'Advanced',
+        experience: '3+ years'
+      },
+      {
+        name: 'Sanity',
+        icon: 'fas fa-cube',
+        level: 'Advanced',
+        experience: '2+ years'
+      },
+      {
+        name: 'Contentful',
+        icon: 'fas fa-feather',
+        level: 'Advanced',
+        experience: '3+ years'
+      }
+    ]
+  }
+];
+
+// Add these types and data
+type WebsiteType = {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.FC;
+  features: string[];
+  color: {
+    light: string;
+    dark: string;
+    text: string;
+    border: string;
+  };
+};
+
+// Add these modern icon components
+const ModernIcons = {
+  Corporate: () => (
+    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m4 0v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1v5m4 0h-4"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="stroke-current"
+      />
+    </svg>
+  ),
+  Ecommerce: () => (
+    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="stroke-current"
+      />
+    </svg>
+  ),
+  Portfolio: () => (
+    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="stroke-current"
+      />
+    </svg>
+  ),
+  Healthcare: () => (
+    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M9 12h6m-3-3v6m3-12H9a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V5a2 2 0 00-2-2z"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="stroke-current"
+      />
+    </svg>
+  ),
+  Educational: () => (
+    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="stroke-current"
+      />
+    </svg>
+  ),
+  Legal: () => (
+    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M3 6l9-4 9 4v12l-9 4-9-4V6zm9 12v-8m-8-2l8 4 8-4"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="stroke-current"
+      />
+    </svg>
+  ),
+};
+
+// Update the websiteTypes array to use the new icons
+const websiteTypes: WebsiteType[] = [
+  {
+    id: 'corporate',
+    title: 'Corporate Websites',
+    description: 'Professional websites for businesses that establish credibility and showcase services.',
+    icon: ModernIcons.Corporate,
+    features: [
+      'Company Profile',
+      'Service Showcase',
+      'Team Profiles',
+      'Contact Integration',
+      'Blog Integration',
+      'Analytics Dashboard'
+    ],
+    color: {
+      light: 'bg-blue-50',
+      dark: 'bg-blue-500',
+      text: 'text-blue-600',
+      border: 'border-blue-200'
+    }
+  },
+  {
+    id: 'ecommerce',
+    title: 'E-commerce Websites',
+    description: 'Online stores with secure payment gateways and inventory management.',
+    icon: ModernIcons.Ecommerce,
+    features: [
+      'Product Catalog',
+      'Shopping Cart',
+      'Payment Integration',
+      'Order Management',
+      'Inventory System',
+      'Customer Accounts'
+    ],
+    color: {
+      light: 'bg-purple-50',
+      dark: 'bg-purple-500',
+      text: 'text-purple-600',
+      border: 'border-purple-200'
+    }
+  },
+  {
+    id: 'portfolio',
+    title: 'Portfolio Websites',
+    description: 'Creative platforms to showcase your work and attract potential clients.',
+    icon: ModernIcons.Portfolio,
+    features: [
+      'Project Gallery',
+      'Case Studies',
+      'Client Testimonials',
+      'Contact Forms',
+      'Social Media Integration',
+      'SEO Optimization'
+    ],
+    color: {
+      light: 'bg-orange-50',
+      dark: 'bg-orange-500',
+      text: 'text-orange-600',
+      border: 'border-orange-200'
+    }
+  },
+  {
+    id: 'healthcare',
+    title: 'Healthcare Websites',
+    description: 'User-friendly websites for medical practices and healthcare providers.',
+    icon: ModernIcons.Healthcare,
+    features: [
+      'Appointment Booking',
+      'Patient Portal',
+      'Service Information',
+      'Doctor Profiles',
+      'HIPAA Compliance',
+      'Emergency Contact'
+    ],
+    color: {
+      light: 'bg-emerald-50',
+      dark: 'bg-emerald-500',
+      text: 'text-emerald-600',
+      border: 'border-emerald-200'
+    }
+  },
+  {
+    id: 'educational',
+    title: 'Educational Websites',
+    description: 'Interactive platforms for schools, colleges, and educational institutions.',
+    icon: ModernIcons.Educational,
+    features: [
+      'Course Catalog',
+      'Student Portal',
+      'Learning Management',
+      'Event Calendar',
+      'Resource Library',
+      'Online Registration'
+    ],
+    color: {
+      light: 'bg-cyan-50',
+      dark: 'bg-cyan-500',
+      text: 'text-cyan-600',
+      border: 'border-cyan-200'
+    }
+  },
+  {
+    id: 'legal',
+    title: 'Legal Websites',
+    description: 'Professional websites for law firms and legal consultants.',
+    icon: ModernIcons.Legal,
+    features: [
+      'Practice Areas',
+      'Case Results',
+      'Attorney Profiles',
+      'Client Portal',
+      'Legal Resources',
+      'Consultation Booking'
+    ],
+    color: {
+      light: 'bg-amber-50',
+      dark: 'bg-amber-500',
+      text: 'text-amber-600',
+      border: 'border-amber-200'
+    }
+  }
+];
+
+// Add these types for hosting plans
+type HostingPlan = {
+  id: string;
+  name: string;
+  description: string;
+  isPopular?: boolean;
+  monthlyPrice: number;
+  specs: {
+    storage: string;
+    type: string;
+  };
+  features: string[];
+  color: {
+    primary: string;
+    light: string;
+    border: string;
+    text: string;
+  };
+};
+
+const hostingPlans: HostingPlan[] = [
+  {
+    id: 'premium',
+    name: 'Premium',
+    description: 'Basic hosting setup',
+    monthlyPrice: 500, // KES 6,000 per year
+    specs: {
+      storage: '100 GB SSD',
+      type: 'Shared Hosting'
+    },
+    features: [
+      'SSL certificates',
+      'Weekly backups',
+      'WordPress optimization',
+      'Basic support'
+    ],
+    color: {
+      primary: 'bg-blue-500',
+      light: 'bg-blue-50',
+      border: 'border-blue-200',
+      text: 'text-blue-600'
+    }
+  },
+  {
+    id: 'business',
+    name: 'Business',
+    description: 'Advanced hosting setup',
+    isPopular: true,
+    monthlyPrice: 667, // KES 8,000 per year
+    specs: {
+      storage: '200 GB NVMe',
+      type: 'Cloud Hosting'
+    },
+    features: [
+      'SSL certificates',
+      'Daily backups',
+      'Performance optimization',
+      'Priority support'
+    ],
+    color: {
+      primary: 'bg-purple-500',
+      light: 'bg-purple-50',
+      border: 'border-purple-200',
+      text: 'text-purple-600'
+    }
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    description: 'Custom hosting setup',
+    monthlyPrice: 1250, // KES 15,000 per year
+    specs: {
+      storage: '200 GB NVMe',
+      type: 'VPS/Dedicated'
+    },
+    features: [
+      'SSL certificates',
+      'Daily backups',
+      'Server optimization',
+      'Premium support'
+    ],
+    color: {
+      primary: 'bg-gradient-to-r from-orange-500 to-pink-500',
+      light: 'bg-orange-50',
+      border: 'border-orange-200',
+      text: 'text-orange-600'
+    }
   }
 ];
 
@@ -419,81 +749,6 @@ const projectTimelines = {
   }
 };
 
-const caseStudies = [
-  {
-    title: 'Security Company Website',
-    image: '/web/Mac-1024x683.jpg',
-    description: 'Custom Website for a security Company',
-    results: ['Increased Security Awareness', 'Improved Response Time', 'Enhanced Client Trust']
-  },
-  {
-    title: 'Corporate Website',
-    image: '/web/Macbook-1-1024x683.jpg',
-    description: 'Modern business website with dynamic features',
-    results: ['Improved User Experience', 'Increased Engagement', 'Enhanced Brand Presence']
-  },
-  {
-    title: 'StartUp Company Website',
-    image: '/web/Macbook-1024x683.jpg',
-    description: 'Custom Website for a StartUp Company',
-    results: ['Increased Brand Awareness', 'Improved Customer Engagement', 'Successful Funding']
-  },
-  {
-    title: 'Tourism Company Website',
-    image: '/web/Macbook-Pro-1024x683.jpg',
-    description: 'Custom Website for a Tourism Company',
-    results: ['Increased Tourism Revenue', 'Improved Customer Experience', 'Enhanced Brand Presence']
-  },
-  {
-    title: 'E-commerce Website',
-    image: '/web/Macbook2-1024x683.jpg',
-    description: 'Custom Website for an E-commerce Company',
-    results: ['Increased Sales', 'Improved Customer Experience', 'Enhanced Brand Presence']
-  },
-  {
-    title: 'Crypto Trading Company Website',
-    image: '/web/Macbook3-1024x683.jpg',
-    description: 'Custom Website for a Crypto Trading Company',
-    results: ['Increased Trading Volume', 'Improved Trading Efficiency', 'Enhanced Security']
-  },
-  {
-    title: 'Law Firm Website',
-    image: '/web/Macbook4-1-1024x683.jpg',
-    description: 'Custom Website for a Law Firm',
-    results: ['Increased Case Resolution', 'Improved Client Satisfaction', 'Enhanced Legal Presence']
-  },
-  {
-    title: 'College Website',
-    image: '/web/Macbook6-1024x683.jpg',
-    description: 'Custom Website for a College',
-    results: ['Increased Student Engagement', 'Improved Academic Performance', 'Enhanced Brand Presence']
-  },
-  {
-    title: 'E-commerce Website',
-    image: '/web/Macbook7-1024x683.jpg',
-    description: 'Custom Website for an E-commerce Company',
-    results: ['Increased Sales', 'Improved Customer Experience', 'Enhanced Brand Presence']
-  },
-  {
-    title: 'Corporate Website',
-    image: '/web/Macbook4-1024x683.jpg',
-    description: 'Custom Website for a Corporate Company',
-    results: ['Increased Brand Presence', 'Improved Employee Engagement', 'Enhanced Corporate Presence']
-  },
-  {
-    title: 'NGO Website',
-    image: '/web/pure-1024x683.jpg',
-    description: 'Custom Website for an NGO',
-    results: ['Increased Donation Revenue', 'Improved Volunteer Engagement', 'Enhanced NGO Presence']
-  },
-  {
-    title: 'Corporate Website',
-    image: '/web/Macbook12-1024x683.jpg',
-    description: 'Custom Website for a Corporate Company',
-    results: ['Increased Brand Presence', 'Improved Employee Engagement', 'Enhanced Corporate Presence']
-  }
-];
-
 const serviceFeatures = [
   {
     name: 'Responsive Design',
@@ -600,6 +855,52 @@ const faqs = [
   }
 ];
 
+// Add these color definitions for the phases
+const phaseColors = {
+  'Discovery & Planning': {
+    bg: 'bg-blue-500',
+    text: 'text-blue-600',
+    light: 'bg-blue-50',
+    border: 'border-blue-200'
+  },
+  'Design': {
+    bg: 'bg-purple-500',
+    text: 'text-purple-600',
+    light: 'bg-purple-50',
+    border: 'border-purple-200'
+  },
+  'Development': {
+    bg: 'bg-orange-500',
+    text: 'text-orange-600',
+    light: 'bg-orange-50',
+    border: 'border-orange-200'
+  },
+  'Testing': {
+    bg: 'bg-green-500',
+    text: 'text-green-600',
+    light: 'bg-green-50',
+    border: 'border-green-200'
+  },
+  'Deployment': {
+    bg: 'bg-red-500',
+    text: 'text-red-600',
+    light: 'bg-red-50',
+    border: 'border-red-200'
+  }
+};
+
+// Add this function to handle plan selection
+const handlePlanSelect = (plan: typeof hostingPlans[0]) => {
+  const message = `Hi! I'm interested in the ${plan.name} hosting plan:\n\n` +
+    `Price: KES ${plan.monthlyPrice}/mo (KES ${plan.monthlyPrice * 12}/year)\n` +
+    `Storage: ${plan.specs.storage}\n` +
+    `Type: ${plan.specs.type}\n\n` +
+    `Features:\n${plan.features.map(f => `- ${f}`).join('\n')}\n\n` +
+    `Please provide me with more information.`;
+    
+  window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
+};
+
 export default function WebDevelopment() {
   const [formData, setFormData] = useState({
     name: '',
@@ -627,6 +928,11 @@ export default function WebDevelopment() {
     selectedFeatures: [] as string[],
     totalCost: 0
   });
+
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+
+  // Add state for features visibility
+  const [showFeatures, setShowFeatures] = useState(false);
 
   const updateTotalCost = (type: string, features: string[]) => {
     const basePrice = websiteBasePrice[type] || 0;
@@ -685,94 +991,272 @@ ${formData.description}`;
           description="Custom web solutions that drive growth and deliver exceptional user experiences."
         />
 
+        <section className="py-20 bg-gray-50">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Types of Websites We Create</h2>
+              <p className="mt-4 text-gray-600">Specialized web solutions for every industry</p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {websiteTypes.map((type, index) => (
+                <motion.div
+                  key={type.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="group relative"
+                >
+                  <div className={`absolute inset-0 ${type.color.light} rounded-2xl transform transition-transform group-hover:scale-105`} />
+                  
+                  <div className="relative p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className={`w-16 h-16 rounded-xl ${type.color.light} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                        {type.icon && <type.icon />}
+                  </div>
+                      <div>
+                        <h3 className={`text-xl font-semibold ${type.color.text}`}>{type.title}</h3>
+                        <p className="text-sm text-gray-600 mt-1">{type.description}</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      {type.features.map((feature, i) => (
+                        <motion.div
+                          key={feature}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: i * 0.1 }}
+                          className="flex items-center gap-3"
+                        >
+                          <div className={`w-5 h-5 rounded-full ${type.color.light} flex items-center justify-center`}>
+                            <i className={`fas fa-check text-xs ${type.color.text}`} />
+                          </div>
+                        <span className="text-gray-600">{feature}</span>
+                        </motion.div>
+                    ))}
+                </div>
+
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      className="mt-6"
+                    >
+                      <button
+                        className={`w-full py-3 rounded-xl ${type.color.light} ${type.color.text} font-medium 
+                          transition-colors hover:bg-white hover:shadow-sm border-2 ${type.color.border}`}
+                      >
+                        Learn More
+                        <i className="fas fa-arrow-right ml-2" />
+                      </button>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                Our Development Process
+              </h2>
+              <p className="mt-4 text-gray-600">
+                A systematic approach to delivering exceptional results
+              </p>
+            </motion.div>
+
+            <div className="max-w-6xl mx-auto">
+              {/* Timeline Container */}
+              <div className="relative">
+                {/* Progress Line */}
+                <div className="absolute top-[45px] left-0 right-0 h-1 bg-gray-100">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"
+                    initial={{ width: "0%" }}
+                    whileInView={{ width: "100%" }}
+                    transition={{ 
+                      duration: 3,
+                      ease: "easeInOut",
+                      delay: 0.5
+                    }}
+                    viewport={{ once: true }}
+                  />
+            </div>
+
+                {/* Phases */}
+                <div className="relative grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-8">
+                  {developmentTimeline.phases.map((phase, index) => (
+                    <motion.div
+                      key={phase.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ 
+                        opacity: 1, 
+                        y: 0,
+                      }}
+                      transition={{ 
+                        duration: 0.5, 
+                        delay: index * 0.2 
+                      }}
+                      viewport={{ once: true }}
+                      className="relative"
+                    >
+                      {/* Phase Dot */}
+                      <div className="hidden md:flex justify-center">
+                        <motion.div 
+                          className="w-[90px] h-[90px] rounded-full flex items-center justify-center 
+                            relative z-10 bg-white border-2 transition-all duration-300"
+                          initial={{ scale: 0.9, borderColor: 'rgb(229, 231, 235)' }}
+                          whileInView={{ 
+                            scale: 1.05,
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgb(239, 246, 255)'
+                          }}
+                          transition={{ 
+                            duration: 0.5,
+                            delay: 0.5 + (index * 0.2)
+                          }}
+                          viewport={{ once: true }}
+                        >
+                          <motion.span 
+                            className="text-2xl font-bold"
+                            initial={{ color: 'rgb(156, 163, 175)' }}
+                            whileInView={{ color: 'rgb(37, 99, 235)' }}
+                            transition={{ 
+                              duration: 0.5,
+                              delay: 0.5 + (index * 0.2)
+                            }}
+                            viewport={{ once: true }}
+                          >
+                            {index + 1}
+                          </motion.span>
+                        </motion.div>
+                  </div>
+
+                      {/* Content Card */}
+                      <motion.div
+                        className="mt-6 mx-4 rounded-xl bg-white shadow-sm overflow-hidden
+                          h-[280px] flex flex-col"
+                        initial={{ opacity: 0.6, scale: 0.95 }}
+                        whileInView={{ 
+                          opacity: 1,
+                          scale: 1,
+                          y: -5
+                        }}
+                        transition={{ 
+                          duration: 0.5,
+                          delay: 0.7 + (index * 0.2)
+                        }}
+                        viewport={{ once: true }}
+                      >
+                        {/* Header */}
+                        <div className="p-4 bg-gray-50">
+                          <div className="flex items-center gap-3">
+                            <div className="md:hidden w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                              <span className="text-lg font-bold text-gray-500">{index + 1}</span>
+                </div>
+                            <div>
+                              <h3 className="text-lg font-semibold text-gray-900">{phase.name}</h3>
+                              <span className="text-sm text-gray-500">{phase.duration}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Content area with flex-grow to fill space */}
+                        <div className="p-4 flex-grow">
+                          <div className="space-y-3">
+                            {phase.tasks.map((task, i) => (
+                              <motion.div
+                                key={i}
+                                className="flex items-start gap-2" // Changed to items-start for better alignment
+                              >
+                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2"></div>
+                                <span className="text-sm text-gray-600 leading-tight">{task}</span>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="py-20 bg-white">
           <div className="container">
-            <div className="section-header">
-              <h2 className="text-gradient">Types of Websites We Create</h2>
-              <p>Specialized web solutions for every industry</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {websiteTypes.map((type, index) => (
-                <div
-                  key={type.title}
-                  className="service-card group"
-                  data-aos="fade-up"
-                  data-aos-delay={index * 100}
-                >
-                  <div className="text-center mb-6">
-                    <div className="text-4xl mb-4">{type.icon}</div>
-                    <h3 className="text-xl font-bold text-orange-500 mb-3">{type.title}</h3>
-                    <p className="text-gray-600 mb-6">{type.description}</p>
-                  </div>
-                  <ul className="space-y-3">
-                    {type.features.map(feature => (
-                      <li key={feature} className="flex items-center gap-3">
-                        <i className="fas fa-check text-accent"></i>
-                        <span className="text-gray-600">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20">
-          <div className="container">
-            <div className="section-header">
-              <h2 className="text-gradient">Our Development Process</h2>
-              <p>A systematic approach to delivering exceptional results</p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {processSteps.map((step, index) => (
-                <div
-                  key={step.title}
-                  className="service-card group"
-                  data-aos="fade-up"
-                  data-aos-delay={index * 100}
-                >
-                  <div className="icon-wrapper">
-                    <i className={`${step.icon} icon`}></i>
-                  </div>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20">
-          <div className="container">
-            <div className="section-header">
-              <h2 className="text-gradient">Technologies We Use</h2>
-              <p>Modern tools for modern web solutions</p>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Technologies We Use</h2>
+              <p className="mt-4 text-gray-600">Modern tools for modern web solutions</p>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {technologies.map((tech, index) => (
-                <div
-                  key={tech.category}
-                  className="service-card group"
-                  data-aos="fade-up"
-                  data-aos-delay={index * 100}
+                <motion.div
+                  key={tech.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className={`rounded-2xl p-6 ${tech.bgColor} hover:shadow-lg transition-all duration-300`}
                 >
-                  <div className="icon-wrapper">
-                    <i className={`${tech.icon} icon`}></i>
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`w-12 h-12 rounded-xl ${tech.textColor} bg-white shadow-sm flex items-center justify-center`}>
+                      <i className={`${tech.icon} text-2xl`}></i>
                   </div>
-                  <h3>{tech.category}</h3>
-                  <ul className="space-y-2">
-                    {tech.items.map(item => (
-                      <li key={item} className="flex items-center gap-2 text-gray-600">
-                        <i className="fas fa-check text-blue-500 text-sm"></i>
-                        <span>{item}</span>
-                      </li>
+                    <div>
+                      <h3 className={`text-xl font-semibold ${tech.textColor}`}>{tech.category}</h3>
+                      <p className="text-sm text-gray-600">{tech.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {tech.items.map((item) => (
+                      <motion.div
+                        key={item.name}
+                        className="flex items-center justify-between p-3 bg-white rounded-lg hover:shadow-sm transition-all"
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <i className={`${item.icon} ${tech.textColor}`}></i>
+                          <span className="font-medium">{item.name}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            item.level === 'Expert' ? 'bg-green-100 text-green-700' :
+                            item.level === 'Advanced' ? 'bg-blue-100 text-blue-700' :
+                            'bg-gray-100 text-gray-700'
+                          }`}>
+                            {item.level}
+                          </span>
+                          <span className="text-xs text-gray-500">{item.experience}</span>
+                        </div>
+                      </motion.div>
                     ))}
-                  </ul>
                 </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -898,61 +1382,96 @@ ${formData.description}`;
         </section>
 
         {/* Hosting Plans Section */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-gray-50">
           <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-12"
+              className="text-center mb-16"
             >
-              <h2 className="text-3xl font-bold mb-4">Web Hosting Solutions</h2>
-              <p className="text-gray-600">Professional hosting plans with premium features</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Web Hosting Solutions</h2>
+              <p className="mt-4 text-gray-600">Professional hosting plans with premium features</p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {hostingPlans[0].plans.map((plan, index) => (
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {hostingPlans.map((plan) => (
                 <motion.div
-                  key={plan.name}
+                  key={plan.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className={`bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all relative ${
-                    plan.popular ? 'border-2 border-primary' : ''
-                  }`}
+                  whileHover={{ y: -5 }}
+                  className="relative"
                 >
-                  {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                      <span className="bg-primary text-white px-4 py-1 rounded-full text-sm">Most Popular</span>
+                  {plan.isPopular && (
+                    <div className="absolute -top-4 inset-x-0 flex justify-center">
+                      <span className="px-4 py-1 bg-primary text-white text-sm font-medium rounded-full">
+                        Most Popular
+                      </span>
                     </div>
                   )}
-                  <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                  <p className="text-sm text-gray-600 mb-4">{plan.bestFor}</p>
-                  <div className="mb-6">
-                    <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm inline-block mb-3">
-                      {plan.savings}
+
+                  <div className={`h-full bg-white rounded-2xl shadow-sm overflow-hidden ${
+                    plan.isPopular ? 'ring-2 ring-primary' : ''
+                  }`}>
+                    {/* Header */}
+                    <div className={`p-6 ${plan.color.light}`}>
+                      <h3 className={`text-xl font-semibold ${plan.color.text}`}>{plan.name}</h3>
+                      <p className="mt-2 text-sm text-gray-600">{plan.description}</p>
+                      
+                      {/* Pricing */}
+                      <div className="mt-4">
+                        <div className="flex items-baseline">
+                          <span className="text-3xl font-bold">KES {plan.monthlyPrice}</span>
+                          <span className="text-gray-500 ml-1">/mo</span>
+                        </div>
+                        <div className="text-sm text-gray-500 mt-1">
+                          KES {(plan.monthlyPrice * 12).toLocaleString()} billed yearly
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-3xl font-bold text-primary">{plan.price}</p>
-                    <p className="text-sm text-gray-500 line-through mb-2">{plan.originalPrice}</p>
-                    <p className="text-sm text-gray-600">{plan.renewal}</p>
+
+                    {/* Features */}
+                    <div className="p-6 space-y-6">
+                      {/* Specs */}
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-3">
+                          <i className={`fas fa-hdd text-lg ${plan.color.text}`} />
+                          <span>{plan.specs.storage}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <i className={`fas fa-server text-lg ${plan.color.text}`} />
+                          <span>{plan.specs.type}</span>
+                        </div>
+                      </div>
+
+                      {/* Feature List */}
+                      <div className="space-y-3 pt-6 border-t">
+                        {plan.features.map((feature) => (
+                          <div key={feature} className="flex items-center gap-3">
+                            <i className={`fas fa-check text-sm ${plan.color.text}`} />
+                            <span className="text-sm text-gray-600">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="p-6 pt-0">
+                      <button 
+                        onClick={() => handlePlanSelect(plan)}
+                        className={`w-full py-3 rounded-xl transition-all
+                          ${plan.isPopular 
+                            ? 'bg-primary text-white hover:bg-primary-dark' 
+                            : `${plan.color.light} ${plan.color.text} hover:bg-white hover:shadow-sm border-2 ${plan.color.border}`
+                          }`}
+                      >
+                        Select Plan
+                        <i className="fas fa-arrow-right ml-2" />
+                      </button>
+                    </div>
                   </div>
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-center text-gray-600">
-                        <i className="fas fa-check text-primary mr-2"></i>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <button
-                    onClick={() => sendHostingPlanToWhatsApp(plan)}
-                    className="w-full py-3 rounded-lg bg-primary text-white hover:bg-primary-dark transition-colors"
-                  >
-                    Choose Plan
-                    <i className="fab fa-whatsapp ml-2"></i>
-                  </button>
                 </motion.div>
               ))}
             </div>
@@ -960,72 +1479,109 @@ ${formData.description}`;
         </section>
 
         {/* Domain Extensions Section */}
-        <section className="py-16 md:py-20 bg-gray-50">
+        <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50">
           <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-12"
+              className="text-center mb-16"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Domain Extensions
-              </h2>
-              <p className="text-gray-600">Choose the perfect domain for your brand</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Domain Extensions</h2>
+              <p className="mt-4 text-gray-600">Choose the perfect domain for your brand</p>
             </motion.div>
 
-            <div className="max-w-4xl mx-auto space-y-4">
-              {domainExtensions.map((domain, index) => (
+            <div className="max-w-7xl mx-auto space-y-6">
+              {[
+                {
+                  extension: '.com',
+                  badge: 'Most Popular',
+                  description: 'Most popular global domain, ideal for commercial websites',
+                  price: 8.99,
+                  renewal: 13.99,
+                  features: ['Global Recognition', 'High Availability', 'Best for Business', 'Brand Protection'],
+                  color: 'blue'
+                },
+                {
+                  extension: '.co.ke',
+                  description: "Kenya's official country-specific domain",
+                  price: 20,
+                  renewal: 20,
+                  features: ['Local Presence', 'Kenyan Identity', 'Better Local SEO', 'Government Recognition'],
+                  color: 'green'
+                },
+                {
+                  extension: '.org',
+                  description: 'Trusted domain for organizations and non-profits',
+                  price: 12.99,
+                  renewal: 17.99,
+                  features: ['Non-profit Status', 'Global Recognition', 'Trust Building', 'Community Focus'],
+                  color: 'purple'
+                },
+                {
+                  extension: '.net',
+                  description: 'Technical and network-related websites',
+                  price: 10.99,
+                  renewal: 15.99,
+                  features: ['Tech Recognition', 'Network Identity', 'Professional Appeal', 'Global Reach'],
+                  color: 'orange'
+                }
+              ].map((domain, index) => (
                 <motion.div
-                  key={domain.ext}
+                  key={domain.extension}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+                  className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-gray-100"
                 >
-                  <div className="p-6">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                      {/* Left side - Extension and Description */}
-                      <div className="flex-1">
-                        <div className="flex items-center gap-4 mb-3">
-                          <h3 className="text-2xl font-bold text-primary">{domain.ext}</h3>
-                          {domain.ext === '.com' && (
-                            <span className="bg-primary/10 text-primary text-xs px-3 py-1 rounded-full">
-                              Most Popular
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-gray-600 text-sm mb-4">{domain.description}</p>
-                        <div className="grid grid-cols-2 gap-3">
-                          {domain.features.map((feature, i) => (
-                            <div key={i} className="flex items-center text-sm text-gray-600">
-                              <i className="fas fa-check text-primary mr-2 text-xs"></i>
-                              <span className="line-clamp-1">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
+                  <div className="flex flex-col md:flex-row items-center md:items-stretch">
+                    {/* Extension and Description */}
+                    <div className="p-6 md:w-1/3 flex flex-col justify-center">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-2xl font-bold text-gray-900">{domain.extension}</h3>
+                        {domain.badge && (
+                          <span className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
+                            {domain.badge}
+                          </span>
+                        )}
                       </div>
+                      <p className="text-gray-600">{domain.description}</p>
+                    </div>
 
-                      {/* Right side - Pricing and Button */}
-                      <div className="flex flex-col items-center md:items-end gap-2 pt-4 md:pt-0 border-t md:border-t-0 mt-4 md:mt-0">
-                        <div className="text-center md:text-right">
-                          <div className="text-2xl font-bold text-primary mb-1">
-                            {domain.price}
+                    {/* Features */}
+                    <div className="p-6 md:w-1/3 bg-gray-50 flex flex-col justify-center">
+                      <div className="grid grid-cols-2 gap-3">
+                        {domain.features.map((feature) => (
+                          <div key={feature} className="flex items-center gap-2">
+                            <i className={`fas fa-check text-${domain.color}-500 text-sm`}></i>
+                            <span className="text-sm text-gray-600">{feature}</span>
                           </div>
-                          <div className="text-sm text-gray-500">
-                            Renewal: {domain.renewal}
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => sendDomainRequestToWhatsApp(domain)}
-                          className="w-full md:w-auto px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center justify-center gap-2"
-                        >
-                          <span>Register Now</span>
-                          <i className="fab fa-whatsapp"></i>
-                        </button>
+                        ))}
                       </div>
+                    </div>
+
+                    {/* Pricing and Action */}
+                    <div className="p-6 md:w-1/3 flex flex-col justify-center items-center md:items-end">
+                      <div className="text-center md:text-right">
+                        <div className="text-3xl font-bold text-gray-900">
+                          ${domain.price}
+                          <span className="text-sm font-normal text-gray-500">/year</span>
+                        </div>
+                        <div className="text-sm text-gray-500 mt-1">
+                          Renewal: ${domain.renewal}/year
+                        </div>
+                      </div>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`mt-4 px-6 py-2 rounded-xl font-medium transition-all
+                          bg-${domain.color}-50 text-${domain.color}-600 hover:bg-${domain.color}-100`}
+                      >
+                        Register Now
+                        <i className="fas fa-arrow-right ml-2"></i>
+                      </motion.button>
                     </div>
                   </div>
                 </motion.div>
@@ -1035,505 +1591,206 @@ ${formData.description}`;
         </section>
 
         {/* Quote Request Form */}
-        <section className="py-20">
-          <div className="container">
-            <div className="max-w-3xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-                className="text-center mb-12"
-              >
-                <h2 className="text-3xl font-bold mb-4">Request a Quote</h2>
-                <p className="text-gray-600">Fill out the form below and we'll get back to you with a custom quote</p>
-              </motion.div>
+        <section className="py-20 relative overflow-hidden">
+          {/* Background gradients */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-white to-gray-50/80" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
+          
+          <div className="container relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary-dark to-primary">
+                Request a Quote
+              </h2>
+              <p className="mt-4 text-gray-600 text-lg">Let's bring your vision to life</p>
+            </motion.div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-gray-700 mb-2">Name</label>
-                    <input
-                      type="text"
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                      value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 mb-2">Email</label>
-                    <input
-                      type="email"
-                      required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                      value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2">Phone</label>
-                  <input
-                    type="tel"
-                    required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  />
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-gray-700 mb-2">Project Type</label>
-                    <select
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                      value={formData.projectType}
-                      onChange={(e) => setFormData({...formData, projectType: e.target.value})}
-                    >
-                      <option value="">Select project type</option>
-                      <optgroup label="Business Websites">
-                        <option value="business">Corporate Website</option>
-                        <option value="ecommerce">E-commerce Store</option>
-                        <option value="portfolio">Portfolio/Personal</option>
-                        <option value="landing">Landing Page</option>
-                      </optgroup>
-                      <optgroup label="Specialized Websites">
-                        <option value="education">Educational Institution</option>
-                        <option value="healthcare">Healthcare/Medical</option>
-                        <option value="real-estate">Real Estate</option>
-                        <option value="restaurant">Restaurant/Food</option>
-                        <option value="travel">Travel/Tourism</option>
-                        <option value="ngo">NGO/Non-Profit</option>
-                      </optgroup>
-                      <optgroup label="Web Applications">
-                        <option value="crm">CRM System</option>
-                        <option value="booking">Booking System</option>
-                        <option value="membership">Membership Portal</option>
-                        <option value="marketplace">Online Marketplace</option>
-                      </optgroup>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-700 mb-2">Budget Range</label>
-                    <select
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                      value={formData.budget}
-                      onChange={(e) => setFormData({...formData, budget: e.target.value})}
-                    >
-                      <option value="below-50k">Below 50K</option>
-                      <option value="50k-100k">50K - 100K</option>
-                      <option value="100k-200k">100K - 200K</option>
-                      <option value="above-200k">Above 200K</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-gray-700 mb-2">Timeline</label>
-                    <select
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                      value={formData.timeline}
-                      onChange={(e) => setFormData({...formData, timeline: e.target.value})}
-                    >
-                      <option value="urgent">Urgent (1-2 weeks)</option>
-                      <option value="normal">Normal (2-4 weeks)</option>
-                      <option value="not-urgent">Not Urgent (4+ weeks)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <input
-                      type="checkbox"
-                      id="needHosting"
-                      checked={formData.needHosting}
-                      onChange={(e) => setFormData({...formData, needHosting: e.target.checked})}
-                      className="w-4 h-4 text-primary"
-                    />
-                    <label htmlFor="needHosting" className="text-gray-700">I need web hosting</label>
-                  </div>
-
-                  {formData.needHosting && (
-                    <div>
-                      <label className="block text-gray-700 mb-2">Select Hosting Plan</label>
-                      <select
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                        value={formData.hostingPlan}
-                        onChange={(e) => setFormData({...formData, hostingPlan: e.target.value})}
-                      >
-                        <option value="">Select a plan</option>
-                        {hostingPlans[0].plans.map(plan => (
-                          <option key={plan.name} value={plan.name}>
-                            {plan.name} - {plan.price}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-
-                  <div className="flex items-center gap-4">
-                    <input
-                      type="checkbox"
-                      id="needDomain"
-                      checked={formData.needDomain}
-                      onChange={(e) => setFormData({...formData, needDomain: e.target.checked})}
-                      className="w-4 h-4 text-primary"
-                    />
-                    <label htmlFor="needDomain" className="text-gray-700">I need a domain name</label>
-                  </div>
-
-                  {formData.needDomain && (
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-gray-700 mb-2">Domain Extension</label>
-                        <select
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                          value={formData.domainExtension}
-                          onChange={(e) => setFormData({...formData, domainExtension: e.target.value})}
-                        >
-                          <option value="">Select extension</option>
-                          {domainExtensions.map(domain => (
-                            <option key={domain.ext} value={domain.ext}>
-                              {domain.ext} - {domain.price}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <label className="block text-gray-700 mb-2">Desired Domain Name</label>
+            <div className="max-w-6xl mx-auto">
+              <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-white">
+                <form onSubmit={handleSubmit} className="p-8">
+                  {/* Contact Information */}
+                  <div className="grid md:grid-cols-3 gap-6 mb-8">
+                    {[
+                      { label: 'Name', type: 'text', placeholder: 'Your name' },
+                      { label: 'Email', type: 'email', placeholder: 'your@email.com' },
+                      { label: 'Phone', type: 'tel', placeholder: 'Your phone number' }
+                    ].map((field) => (
+                      <div key={field.label} className="relative group">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">{field.label}</label>
                         <input
-                          type="text"
-                          placeholder="e.g., mycompany"
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                          value={formData.domainName}
-                          onChange={(e) => setFormData({...formData, domainName: e.target.value})}
+                          type={field.type}
+                          required
+                          className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 
+                            focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white
+                            group-hover:border-gray-300 transition-all"
+                          placeholder={field.placeholder}
                         />
                       </div>
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2">Project Description</label>
-                  <textarea
-                    rows={4}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    value={formData.description}
-                    onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  ></textarea>
-                </div>
-
-                <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-gray-900">Additional Features</h3>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="needSEO"
-                        checked={formData.needSEO}
-                        onChange={(e) => setFormData({...formData, needSEO: e.target.checked})}
-                        className="w-4 h-4 text-primary"
-                      />
-                      <label htmlFor="needSEO" className="text-gray-700">Search Engine Optimization (SEO)</label>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="needMaintenance"
-                        checked={formData.needMaintenance}
-                        onChange={(e) => setFormData({...formData, needMaintenance: e.target.checked})}
-                        className="w-4 h-4 text-primary"
-                      />
-                      <label htmlFor="needMaintenance" className="text-gray-700">Monthly Maintenance</label>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="needSSL"
-                        checked={formData.needSSL}
-                        onChange={(e) => setFormData({...formData, needSSL: e.target.checked})}
-                        className="w-4 h-4 text-primary"
-                      />
-                      <label htmlFor="needSSL" className="text-gray-700">SSL Certificate</label>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="needAnalytics"
-                        checked={formData.needAnalytics}
-                        onChange={(e) => setFormData({...formData, needAnalytics: e.target.checked})}
-                        className="w-4 h-4 text-primary"
-                      />
-                      <label htmlFor="needAnalytics" className="text-gray-700">Google Analytics Setup</label>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="needCustomEmail"
-                        checked={formData.needCustomEmail}
-                        onChange={(e) => setFormData({...formData, needCustomEmail: e.target.checked})}
-                        className="w-4 h-4 text-primary"
-                      />
-                      <label htmlFor="needCustomEmail" className="text-gray-700">Custom Email Setup</label>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="needContentCreation"
-                        checked={formData.needContentCreation}
-                        onChange={(e) => setFormData({...formData, needContentCreation: e.target.checked})}
-                        className="w-4 h-4 text-primary"
-                      />
-                      <label htmlFor="needContentCreation" className="text-gray-700">Content Creation</label>
-                    </div>
+                    ))}
                   </div>
-                </div>
 
-                <div className="text-center">
-                  <button
-                    type="submit"
-                    className="px-8 py-4 bg-primary text-white rounded-full hover:bg-primary-dark transition-all hover:scale-105"
-                  >
-                    Send Quote Request
-                    <i className="fab fa-whatsapp ml-2"></i>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 bg-gray-50">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-center mb-12">Our Technology Stack</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              {Object.values(techStack).map((category) => (
-                <div key={category.title} className="bg-white rounded-xl p-6 shadow-sm">
-                  <h3 className="text-xl font-semibold mb-6">{category.title}</h3>
-                  <div className="space-y-4">
-                    {category.items.map((tech) => (
-                      <div key={tech.name} className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg transition-colors">
-                        <i className={`${tech.icon} text-2xl text-primary`}></i>
-                        <div>
-                          <h4 className="font-medium">{tech.name}</h4>
-                          <p className="text-sm text-gray-600">{tech.description}</p>
+                  {/* Project Details */}
+                  <div className="grid md:grid-cols-3 gap-6 mb-8">
+                    {[
+                      {
+                        label: 'Project Type',
+                        options: [
+                          { value: 'corporate', label: 'Corporate Website' },
+                          { value: 'ecommerce', label: 'E-commerce Store' },
+                          { value: 'portfolio', label: 'Portfolio/Personal' },
+                          { value: 'blog', label: 'Blog/Magazine' },
+                          { value: 'education', label: 'Educational Platform' },
+                          { value: 'healthcare', label: 'Healthcare/Medical' },
+                          { value: 'real-estate', label: 'Real Estate' },
+                          { value: 'restaurant', label: 'Restaurant/Food' },
+                          { value: 'ngo', label: 'NGO/Non-Profit' },
+                          { value: 'travel', label: 'Travel/Tourism' },
+                          { value: 'marketplace', label: 'Online Marketplace' },
+                          { value: 'membership', label: 'Membership Site' },
+                          { value: 'booking', label: 'Booking System' },
+                          { value: 'crm', label: 'CRM System' }
+                        ]
+                      },
+                      {
+                        label: 'Budget Range',
+                        options: [
+                          { value: 'below-50k', label: 'Below KES 50,000' },
+                          { value: '50k-100k', label: 'KES 50,000 - 100,000' },
+                          { value: '100k-200k', label: 'KES 100,000 - 200,000' },
+                          { value: '200k-500k', label: 'KES 200,000 - 500,000' },
+                          { value: 'above-500k', label: 'Above KES 500,000' },
+                          { value: 'custom', label: 'Custom Budget' }
+                        ]
+                      },
+                      {
+                        label: 'Timeline',
+                        options: [
+                          { value: 'urgent', label: 'Urgent (2-3 weeks)' },
+                          { value: 'standard', label: 'Standard (4-6 weeks)' },
+                          { value: 'extended', label: 'Extended (6-8 weeks)' },
+                          { value: 'complex', label: 'Complex (8-12 weeks)' },
+                          { value: 'flexible', label: 'Flexible Timeline' }
+                        ]
+                      }
+                    ].map((field) => (
+                      <div key={field.label} className="relative group">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">{field.label}</label>
+                        <div className="relative">
+                          <select 
+                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 
+                              focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white
+                              group-hover:border-gray-300 transition-all appearance-none"
+                          >
+                            <option value="">Select {field.label.toLowerCase()}</option>
+                            {field.options.map(opt => (
+                              <option key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+                            <i className="fas fa-chevron-down"></i>
+                          </div>
                         </div>
                       </div>
                     ))}
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        <section className="py-20">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-center mb-12">Success Stories</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {caseStudies.map((study) => (
-                <motion.div
-                  key={study.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="bg-white rounded-xl overflow-hidden shadow-sm"
-                >
-                  <Image
-                    src={study.image}
-                    alt={study.title}
-                    width={400}
-                    height={250}
-                    className="w-full object-cover h-48"
-                  />
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2">{study.title}</h3>
-                    <p className="text-gray-600 mb-4">{study.description}</p>
-                    <div className="space-y-2">
-                      {study.results.map((result) => (
-                        <div key={result} className="flex items-center gap-2 text-sm">
-                          <i className="fas fa-check-circle text-primary"></i>
-                          <span>{result}</span>
-                        </div>
+                  {/* Project Description */}
+                  <div className="mb-8">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Project Description</label>
+                    <textarea
+                      rows={4}
+                      className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 
+                        focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white
+                        hover:border-gray-300 transition-all resize-none"
+                      placeholder="Tell us about your project requirements..."
+                    ></textarea>
+                  </div>
+
+                  {/* Additional Services */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Additional Services</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {[
+                        { icon: 'fas fa-server', label: 'Web Hosting' },
+                        { icon: 'fas fa-globe', label: 'Domain Name' },
+                        { icon: 'fas fa-search', label: 'SEO Service' },
+                        { icon: 'fas fa-tools', label: 'Maintenance' },
+                        { icon: 'fas fa-lock', label: 'SSL Certificate' },
+                        { icon: 'fas fa-chart-line', label: 'Analytics' },
+                        { icon: 'fas fa-envelope', label: 'Custom Email' },
+                        { icon: 'fas fa-pen', label: 'Content Creation' }
+                      ].map((service) => (
+                        <motion.div
+                          key={service.label}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50/80 hover:bg-primary/5 
+                            hover:border-primary/20 border border-transparent transition-all">
+                            <i className={`${service.icon} text-primary`}></i>
+                            <span className="font-medium text-gray-700">{service.label}</span>
+                          </div>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        <section className="py-16 md:py-20 bg-gray-50">
-          <div className="container">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-6">Service Comparison</h2>
-            
-            {/* Mobile View */}
-            <div className="md:hidden space-y-6">
-              {['Basic', 'Professional', 'Enterprise'].map((plan) => (
-                <div key={plan} className="bg-white rounded-xl shadow-sm overflow-hidden">
-                  <div className="bg-primary/5 p-4">
-                    <h3 className="text-xl font-semibold text-center text-primary">{plan}</h3>
+                  {/* Submit Button */}
+                  <div className="text-center">
+                    <motion.button
+                      type="submit"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-dark text-white 
+                        rounded-xl font-medium transition-all inline-flex items-center gap-2 
+                        shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.16)]"
+                    >
+                      Send Quote Request
+                      <i className="fas fa-paper-plane"></i>
+                    </motion.button>
                   </div>
-                  <div className="p-4 space-y-4">
-                    {serviceFeatures.map((feature) => (
-                      <div key={feature.name} className="flex flex-col space-y-1">
-                        <span className="text-sm text-gray-600">{feature.name}</span>
-                        <span className="font-medium">
-                          {feature[plan.toLowerCase() as keyof typeof feature]}
-                        </span>
-                        <div className="border-b border-gray-100 mt-2"></div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Desktop View */}
-            <div className="hidden md:block overflow-x-auto">
-              <div className="min-w-[800px]">
-                <table className="w-full bg-white rounded-xl shadow-sm">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="p-4 text-left">Features</th>
-                      <th className="p-4 text-center bg-primary/5">Basic</th>
-                      <th className="p-4 text-center bg-primary/5">Professional</th>
-                      <th className="p-4 text-center bg-primary/5">Enterprise</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {serviceFeatures.map((feature) => (
-                      <tr key={feature.name} className="border-b hover:bg-gray-50">
-                        <td className="p-4 text-gray-600">{feature.name}</td>
-                        <td className="p-4 text-center font-medium">{feature.basic}</td>
-                        <td className="p-4 text-center font-medium">{feature.professional}</td>
-                        <td className="p-4 text-center font-medium">{feature.enterprise}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                </form>
               </div>
             </div>
-
-            {/* Legend/Note */}
-            <div className="mt-6 text-center text-sm text-gray-500 px-4">
-              <p>✓ - Included | Numbers indicate quantity | Terms indicate feature level</p>
-            </div>
           </div>
         </section>
 
-        <section className="py-20">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
-            <div className="max-w-3xl mx-auto space-y-6">
-              {faqs.map((faq, index) => (
-                <div key={index} className="bg-white rounded-xl p-6 shadow-sm">
-                  <h3 className="text-lg font-semibold mb-2">{faq.question}</h3>
-                  <p className="text-gray-600">{faq.answer}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-16 md:py-20 bg-gray-50">
+        <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
           <div className="container">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-12"
+              className="text-center mb-16"
             >
-              <h2 className="text-2xl md:text-3xl font-bold mb-3">Development Process Timeline</h2>
-              <p className="text-sm md:text-base text-gray-600 px-4">Our structured approach to delivering exceptional web solutions</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Cost Calculator</h2>
+              <p className="mt-4 text-gray-600">Estimate the cost of your web development project</p>
             </motion.div>
 
-            <div className="max-w-5xl mx-auto px-4">
-              {developmentTimeline.phases.map((phase, index) => (
-                <motion.div
-                  key={phase.name}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="relative flex items-start mb-8 md:mb-12 last:mb-0"
-                >
-                  {/* Timeline Line */}
-                  {index !== developmentTimeline.phases.length - 1 && (
-                    <div className="absolute left-4 md:left-6 top-12 w-0.5 h-full bg-primary/20"></div>
-                  )}
-
-                  {/* Phase Icon */}
-                  <div className="relative z-10 flex-shrink-0 w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary text-white flex items-center justify-center">
-                    <i className={`${phase.icon} text-sm md:text-base`}></i>
-                  </div>
-
-                  {/* Phase Content */}
-                  <div className="ml-4 md:ml-8 flex-grow">
-                    <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow">
-                      <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
-                        <h3 className="text-lg md:text-xl font-semibold text-gray-900">{phase.name}</h3>
-                        <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs md:text-sm">
-                          {phase.duration}
-                        </span>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {phase.tasks.map((task, i) => (
-                          <div key={i} className="flex items-center gap-2 text-gray-600 text-sm md:text-base">
-                            <i className="fas fa-check-circle text-primary text-xs md:text-sm"></i>
-                            <span>{task}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Timeline Legend */}
-            <div className="mt-8 md:mt-12 text-center px-4">
-              <p className="text-gray-600 text-sm md:text-base">
-                <span className="font-semibold">Total Timeline:</span> 5-9 weeks (varies based on project complexity)
-              </p>
-              <p className="text-xs md:text-sm text-gray-500 mt-2">
-                * Timeline may vary depending on project requirements and client feedback cycles
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 bg-gray-50">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl font-bold mb-4">Cost Calculator</h2>
-              <p className="text-gray-600">Estimate the cost of your web development project</p>
-            </motion.div>
-
-            <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm p-8">
-              <div className="space-y-8">
+            <div className="max-w-7xl mx-auto">
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
                 {/* Website Type Selection */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-4">Select Website Type</label>
-                  <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-8 border-b border-gray-100">
+                  <h3 className="text-xl font-semibold mb-6">Select Website Type</h3>
+                  <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {Object.entries(websiteBasePrice).map(([type, price]) => (
-                      <div
+                      <motion.div
                         key={type}
-                        className={`p-4 border rounded-xl cursor-pointer transition-all ${
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`group p-4 rounded-xl cursor-pointer transition-all ${
                           calculator.websiteType === type
-                            ? 'border-primary bg-primary/5'
-                            : 'border-gray-200 hover:border-primary/50'
+                            ? 'bg-primary text-white shadow-md'
+                            : 'bg-gray-50 hover:bg-gray-100'
                         }`}
                         onClick={() => {
                           setCalculator(prev => ({
@@ -1543,84 +1800,199 @@ ${formData.description}`;
                           }));
                         }}
                       >
-                        <div className="flex justify-between items-center">
-                          <span className="capitalize">{type.replace('-', ' ')}</span>
-                          <span className="font-semibold">KES {price.toLocaleString()}</span>
+                        <div className="flex flex-col gap-2">
+                          <span className="capitalize font-medium">{type.replace('-', ' ')}</span>
+                          <span className={`font-bold ${
+                            calculator.websiteType === type ? 'text-white' : 'text-primary'
+                          }`}>
+                            KES {price.toLocaleString()}
+                          </span>
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
 
                 {/* Additional Features */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-4">Additional Features</label>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {additionalFeatures.map((feature) => (
-                      <div
-                        key={feature.name}
-                        className={`p-4 border rounded-xl cursor-pointer transition-all ${
-                          calculator.selectedFeatures.includes(feature.name)
-                            ? 'border-primary bg-primary/5'
-                            : 'border-gray-200 hover:border-primary/50'
-                        }`}
-                        onClick={() => {
-                          setCalculator(prev => {
-                            const features = prev.selectedFeatures.includes(feature.name)
-                              ? prev.selectedFeatures.filter(f => f !== feature.name)
-                              : [...prev.selectedFeatures, feature.name];
-                            return {
-                              ...prev,
-                              selectedFeatures: features,
-                              totalCost: updateTotalCost(prev.websiteType, features)
-                            };
-                          });
-                        }}
-                      >
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="font-medium">{feature.name}</span>
-                          <span className="text-primary">KES {feature.price.toLocaleString()}</span>
-                        </div>
-                        <p className="text-sm text-gray-600">{feature.description}</p>
-                      </div>
-                    ))}
+                <div className="p-8 bg-gray-50">
+                  <button 
+                    onClick={() => setShowFeatures(!showFeatures)}
+                    className="w-full flex items-center justify-between mb-6"
+                  >
+                    <h3 className="text-xl font-semibold">Additional Features</h3>
+                    <span className={`transition-transform duration-300 ${showFeatures ? 'rotate-180' : ''}`}>
+                      <i className="fas fa-chevron-down text-gray-400"></i>
+                    </span>
+                  </button>
+
+                  <motion.div
+                    initial={false}
+                    animate={{ 
+                      height: showFeatures ? 'auto' : 0,
+                      opacity: showFeatures ? 1 : 0
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {additionalFeatures.map((feature) => (
+                        <motion.div
+                          key={feature.name}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={`p-4 bg-white rounded-xl cursor-pointer transition-all shadow-sm ${
+                            calculator.selectedFeatures.includes(feature.name)
+                              ? 'ring-2 ring-primary'
+                              : 'hover:shadow-md'
+                          }`}
+                          onClick={() => {
+                            setCalculator(prev => {
+                              const features = prev.selectedFeatures.includes(feature.name)
+                                ? prev.selectedFeatures.filter(f => f !== feature.name)
+                                : [...prev.selectedFeatures, feature.name];
+                              return {
+                                ...prev,
+                                selectedFeatures: features,
+                                totalCost: updateTotalCost(prev.websiteType, features)
+                              };
+                            });
+                          }}
+                        >
+                          <div className="flex flex-col gap-2">
+                            <div>
+                              <h4 className="font-medium text-gray-900">{feature.name}</h4>
+                              <p className="text-sm text-gray-600 mt-1">{feature.description}</p>
+                            </div>
+                            <span className="font-bold text-primary">
+                              KES {feature.price.toLocaleString()}
+                            </span>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* Selected Features Summary */}
+                  <div className={`mt-4 ${showFeatures ? 'hidden' : 'block'}`}>
+                    <div className="flex flex-wrap gap-2">
+                      {calculator.selectedFeatures.length > 0 ? (
+                        calculator.selectedFeatures.map((feature) => (
+                          <span 
+                            key={feature}
+                            className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm"
+                          >
+                            {feature}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-gray-500 text-sm">No additional features selected</span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 {/* Total Cost Display */}
-                <div className="bg-gray-50 rounded-xl p-6 text-center">
-                  <p className="text-gray-600 mb-2">Estimated Project Cost</p>
-                  <h3 className="text-4xl font-bold text-primary">
-                    KES {calculator.totalCost.toLocaleString()}
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-2">
-                    * Final cost may vary based on specific requirements
-                  </p>
-                </div>
-
-                {/* Quick Quote Button */}
-                <div className="text-center">
-                  <button
-                    onClick={() => {
-                      const message = `Hi! I'm interested in a web development project:
-                      
-Website Type: ${calculator.websiteType}
-Selected Features:
-${calculator.selectedFeatures.join('\n')}
-
-Estimated Cost: KES ${calculator.totalCost.toLocaleString()}
-
-Please provide me with more information.`;
-                      
-                      window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
-                    }}
-                    className="px-8 py-4 bg-primary text-white rounded-full hover:bg-primary-dark transition-all hover:scale-105"
-                  >
-                    Get Detailed Quote
-                    <i className="fab fa-whatsapp ml-2"></i>
-                  </button>
+                <div className="p-8 bg-gradient-to-r from-primary/5 to-primary/10">
+                  <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900">Total Estimated Cost</h3>
+                      <p className="text-sm text-gray-600 mt-1">
+                        * Final cost may vary based on specific requirements
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-8">
+                      <div className="text-3xl font-bold text-primary">
+                        KES {calculator.totalCost.toLocaleString()}
+                      </div>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                          const message = `Hi! I'm interested in a web development project:\n\nWebsite Type: ${calculator.websiteType}\nSelected Features:\n${calculator.selectedFeatures.join('\n')}\n\nEstimated Cost: KES ${calculator.totalCost.toLocaleString()}\n\nPlease provide me with more information.`;
+                          window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
+                        }}
+                        className="px-8 py-4 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark 
+                          transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
+                      >
+                        Get Detailed Quote
+                        <i className="fab fa-whatsapp text-xl"></i>
+                      </motion.button>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                Frequently Asked Questions
+              </h2>
+              <p className="mt-4 text-gray-600">
+                Everything you need to know about our web development services
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+              {faqs.map((faq, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className={`bg-white rounded-xl overflow-hidden transition-all duration-300
+                    ${expandedFaq === index ? 'shadow-lg ring-2 ring-primary/10' : 'shadow-sm hover:shadow-md'}`}
+                >
+                  <button
+                    onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                    className="w-full text-left p-6 focus:outline-none"
+                  >
+                    <div className="flex justify-between items-start gap-4">
+                      <div className="flex gap-4 items-start">
+                        <span className={`p-2 rounded-lg ${
+                          expandedFaq === index 
+                            ? 'bg-primary/10 text-primary' 
+                            : 'bg-gray-100 text-gray-500'
+                        }`}>
+                          <i className="fas fa-question text-lg"></i>
+                        </span>
+                        <h3 className="text-lg font-semibold text-gray-900 leading-tight">
+                          {faq.question}
+                        </h3>
+                      </div>
+                      <span className={`transition-transform ${
+                        expandedFaq === index ? 'rotate-180' : ''
+                      }`}>
+                        <i className="fas fa-chevron-down text-gray-400"></i>
+                      </span>
+                    </div>
+                  </button>
+
+                  <motion.div
+                    initial={false}
+                    animate={{ 
+                      height: expandedFaq === index ? 'auto' : 0,
+                      opacity: expandedFaq === index ? 1 : 0
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="p-6 pt-0 text-gray-600 border-t border-gray-100">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
