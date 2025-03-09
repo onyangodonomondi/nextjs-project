@@ -6,6 +6,72 @@ import PageHero from '@/components/PageHero';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 
+type FeaturePrice = {
+  name: string;
+  price: number;
+  description: string;
+};
+
+const websiteBasePrice: Record<string, number> = {
+  'landing': 30000,
+  'business': 50000,
+  'portfolio': 40000,
+  'ecommerce': 80000,
+  'education': 70000,
+  'healthcare': 75000,
+  'real-estate': 65000,
+  'restaurant': 55000,
+  'travel': 60000,
+  'ngo': 45000,
+  'crm': 90000,
+  'booking': 85000,
+  'membership': 70000,
+  'marketplace': 100000
+};
+
+const additionalFeatures: FeaturePrice[] = [
+  {
+    name: 'Content Management System (CMS)',
+    price: 15000,
+    description: 'Easy-to-use system for updating website content'
+  },
+  {
+    name: 'E-commerce Integration',
+    price: 25000,
+    description: 'Online store with payment gateway integration'
+  },
+  {
+    name: 'Custom Database',
+    price: 20000,
+    description: 'Tailored database solution for your needs'
+  },
+  {
+    name: 'User Authentication',
+    price: 15000,
+    description: 'Secure login and user management system'
+  },
+  {
+    name: 'API Integration',
+    price: 10000,
+    description: 'Connect with third-party services'
+  },
+  {
+    name: 'Advanced SEO Package',
+    price: 12000,
+    description: 'Comprehensive search engine optimization'
+  },
+  {
+    name: 'Social Media Integration',
+    price: 8000,
+    description: 'Connect your website with social platforms'
+  },
+  {
+    name: 'Analytics Dashboard',
+    price: 10000,
+    description: 'Custom reporting and analytics'
+  }
+];
+
 const processSteps = [
   {
     title: 'Discovery',
@@ -38,6 +104,66 @@ const processSteps = [
     icon: 'fas fa-rocket',
   },
 ];
+
+const developmentTimeline = {
+  phases: [
+    {
+      name: 'Discovery & Planning',
+      duration: '1-2 weeks',
+      tasks: [
+        'Requirements gathering',
+        'Project scope definition',
+        'Technology stack selection',
+        'Timeline planning'
+      ],
+      icon: 'fas fa-search-plus'
+    },
+    {
+      name: 'Design',
+      duration: '1-2 weeks',
+      tasks: [
+        'Wireframe creation',
+        'UI/UX design',
+        'Design review',
+        'Client feedback'
+      ],
+      icon: 'fas fa-pencil-ruler'
+    },
+    {
+      name: 'Development',
+      duration: '2-4 weeks',
+      tasks: [
+        'Frontend development',
+        'Backend integration',
+        'Database setup',
+        'Feature implementation'
+      ],
+      icon: 'fas fa-code'
+    },
+    {
+      name: 'Testing',
+      duration: '1 week',
+      tasks: [
+        'Quality assurance',
+        'Cross-browser testing',
+        'Performance optimization',
+        'Security testing'
+      ],
+      icon: 'fas fa-vial'
+    },
+    {
+      name: 'Deployment',
+      duration: '2-3 days',
+      tasks: [
+        'Server setup',
+        'Domain configuration',
+        'SSL installation',
+        'Go-live preparation'
+      ],
+      icon: 'fas fa-rocket'
+    }
+  ]
+};
 
 const technologies = [
   {
@@ -253,6 +379,227 @@ Please help me register this domain.`;
   window.open(`https://wa.me/254741590670?text=${encodedMessage}`, '_blank');
 };
 
+const techStack = {
+  frontend: {
+    title: 'Frontend Technologies',
+    items: [
+      { name: 'React/Next.js', icon: 'fab fa-react', description: 'Fast, modern user interfaces' },
+      { name: 'TypeScript', icon: 'fas fa-code', description: 'Type-safe development' },
+      { name: 'Tailwind CSS', icon: 'fas fa-paint-brush', description: 'Beautiful, responsive designs' }
+    ]
+  },
+  backend: {
+    title: 'Backend Technologies',
+    items: [
+      { name: 'Node.js', icon: 'fab fa-node-js', description: 'Scalable server solutions' },
+      { name: 'Python', icon: 'fab fa-python', description: 'Data processing & APIs' },
+      { name: 'PHP/Laravel', icon: 'fab fa-php', description: 'Robust web applications' }
+    ]
+  }
+};
+
+const projectTimelines = {
+  basic: {
+    type: 'Basic Website',
+    duration: '2-3 weeks',
+    phases: [
+      { name: 'Planning & Design', days: 5 },
+      { name: 'Development', days: 7 },
+      { name: 'Testing & Revisions', days: 3 }
+    ]
+  },
+  ecommerce: {
+    type: 'E-commerce Website',
+    duration: '4-6 weeks',
+    phases: [
+      { name: 'Planning & Design', days: 10 },
+      { name: 'Development', days: 15 },
+      { name: 'Testing & Integration', days: 7 }
+    ]
+  }
+};
+
+const caseStudies = [
+  {
+    title: 'Security Company Website',
+    image: '/web/Mac-1024x683.jpg',
+    description: 'Custom Website for a security Company',
+    results: ['Increased Security Awareness', 'Improved Response Time', 'Enhanced Client Trust']
+  },
+  {
+    title: 'Corporate Website',
+    image: '/web/Macbook-1-1024x683.jpg',
+    description: 'Modern business website with dynamic features',
+    results: ['Improved User Experience', 'Increased Engagement', 'Enhanced Brand Presence']
+  },
+  {
+    title: 'StartUp Company Website',
+    image: '/web/Macbook-1024x683.jpg',
+    description: 'Custom Website for a StartUp Company',
+    results: ['Increased Brand Awareness', 'Improved Customer Engagement', 'Successful Funding']
+  },
+  {
+    title: 'Tourism Company Website',
+    image: '/web/Macbook-Pro-1024x683.jpg',
+    description: 'Custom Website for a Tourism Company',
+    results: ['Increased Tourism Revenue', 'Improved Customer Experience', 'Enhanced Brand Presence']
+  },
+  {
+    title: 'E-commerce Website',
+    image: '/web/Macbook2-1024x683.jpg',
+    description: 'Custom Website for an E-commerce Company',
+    results: ['Increased Sales', 'Improved Customer Experience', 'Enhanced Brand Presence']
+  },
+  {
+    title: 'Crypto Trading Company Website',
+    image: '/web/Macbook3-1024x683.jpg',
+    description: 'Custom Website for a Crypto Trading Company',
+    results: ['Increased Trading Volume', 'Improved Trading Efficiency', 'Enhanced Security']
+  },
+  {
+    title: 'Law Firm Website',
+    image: '/web/Macbook4-1-1024x683.jpg',
+    description: 'Custom Website for a Law Firm',
+    results: ['Increased Case Resolution', 'Improved Client Satisfaction', 'Enhanced Legal Presence']
+  },
+  {
+    title: 'College Website',
+    image: '/web/Macbook6-1024x683.jpg',
+    description: 'Custom Website for a College',
+    results: ['Increased Student Engagement', 'Improved Academic Performance', 'Enhanced Brand Presence']
+  },
+  {
+    title: 'E-commerce Website',
+    image: '/web/Macbook7-1024x683.jpg',
+    description: 'Custom Website for an E-commerce Company',
+    results: ['Increased Sales', 'Improved Customer Experience', 'Enhanced Brand Presence']
+  },
+  {
+    title: 'Corporate Website',
+    image: '/web/Macbook4-1024x683.jpg',
+    description: 'Custom Website for a Corporate Company',
+    results: ['Increased Brand Presence', 'Improved Employee Engagement', 'Enhanced Corporate Presence']
+  },
+  {
+    title: 'NGO Website',
+    image: '/web/pure-1024x683.jpg',
+    description: 'Custom Website for an NGO',
+    results: ['Increased Donation Revenue', 'Improved Volunteer Engagement', 'Enhanced NGO Presence']
+  },
+  {
+    title: 'Corporate Website',
+    image: '/web/Macbook12-1024x683.jpg',
+    description: 'Custom Website for a Corporate Company',
+    results: ['Increased Brand Presence', 'Improved Employee Engagement', 'Enhanced Corporate Presence']
+  }
+];
+
+const serviceFeatures = [
+  {
+    name: 'Responsive Design',
+    basic: '✓',
+    professional: '✓',
+    enterprise: '✓'
+  },
+  {
+    name: 'Custom Domain',
+    basic: '✓',
+    professional: '✓',
+    enterprise: '✓'
+  },
+  {
+    name: 'SSL Certificate',
+    basic: 'Basic',
+    professional: 'Advanced',
+    enterprise: 'Wildcard'
+  },
+  {
+    name: 'Storage Space',
+    basic: '10GB',
+    professional: '50GB',
+    enterprise: 'Unlimited'
+  },
+  {
+    name: 'Bandwidth',
+    basic: '100GB',
+    professional: '500GB',
+    enterprise: 'Unlimited'
+  },
+  {
+    name: 'Email Accounts',
+    basic: '5',
+    professional: '20',
+    enterprise: 'Unlimited'
+  },
+  {
+    name: 'Database',
+    basic: '1',
+    professional: '5',
+    enterprise: 'Unlimited'
+  },
+  {
+    name: 'Backup Frequency',
+    basic: 'Weekly',
+    professional: 'Daily',
+    enterprise: 'Real-time'
+  },
+  {
+    name: 'SEO Tools',
+    basic: 'Basic',
+    professional: 'Advanced',
+    enterprise: 'Premium'
+  },
+  {
+    name: 'Support',
+    basic: 'Email',
+    professional: 'Priority',
+    enterprise: '24/7 Dedicated'
+  }
+];
+
+const faqs = [
+  {
+    question: "How long does it take to build a website?",
+    answer: "Timeline varies based on complexity. A basic website typically takes 2-3 weeks, while e-commerce sites may take 4-6 weeks or more."
+  },
+  {
+    question: "What is your web development process?",
+    answer: "Our process includes discovery, planning, design, development, testing, and launch phases. We maintain clear communication throughout to ensure your vision is realized."
+  },
+  {
+    question: "Do you provide website maintenance services?",
+    answer: "Yes, we offer various maintenance packages that include regular updates, security monitoring, backups, and technical support."
+  },
+  {
+    question: "Can you help with website hosting?",
+    answer: "Yes, we provide reliable hosting solutions with different plans to suit your needs, including shared hosting, VPS, and dedicated servers."
+  },
+  {
+    question: "Do you offer e-commerce solutions?",
+    answer: "Yes, we build custom e-commerce websites using platforms like WooCommerce and Shopify, complete with payment gateway integration and inventory management."
+  },
+  {
+    question: "What about mobile responsiveness?",
+    answer: "All our websites are built with a mobile-first approach, ensuring they look and function perfectly on all devices and screen sizes."
+  },
+  {
+    question: "Do you provide SEO services?",
+    answer: "Yes, we offer comprehensive SEO services including on-page optimization, keyword research, content strategy, and technical SEO implementation."
+  },
+  {
+    question: "What technologies do you use?",
+    answer: "We use modern technologies including React, Next.js, Node.js, PHP/Laravel, and WordPress, choosing the best stack for your specific needs."
+  },
+  {
+    question: "Can you help with domain registration?",
+    answer: "Yes, we can help you select and register the perfect domain name for your website, including various TLDs (.com, .co.ke, .org, etc.)."
+  },
+  {
+    question: "What about website security?",
+    answer: "We implement robust security measures including SSL certificates, regular security audits, malware scanning, and backup solutions."
+  }
+];
+
 export default function WebDevelopment() {
   const [formData, setFormData] = useState({
     name: '',
@@ -274,6 +621,21 @@ export default function WebDevelopment() {
     needCustomEmail: false,
     needContentCreation: false
   });
+
+  const [calculator, setCalculator] = useState({
+    websiteType: '',
+    selectedFeatures: [] as string[],
+    totalCost: 0
+  });
+
+  const updateTotalCost = (type: string, features: string[]) => {
+    const basePrice = websiteBasePrice[type] || 0;
+    const featuresPrice = features.reduce((total, feature) => {
+      const featurePrice = additionalFeatures.find(f => f.name === feature)?.price || 0;
+      return total + featurePrice;
+    }, 0);
+    return basePrice + featuresPrice;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -940,6 +1302,325 @@ ${formData.description}`;
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 bg-gray-50">
+          <div className="container">
+            <h2 className="text-3xl font-bold text-center mb-12">Our Technology Stack</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              {Object.values(techStack).map((category) => (
+                <div key={category.title} className="bg-white rounded-xl p-6 shadow-sm">
+                  <h3 className="text-xl font-semibold mb-6">{category.title}</h3>
+                  <div className="space-y-4">
+                    {category.items.map((tech) => (
+                      <div key={tech.name} className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                        <i className={`${tech.icon} text-2xl text-primary`}></i>
+                        <div>
+                          <h4 className="font-medium">{tech.name}</h4>
+                          <p className="text-sm text-gray-600">{tech.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20">
+          <div className="container">
+            <h2 className="text-3xl font-bold text-center mb-12">Success Stories</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {caseStudies.map((study) => (
+                <motion.div
+                  key={study.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  className="bg-white rounded-xl overflow-hidden shadow-sm"
+                >
+                  <Image
+                    src={study.image}
+                    alt={study.title}
+                    width={400}
+                    height={250}
+                    className="w-full object-cover h-48"
+                  />
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">{study.title}</h3>
+                    <p className="text-gray-600 mb-4">{study.description}</p>
+                    <div className="space-y-2">
+                      {study.results.map((result) => (
+                        <div key={result} className="flex items-center gap-2 text-sm">
+                          <i className="fas fa-check-circle text-primary"></i>
+                          <span>{result}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 md:py-20 bg-gray-50">
+          <div className="container">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-6">Service Comparison</h2>
+            
+            {/* Mobile View */}
+            <div className="md:hidden space-y-6">
+              {['Basic', 'Professional', 'Enterprise'].map((plan) => (
+                <div key={plan} className="bg-white rounded-xl shadow-sm overflow-hidden">
+                  <div className="bg-primary/5 p-4">
+                    <h3 className="text-xl font-semibold text-center text-primary">{plan}</h3>
+                  </div>
+                  <div className="p-4 space-y-4">
+                    {serviceFeatures.map((feature) => (
+                      <div key={feature.name} className="flex flex-col space-y-1">
+                        <span className="text-sm text-gray-600">{feature.name}</span>
+                        <span className="font-medium">
+                          {feature[plan.toLowerCase() as keyof typeof feature]}
+                        </span>
+                        <div className="border-b border-gray-100 mt-2"></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop View */}
+            <div className="hidden md:block overflow-x-auto">
+              <div className="min-w-[800px]">
+                <table className="w-full bg-white rounded-xl shadow-sm">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="p-4 text-left">Features</th>
+                      <th className="p-4 text-center bg-primary/5">Basic</th>
+                      <th className="p-4 text-center bg-primary/5">Professional</th>
+                      <th className="p-4 text-center bg-primary/5">Enterprise</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {serviceFeatures.map((feature) => (
+                      <tr key={feature.name} className="border-b hover:bg-gray-50">
+                        <td className="p-4 text-gray-600">{feature.name}</td>
+                        <td className="p-4 text-center font-medium">{feature.basic}</td>
+                        <td className="p-4 text-center font-medium">{feature.professional}</td>
+                        <td className="p-4 text-center font-medium">{feature.enterprise}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Legend/Note */}
+            <div className="mt-6 text-center text-sm text-gray-500 px-4">
+              <p>✓ - Included | Numbers indicate quantity | Terms indicate feature level</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20">
+          <div className="container">
+            <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+            <div className="max-w-3xl mx-auto space-y-6">
+              {faqs.map((faq, index) => (
+                <div key={index} className="bg-white rounded-xl p-6 shadow-sm">
+                  <h3 className="text-lg font-semibold mb-2">{faq.question}</h3>
+                  <p className="text-gray-600">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16 md:py-20 bg-gray-50">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-2xl md:text-3xl font-bold mb-3">Development Process Timeline</h2>
+              <p className="text-sm md:text-base text-gray-600 px-4">Our structured approach to delivering exceptional web solutions</p>
+            </motion.div>
+
+            <div className="max-w-5xl mx-auto px-4">
+              {developmentTimeline.phases.map((phase, index) => (
+                <motion.div
+                  key={phase.name}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="relative flex items-start mb-8 md:mb-12 last:mb-0"
+                >
+                  {/* Timeline Line */}
+                  {index !== developmentTimeline.phases.length - 1 && (
+                    <div className="absolute left-4 md:left-6 top-12 w-0.5 h-full bg-primary/20"></div>
+                  )}
+
+                  {/* Phase Icon */}
+                  <div className="relative z-10 flex-shrink-0 w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary text-white flex items-center justify-center">
+                    <i className={`${phase.icon} text-sm md:text-base`}></i>
+                  </div>
+
+                  {/* Phase Content */}
+                  <div className="ml-4 md:ml-8 flex-grow">
+                    <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
+                        <h3 className="text-lg md:text-xl font-semibold text-gray-900">{phase.name}</h3>
+                        <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs md:text-sm">
+                          {phase.duration}
+                        </span>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {phase.tasks.map((task, i) => (
+                          <div key={i} className="flex items-center gap-2 text-gray-600 text-sm md:text-base">
+                            <i className="fas fa-check-circle text-primary text-xs md:text-sm"></i>
+                            <span>{task}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Timeline Legend */}
+            <div className="mt-8 md:mt-12 text-center px-4">
+              <p className="text-gray-600 text-sm md:text-base">
+                <span className="font-semibold">Total Timeline:</span> 5-9 weeks (varies based on project complexity)
+              </p>
+              <p className="text-xs md:text-sm text-gray-500 mt-2">
+                * Timeline may vary depending on project requirements and client feedback cycles
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 bg-gray-50">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-3xl font-bold mb-4">Cost Calculator</h2>
+              <p className="text-gray-600">Estimate the cost of your web development project</p>
+            </motion.div>
+
+            <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm p-8">
+              <div className="space-y-8">
+                {/* Website Type Selection */}
+                <div>
+                  <label className="block text-gray-700 font-medium mb-4">Select Website Type</label>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {Object.entries(websiteBasePrice).map(([type, price]) => (
+                      <div
+                        key={type}
+                        className={`p-4 border rounded-xl cursor-pointer transition-all ${
+                          calculator.websiteType === type
+                            ? 'border-primary bg-primary/5'
+                            : 'border-gray-200 hover:border-primary/50'
+                        }`}
+                        onClick={() => {
+                          setCalculator(prev => ({
+                            ...prev,
+                            websiteType: type,
+                            totalCost: updateTotalCost(type, prev.selectedFeatures)
+                          }));
+                        }}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="capitalize">{type.replace('-', ' ')}</span>
+                          <span className="font-semibold">KES {price.toLocaleString()}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Additional Features */}
+                <div>
+                  <label className="block text-gray-700 font-medium mb-4">Additional Features</label>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {additionalFeatures.map((feature) => (
+                      <div
+                        key={feature.name}
+                        className={`p-4 border rounded-xl cursor-pointer transition-all ${
+                          calculator.selectedFeatures.includes(feature.name)
+                            ? 'border-primary bg-primary/5'
+                            : 'border-gray-200 hover:border-primary/50'
+                        }`}
+                        onClick={() => {
+                          setCalculator(prev => {
+                            const features = prev.selectedFeatures.includes(feature.name)
+                              ? prev.selectedFeatures.filter(f => f !== feature.name)
+                              : [...prev.selectedFeatures, feature.name];
+                            return {
+                              ...prev,
+                              selectedFeatures: features,
+                              totalCost: updateTotalCost(prev.websiteType, features)
+                            };
+                          });
+                        }}
+                      >
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-medium">{feature.name}</span>
+                          <span className="text-primary">KES {feature.price.toLocaleString()}</span>
+                        </div>
+                        <p className="text-sm text-gray-600">{feature.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Total Cost Display */}
+                <div className="bg-gray-50 rounded-xl p-6 text-center">
+                  <p className="text-gray-600 mb-2">Estimated Project Cost</p>
+                  <h3 className="text-4xl font-bold text-primary">
+                    KES {calculator.totalCost.toLocaleString()}
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-2">
+                    * Final cost may vary based on specific requirements
+                  </p>
+                </div>
+
+                {/* Quick Quote Button */}
+                <div className="text-center">
+                  <button
+                    onClick={() => {
+                      const message = `Hi! I'm interested in a web development project:
+                      
+Website Type: ${calculator.websiteType}
+Selected Features:
+${calculator.selectedFeatures.join('\n')}
+
+Estimated Cost: KES ${calculator.totalCost.toLocaleString()}
+
+Please provide me with more information.`;
+                      
+                      window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
+                    }}
+                    className="px-8 py-4 bg-primary text-white rounded-full hover:bg-primary-dark transition-all hover:scale-105"
+                  >
+                    Get Detailed Quote
+                    <i className="fab fa-whatsapp ml-2"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
