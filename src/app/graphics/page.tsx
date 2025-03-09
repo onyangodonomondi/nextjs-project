@@ -113,66 +113,41 @@ export default function Graphics() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
     
-    try {
-      // Create file list text
-      const fileList = selectedFiles.map(file => 
-        `- ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`
-      ).join('\n');
+    // Format the message for WhatsApp without icons
+    const message = `New Graphics Design Request
+      
+Type: ${formData.projectType}
+Name: ${formData.name}
+Phone: ${formData.phone}
+Email: ${formData.email}
+Company: ${formData.companyName}
 
-      // Prepare WhatsApp message
-      const whatsappMessage = encodeURIComponent(`
-*New Project Request!* 🎨
+Project Description:
+${formData.description}
 
-*Contact Details:*
-👤 Name: ${formData.get('name')}
-📧 Email: ${formData.get('email')}
-📞 Phone: ${formData.get('phone')}
+Timeline: ${formData.timeline}
+Preferred Colors: ${formData.preferredColors}
 
-*Project Information:*
-📋 Type: ${formData.get('projectType')}
-⏰ Timeline: ${formData.get('timeline')}
+Reference Examples:
+${formData.references || 'None provided'}`;
 
-*Brand Details:*
-🏢 Brand Name: ${formData.get('brandName')}
-🏭 Industry: ${formData.get('industry')}
-🌐 Website: ${formData.get('website')}
-
-*Project Description:*
-📝 ${formData.get('description')}
-
-*Brand Colors:*
-🎨 ${[
-  formData.get('color1'),
-  formData.get('color2'),
-  formData.get('color3')
-].filter(Boolean).join(', ')}
-
-*Selected Files:*
-📎 ${fileList || 'No files attached'}
-
-Note: Files will be sent separately via email.
-      `);
-
-      // Open WhatsApp with pre-filled message
-      window.open(`https://wa.me/254741590670?text=${whatsappMessage}`, '_blank');
-
-      // Reset form and files
-      form.reset();
-      setSelectedFiles([]);
-      alert('Thank you! You will be redirected to WhatsApp to complete your request.');
-    } catch (error) {
-      console.error('Error:', error);
-      alert('There was an error submitting your project details. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // WhatsApp number
+    const whatsappNumber = "254741590670";
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank');
+    
+    // Close the form
+    onClose();
   };
 
   const handleCopy = (text: string, type: string) => {
