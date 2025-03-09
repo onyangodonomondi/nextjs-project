@@ -19,6 +19,9 @@ import { useState, useEffect, useRef } from 'react';
 // Import Link
 import Link from 'next/link';
 
+// Import Swiper as SwiperType
+import { Swiper as SwiperType } from 'swiper';
+
 // Sample portfolio works
 const portfolioWorks = [
   { id: 1, image: '/images/works/work1.jpg', category: 'Branding' },
@@ -84,6 +87,12 @@ export default function Graphics() {
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [randomImages] = useState(() => getRandomImages(6));
+  const swiperRef = useRef<SwiperType>();
+  const [colors, setColors] = useState({
+    color1: '#000000',
+    color2: '#000000',
+    color3: '#000000'
+  });
 
   // Handle click outside to close menu
   useEffect(() => {
@@ -171,6 +180,40 @@ Note: Files will be sent separately via email.
     setCopiedText(type);
     setTimeout(() => setCopiedText(null), 2000);
   };
+
+  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>, colorKey: string) => {
+    const newColor = e.target.value.toUpperCase();
+    setColors(prev => ({ ...prev, [colorKey]: newColor }));
+  };
+
+  const handleHexChange = (e: React.ChangeEvent<HTMLInputElement>, colorKey: string) => {
+    let hex = e.target.value;
+    // Always update the text input value
+    setColors(prev => ({ ...prev, [colorKey]: hex }));
+    
+    // Only update the color picker if it's a valid hex
+    if (hex.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)) {
+      // If user didn't type #, add it
+      if (!hex.startsWith('#')) {
+        hex = '#' + hex;
+      }
+      setColors(prev => ({ ...prev, [colorKey]: hex }));
+    }
+  };
+
+  // Add this useEffect near your other hooks
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        swiperRef.current?.autoplay?.stop();
+      } else {
+        swiperRef.current?.autoplay?.start();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
 
   return (
     <>
@@ -492,18 +535,24 @@ Note: Files will be sent separately via email.
           </div>
           
           <Swiper
-            modules={[Autoplay]}
-            spaceBetween={20}
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={24}
             slidesPerView="auto"
             loop={true}
-            speed={5000}
             autoplay={{
-              delay: 0,
+              delay: 3000,
               disableOnInteraction: false,
-              pauseOnMouseEnter: true
+              pauseOnMouseEnter: true,
             }}
-            className="!overflow-visible"
-            wrapperClass="!items-center"
+            observer={true}
+            observeParents={true}
+            className="services-slider"
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+            }}
+            onBeforeDestroy={(swiper) => {
+              swiper.autoplay.stop();
+            }}
           >
             {services.map((service) => (
               <SwiperSlide 
@@ -556,7 +605,7 @@ Note: Files will be sent separately via email.
                 viewport={{ once: true }}
                 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4"
               >
-                Getting Started
+                Fill the form to get started
               </motion.h2>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -747,12 +796,21 @@ Note: Files will be sent separately via email.
                       required
                     >
                       <option value="">Select Project Type</option>
-                      <option value="branding">Branding</option>
+                      <option value="branding">Branding & Identity Design</option>
                       <option value="ui-ux">UI/UX Design</option>
-                      <option value="motion">Motion Graphics</option>
+                      <option value="motion">Motion Graphics & Animation</option>
                       <option value="print">Print Design</option>
                       <option value="social">Social Media Design</option>
                       <option value="presentation">Presentation Design</option>
+                      <option value="packaging">Packaging Design</option>
+                      <option value="illustration">Custom Illustration</option>
+                      <option value="infographic">Infographic Design</option>
+                      <option value="email">Email Design</option>
+                      <option value="banner">Banner & Ad Design</option>
+                      <option value="book">Book & Magazine Design</option>
+                      <option value="merchandise">Merchandise Design</option>
+                      <option value="signage">Signage & Environmental Design</option>
+                      <option value="3d">3D Design & Rendering</option>
                     </select>
                   </div>
 
@@ -816,10 +874,58 @@ Note: Files will be sent separately via email.
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                       <p className="text-gray-600">Brand Colors (if any)</p>
-                      <div className="flex flex-wrap gap-4">
-                        <input type="color" name="color1" className="w-12 h-12 rounded border border-gray-200" />
-                        <input type="color" name="color2" className="w-12 h-12 rounded border border-gray-200" />
-                        <input type="color" name="color3" className="w-12 h-12 rounded border border-gray-200" />
+                      <div className="flex flex-col space-y-3">
+                        <div className="flex items-center gap-3">
+                          <input 
+                            type="color" 
+                            name="color1" 
+                            value={colors.color1}
+                            onChange={(e) => handleColorChange(e, 'color1')}
+                            className="w-12 h-12 rounded border border-gray-200" 
+                          />
+                          <input
+                            type="text"
+                            name="color1_hex"
+                            value={colors.color1}
+                            onChange={(e) => handleHexChange(e, 'color1')}
+                            placeholder="Enter hex code (e.g. #FF5400)"
+                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                          />
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <input 
+                            type="color" 
+                            name="color2" 
+                            value={colors.color2}
+                            onChange={(e) => handleColorChange(e, 'color2')}
+                            className="w-12 h-12 rounded border border-gray-200" 
+                          />
+                          <input
+                            type="text"
+                            name="color2_hex"
+                            value={colors.color2}
+                            onChange={(e) => handleHexChange(e, 'color2')}
+                            placeholder="Enter hex code (e.g. #1E293B)"
+                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                          />
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <input 
+                            type="color" 
+                            name="color3" 
+                            value={colors.color3}
+                            onChange={(e) => handleColorChange(e, 'color3')}
+                            className="w-12 h-12 rounded border border-gray-200" 
+                          />
+                          <input
+                            type="text"
+                            name="color3_hex"
+                            value={colors.color3}
+                            onChange={(e) => handleHexChange(e, 'color3')}
+                            placeholder="Enter hex code (e.g. #B08968)"
+                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                          />
+                        </div>
                       </div>
                     </div>
                     <div className="space-y-4">
@@ -1069,7 +1175,7 @@ Note: Files will be sent separately via email.
           padding: 1rem 0;
         }
         :global(.swiper-slide) {
-          transition: all 0.5s ease;
+          transition: all 0.3s ease;
           opacity: 0.85;
           @media (max-width: 640px) {
             opacity: 1;
@@ -1079,12 +1185,13 @@ Note: Files will be sent separately via email.
           z-index: 1;
           opacity: 1;
         }
-        :global(.clients-slider .swiper-wrapper) {
-          transition-timing-function: linear !important;
-          align-items: center;
+        :global(.services-slider) {
+          visibility: visible;
+          opacity: 1;
+          transition: opacity 0.3s ease;
         }
-        :global(.clients-slider) {
-          padding: 2rem 0;
+        :global(.services-slider:not(:hover)) {
+          opacity: 0.9;
         }
       `}</style>
     </>
