@@ -988,7 +988,8 @@ ${formData.description}`;
       <main className="pt-24 bg-gray-50">
         <PageHero 
           title="Web Development Services"
-          description="Custom web solutions that drive growth and deliver exceptional user experiences."
+          subtitle="Custom web solutions that drive growth and deliver exceptional user experiences."
+          bgImage="/images/web-dev-hero.jpg"
         />
 
         <section className="py-20 bg-gray-50">

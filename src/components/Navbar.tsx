@@ -8,11 +8,12 @@ const menuItems = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
   { label: 'Capabilities', path: '/capabilities' },
-  { label: 'Portfolio', path: '/graphics' },
+  { label: 'Portfolio', path: '/portfolio' },
   { 
     label: 'Pages',
     children: [
       { label: 'Logo Design', path: '/logos', icon: 'fa-pen-nib' },
+      { label: 'Graphics', path: '/graphics', icon: 'fa-palette' },
       { label: 'Web Development', path: '/web-development', icon: 'fa-code' },
       { label: 'Social Media', path: '/social-media', icon: 'fa-share-nodes' },
     ]

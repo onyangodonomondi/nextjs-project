@@ -122,7 +122,8 @@ export default function Branding() {
       <main className="pt-24">
         <PageHero 
           title="Brand Development"
-          description="Build a powerful brand identity that resonates with your audience and sets you apart from the competition."
+          subtitle="Build a powerful brand identity that resonates with your audience and sets you apart from the competition."
+          bgImage="/images/branding-hero.jpg"
         />
 
         <section className="services-overview py-20">
