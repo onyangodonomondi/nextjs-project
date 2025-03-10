@@ -509,12 +509,15 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
               disableOnInteraction: true,
               pauseOnMouseEnter: true
             } : false}
-            allowTouchMove={true}
-            touchRatio={isMobile ? 1 : 0}
-            simulateTouch={isMobile}
+            allowTouchMove={false}
+            touchRatio={0}
+            simulateTouch={false}
+            preventInteractionOnTransition={true}
+            touchStartPreventDefault={true}
+            nested={true}
             observer={true}
             observeParents={true}
-            className="services-slider"
+            className="services-slider !touch-none"
             onSwiper={(swiper) => {
               swiperRef.current = swiper;
             }}
