@@ -901,38 +901,101 @@ const handlePlanSelect = (plan: typeof hostingPlans[0]) => {
   window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
 };
 
+// First, add this interface at the top of the file, before the component
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  projectType: string;
+  budget: string;
+  timeline: string;
+  description: string;
+  hostingPlan: string;
+  domainExtension: string;
+  domainName: string;
+  [key: string]: string | boolean; // Add index signature for dynamic keys
+  needHosting: boolean;
+  needDomain: boolean;
+  needSeo: boolean;
+  needMaintenance: boolean;
+  needSsl: boolean;
+  needAnalytics: boolean;
+  needEmail: boolean;
+  needContentCreation: boolean;
+}
+
+// First, define interfaces outside the component
+interface CalculatorState {
+  websiteType: string;
+  selectedFeatures: string[];
+  totalCost: number;
+  name: string;
+  email: string;
+  phone: string;
+  projectType: string;
+  budget: string;
+  timeline: string;
+  description: string;
+}
+
 export default function WebDevelopment() {
-  const [formData, setFormData] = useState({
+  // State declarations
+  const [showFeatures, setShowFeatures] = useState(false);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  
+  // Calculator state
+  const [calculator, setCalculator] = useState<CalculatorState>({
+    websiteType: '',
+    selectedFeatures: [],
+    totalCost: 0,
     name: '',
     email: '',
     phone: '',
-    projectType: 'business',
-    budget: 'below-50k',
-    timeline: 'not-urgent',
+    projectType: '',
+    budget: '',
+    timeline: '',
+    description: ''
+  });
+
+  // Input change handler
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setCalculator(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Service selection handler
+  const handleServiceSelection = (serviceId: string) => {
+    setSelectedServices(prev => 
+      prev.includes(serviceId)
+        ? prev.filter(id => id !== serviceId)
+        : [...prev, serviceId]
+    );
+  };
+
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    phone: '',
+    projectType: '',
+    budget: '',
+    timeline: '',
     description: '',
     hostingPlan: '',
     domainExtension: '',
     domainName: '',
     needHosting: false,
     needDomain: false,
-    needSEO: false,
+    needSeo: false,
     needMaintenance: false,
-    needSSL: false,
+    needSsl: false,
     needAnalytics: false,
-    needCustomEmail: false,
+    needEmail: false,
     needContentCreation: false
   });
-
-  const [calculator, setCalculator] = useState({
-    websiteType: '',
-    selectedFeatures: [] as string[],
-    totalCost: 0
-  });
-
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-
-  // Add state for features visibility
-  const [showFeatures, setShowFeatures] = useState(false);
 
   const updateTotalCost = (type: string, features: string[]) => {
     const basePrice = websiteBasePrice[type] || 0;
@@ -947,39 +1010,40 @@ export default function WebDevelopment() {
     e.preventDefault();
     
     const additionalFeatures = [
-      formData.needSEO && 'SEO',
+      formData.needSeo && 'SEO',
       formData.needMaintenance && 'Monthly Maintenance',
-      formData.needSSL && 'SSL Certificate',
+      formData.needSsl && 'SSL Certificate',
       formData.needAnalytics && 'Google Analytics',
-      formData.needCustomEmail && 'Custom Email',
+      formData.needEmail && 'Custom Email',
       formData.needContentCreation && 'Content Creation'
     ].filter(Boolean);
 
-    const message = `New Web Project Quote Request:
+    const message = `*New Web Project Quote Request*\n
+*Contact Details*
+Name: ${formData.name || 'Not provided'}
+Email: ${formData.email || 'Not provided'}
+Phone: ${formData.phone || 'Not provided'}\n
+*Project Details*
+Project Type: ${calculator.websiteType || 'Not selected'}
+Budget Range: ${formData.budget || 'Not specified'}
+Timeline: ${formData.timeline || 'Not specified'}\n
+*Additional Services Required*
+${selectedServices.length > 0 
+  ? selectedServices.map(service => `- ${service.charAt(0).toUpperCase() + service.slice(1)}`).join('\n')
+  : 'None selected'}\n
+*Additional Features Required*
+${calculator.selectedFeatures.length > 0
+  ? calculator.selectedFeatures.map(feature => `- ${feature}`).join('\n')
+  : 'None selected'}\n
+*Project Description*
+${formData.description || 'No description provided'}\n
+*Estimated Cost*
+KES ${calculator.totalCost.toLocaleString()}`;
 
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone}
-Project Type: ${formData.projectType}
-Budget: ${formData.budget}
-Timeline: ${formData.timeline}
-
-Hosting Details:
-${formData.needHosting ? `Selected Plan: ${formData.hostingPlan}` : 'No hosting required'}
-
-Domain Details:
-${formData.needDomain ? `
-Domain Extension: ${formData.domainExtension}
-Desired Domain Name: ${formData.domainName}` : 'No domain required'}
-
-Additional Features Required:
-${additionalFeatures.length > 0 ? additionalFeatures.join('\n') : 'None selected'}
-
-Project Description:
-${formData.description}`;
-
-    const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/254741590670?text=${encodedMessage}`, '_blank');
+    window.open(
+      `https://wa.me/254741590670?text=${encodeURIComponent(message)}`,
+      '_blank'
+    );
   };
 
   return (
@@ -1591,175 +1655,198 @@ ${formData.description}`;
           </div>
         </section>
 
-        {/* Quote Request Form */}
-        <section className="py-20 relative overflow-hidden">
-          {/* Background gradients */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-white to-gray-50/80" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
-          
-          <div className="container relative">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary-dark to-primary">
-                Request a Quote
-              </h2>
-              <p className="mt-4 text-gray-600 text-lg">Let's bring your vision to life</p>
-            </motion.div>
-
-            <div className="max-w-6xl mx-auto">
-              <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-white">
-                <form onSubmit={handleSubmit} className="p-8">
-                  {/* Contact Information */}
-                  <div className="grid md:grid-cols-3 gap-6 mb-8">
-                    {[
-                      { label: 'Name', type: 'text', placeholder: 'Your name' },
-                      { label: 'Email', type: 'email', placeholder: 'your@email.com' },
-                      { label: 'Phone', type: 'tel', placeholder: 'Your phone number' }
-                    ].map((field) => (
-                      <div key={field.label} className="relative group">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">{field.label}</label>
-                        <input
-                          type={field.type}
-                          required
-                          className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 
-                            focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white
-                            group-hover:border-gray-300 transition-all"
-                          placeholder={field.placeholder}
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Project Details */}
-                  <div className="grid md:grid-cols-3 gap-6 mb-8">
-                    {[
-                      {
-                        label: 'Project Type',
-                        options: [
-                          { value: 'corporate', label: 'Corporate Website' },
-                          { value: 'ecommerce', label: 'E-commerce Store' },
-                          { value: 'portfolio', label: 'Portfolio/Personal' },
-                          { value: 'blog', label: 'Blog/Magazine' },
-                          { value: 'education', label: 'Educational Platform' },
-                          { value: 'healthcare', label: 'Healthcare/Medical' },
-                          { value: 'real-estate', label: 'Real Estate' },
-                          { value: 'restaurant', label: 'Restaurant/Food' },
-                          { value: 'ngo', label: 'NGO/Non-Profit' },
-                          { value: 'travel', label: 'Travel/Tourism' },
-                          { value: 'marketplace', label: 'Online Marketplace' },
-                          { value: 'membership', label: 'Membership Site' },
-                          { value: 'booking', label: 'Booking System' },
-                          { value: 'crm', label: 'CRM System' }
-                        ]
-                      },
-                      {
-                        label: 'Budget Range',
-                        options: [
-                          { value: 'below-50k', label: 'Below KES 50,000' },
-                          { value: '50k-100k', label: 'KES 50,000 - 100,000' },
-                          { value: '100k-200k', label: 'KES 100,000 - 200,000' },
-                          { value: '200k-500k', label: 'KES 200,000 - 500,000' },
-                          { value: 'above-500k', label: 'Above KES 500,000' },
-                          { value: 'custom', label: 'Custom Budget' }
-                        ]
-                      },
-                      {
-                        label: 'Timeline',
-                        options: [
-                          { value: 'urgent', label: 'Urgent (2-3 weeks)' },
-                          { value: 'standard', label: 'Standard (4-6 weeks)' },
-                          { value: 'extended', label: 'Extended (6-8 weeks)' },
-                          { value: 'complex', label: 'Complex (8-12 weeks)' },
-                          { value: 'flexible', label: 'Flexible Timeline' }
-                        ]
-                      }
-                    ].map((field) => (
-                      <div key={field.label} className="relative group">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">{field.label}</label>
-                        <div className="relative">
-                          <select 
-                            className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 
-                              focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white
-                              group-hover:border-gray-300 transition-all appearance-none"
-                          >
-                            <option value="">Select {field.label.toLowerCase()}</option>
-                            {field.options.map(opt => (
-                              <option key={opt.value} value={opt.value}>
-                                {opt.label}
-                              </option>
-                            ))}
-                          </select>
-                          <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
-                            <i className="fas fa-chevron-down"></i>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Project Description */}
-                  <div className="mb-8">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Project Description</label>
-                    <textarea
-                      rows={4}
-                      className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 
-                        focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white
-                        hover:border-gray-300 transition-all resize-none"
-                      placeholder="Tell us about your project requirements..."
-                    ></textarea>
-                  </div>
-
-                  {/* Additional Services */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Additional Services</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      {[
-                        { icon: 'fas fa-server', label: 'Web Hosting' },
-                        { icon: 'fas fa-globe', label: 'Domain Name' },
-                        { icon: 'fas fa-search', label: 'SEO Service' },
-                        { icon: 'fas fa-tools', label: 'Maintenance' },
-                        { icon: 'fas fa-lock', label: 'SSL Certificate' },
-                        { icon: 'fas fa-chart-line', label: 'Analytics' },
-                        { icon: 'fas fa-envelope', label: 'Custom Email' },
-                        { icon: 'fas fa-pen', label: 'Content Creation' }
-                      ].map((service) => (
-                        <motion.div
-                          key={service.label}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className="cursor-pointer"
-                        >
-                          <div className="flex items-center gap-3 p-4 rounded-xl bg-gray-50/80 hover:bg-primary/5 
-                            hover:border-primary/20 border border-transparent transition-all">
-                            <i className={`${service.icon} text-primary`}></i>
-                            <span className="font-medium text-gray-700">{service.label}</span>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Submit Button */}
-                  <div className="text-center">
-                    <motion.button
-                      type="submit"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-dark text-white 
-                        rounded-xl font-medium transition-all inline-flex items-center gap-2 
-                        shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.16)]"
-                    >
-                      Send Quote Request
-                      <i className="fas fa-paper-plane"></i>
-                    </motion.button>
-                  </div>
-                </form>
+        {/* Form section JSX */}
+        <section className="py-16 bg-white">
+          <div className="container">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-bold text-gray-900 mb-4">Request a Quote</h2>
+                <p className="text-xl text-gray-600">Let's bring your vision to life</p>
               </div>
+
+              <form className="space-y-8">
+                {/* Contact Information */}
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={calculator.name}
+                      onChange={handleInputChange}
+                      placeholder="Your name"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={calculator.email}
+                      onChange={handleInputChange}
+                      placeholder="your@email.com"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={calculator.phone}
+                      onChange={handleInputChange}
+                      placeholder="Your phone number"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    />
+                  </div>
+                </div>
+
+                {/* Project Details */}
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Project Type</label>
+                    <select
+                      name="projectType"
+                      value={calculator.projectType}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    >
+                      <option value="">Select project type</option>
+                      <option value="Corporate Website">Corporate Website</option>
+                      <option value="E-commerce Store">E-commerce Store</option>
+                      <option value="Landing Page">Landing Page</option>
+                      <option value="Web Application">Web Application</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Budget Range</label>
+                    <select
+                      name="budget"
+                      value={calculator.budget}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    >
+                      <option value="">Select budget range</option>
+                      <option value="Below KES 50,000">Below KES 50,000</option>
+                      <option value="KES 50,000 - 100,000">KES 50,000 - 100,000</option>
+                      <option value="KES 100,000 - 200,000">KES 100,000 - 200,000</option>
+                      <option value="Above KES 200,000">Above KES 200,000</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Timeline</label>
+                    <select
+                      name="timeline"
+                      value={calculator.timeline}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    >
+                      <option value="">Select timeline</option>
+                      <option value="Urgent (2-3 weeks)">Urgent (2-3 weeks)</option>
+                      <option value="Standard (1-2 months)">Standard (1-2 months)</option>
+                      <option value="Flexible (2+ months)">Flexible (2+ months)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Project Description */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Project Description</label>
+                  <textarea
+                    name="description"
+                    value={calculator.description}
+                    onChange={handleInputChange}
+                    placeholder="Tell us about your project requirements..."
+                    rows={4}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  ></textarea>
+                </div>
+
+                {/* Additional Services */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-4">Additional Services</label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[
+                      { id: 'hosting', icon: 'fas fa-server', label: 'Web Hosting' },
+                      { id: 'domain', icon: 'fas fa-globe', label: 'Domain Name' },
+                      { id: 'seo', icon: 'fas fa-search', label: 'SEO Service' },
+                      { id: 'maintenance', icon: 'fas fa-tools', label: 'Maintenance' },
+                      { id: 'ssl', icon: 'fas fa-lock', label: 'SSL Certificate' },
+                      { id: 'analytics', icon: 'fas fa-chart-line', label: 'Analytics' },
+                      { id: 'email', icon: 'fas fa-envelope', label: 'Custom Email' },
+                      { id: 'content', icon: 'fas fa-pen', label: 'Content Creation' }
+                    ].map((service) => (
+                      <motion.div
+                        key={service.id}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleServiceSelection(service.id)}
+                        className="cursor-pointer"
+                      >
+                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-all
+                          ${selectedServices.includes(service.id)
+                            ? 'bg-primary/10 border-primary/20 border'
+                            : 'bg-gray-50/80 hover:bg-primary/5 hover:border-primary/20 border border-transparent'
+                          }`}
+                        >
+                          <i className={`${service.icon} ${
+                            selectedServices.includes(service.id) ? 'text-primary' : 'text-gray-600'
+                          }`}></i>
+                          <span className={`font-medium ${
+                            selectedServices.includes(service.id) ? 'text-primary' : 'text-gray-700'
+                          }`}>
+                            {service.label}
+                          </span>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Add this after the Additional Services section, but still inside the form */}
+                <div className="mt-8 text-center">
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      const message = `*New Web Project Quote Request*
+
+*Contact Details*
+Name: ${calculator.name}
+Email: ${calculator.email}
+Phone: ${calculator.phone}
+
+*Project Details*
+Project Type: ${calculator.projectType}
+Budget Range: ${calculator.budget}
+Timeline: ${calculator.timeline}
+
+*Additional Services Required*
+${selectedServices.map(service => `- ${service.charAt(0).toUpperCase() + service.slice(1)}`).join('\n') || 'None selected'}
+
+*Project Description*
+${calculator.description || 'No description provided'}`;
+
+                      window.open(
+                        `https://wa.me/254741590670?text=${encodeURIComponent(message)}`,
+                        '_blank'
+                      );
+                    }}
+                    className="px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-dark text-white 
+                      rounded-xl font-medium transition-all inline-flex items-center gap-2 
+                      shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.16)]"
+                  >
+                    Send Quote Request
+                    <i className="fas fa-paper-plane"></i>
+                  </motion.button>
+                </div>
+              </form>
             </div>
           </div>
         </section>
@@ -1909,8 +1996,36 @@ ${formData.description}`;
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => {
-                          const message = `Hi! I'm interested in a web development project:\n\nWebsite Type: ${calculator.websiteType}\nSelected Features:\n${calculator.selectedFeatures.join('\n')}\n\nEstimated Cost: KES ${calculator.totalCost.toLocaleString()}\n\nPlease provide me with more information.`;
-                          window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
+                          const selectedFeaturesList = calculator.selectedFeatures
+                            .map(feature => `- ${feature}`)
+                            .join('\n');
+
+                          const selectedServicesList = selectedServices
+                            .map(service => `- ${service.charAt(0).toUpperCase() + service.slice(1)}`)
+                            .join('\n');
+
+                          const message = `*New Web Project Quote Request*\n
+*Contact Details*
+Name: ${calculator.name}
+Email: ${calculator.email}
+Phone: ${calculator.phone}\n
+*Project Details*
+Project Type: ${calculator.websiteType}
+Budget Range: ${calculator.budget}
+Timeline: ${calculator.timeline}\n
+*Additional Services Required*
+${selectedServicesList}\n
+*Additional Features Required*
+${selectedFeaturesList}\n
+*Project Description*
+${calculator.description || 'No description provided'}\n
+*Estimated Cost*
+KES ${calculator.totalCost.toLocaleString()}`;
+
+                          window.open(
+                            `https://wa.me/254741590670?text=${encodeURIComponent(message)}`,
+                            '_blank'
+                          );
                         }}
                         className="px-8 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark 
                           transition-all shadow-lg shadow-primary/20"

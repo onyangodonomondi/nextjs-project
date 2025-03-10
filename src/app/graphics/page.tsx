@@ -343,20 +343,74 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-6">
-              <Link href="/graphics" className="text-sm font-medium text-primary">
+              <Link 
+                href="/" 
+                className="text-[#0A2647] hover:text-[#FF5400] transition-colors"
+              >
+                Home
+              </Link>
+              
+              <Link 
+                href="/about" 
+                className="text-[#0A2647] hover:text-[#FF5400] transition-colors"
+              >
+                About
+              </Link>
+
+              <Link 
+                href="/capabilities" 
+                className="text-[#0A2647] hover:text-[#FF5400] transition-colors"
+              >
+                Capabilities
+              </Link>
+
+              <Link 
+                href="/graphics" 
+                className="text-[#0A2647] hover:text-[#FF5400] transition-colors"
+              >
                 Graphics
               </Link>
-              <Link href="/web" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
-                Web
+
+              <Link 
+                href="/web-development" 
+                className="text-[#0A2647] hover:text-[#FF5400] transition-colors"
+              >
+                Web Development
               </Link>
-              <Link href="/pricing" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
-                Pricing
-              </Link>
-              <Link href="/portfolio" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
-                Portfolio
-              </Link>
-              <Link href="/contact" className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary bg-primary/10 rounded-full hover:bg-primary/20 transition-colors">
-                Contact Us
+
+              {/* Services Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-[#0A2647] hover:text-[#FF5400] transition-colors">
+                  Services
+                  <i className="fas fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
+                </button>
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all">
+                  <Link 
+                    href="/branding" 
+                    className="block px-4 py-2 text-[#0A2647] hover:text-[#FF5400] hover:bg-gray-50"
+                  >
+                    Branding
+                  </Link>
+                  <Link 
+                    href="/marketing" 
+                    className="block px-4 py-2 text-[#0A2647] hover:text-[#FF5400] hover:bg-gray-50"
+                  >
+                    Marketing
+                  </Link>
+                  <Link 
+                    href="/consulting" 
+                    className="block px-4 py-2 text-[#0A2647] hover:text-[#FF5400] hover:bg-gray-50"
+                  >
+                    Consulting
+                  </Link>
+                </div>
+              </div>
+
+              <Link 
+                href="/contact" 
+                className="text-[#0A2647] hover:text-[#FF5400] transition-colors"
+              >
+                Contact
               </Link>
             </nav>
 
@@ -377,32 +431,39 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
               <div className="max-w-6xl mx-auto py-2">
                 <nav className="flex flex-col">
                   <Link 
-                    href="/graphics" 
+                    href="/" 
                     className="py-2 text-base font-medium text-primary hover:bg-primary/5"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Home
+                  </Link>
+                  <Link 
+                    href="/about" 
+                    className="py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    About
+                  </Link>
+                  <Link 
+                    href="/capabilities" 
+                    className="py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Capabilities
+                  </Link>
+                  <Link 
+                    href="/graphics" 
+                    className="py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Graphics
                   </Link>
                   <Link 
-                    href="/web" 
+                    href="/web-development" 
                     className="py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Web
-                  </Link>
-                  <Link 
-                    href="/pricing" 
-                    className="py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Pricing
-                  </Link>
-                  <Link 
-                    href="/portfolio" 
-                    className="py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Portfolio
+                    Web Development
                   </Link>
                   <Link 
                     href="/contact"

@@ -108,47 +108,50 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:block">
-            <ul className="flex items-center gap-1">
-              {menuItems.map((item) => (
-                <li key={item.label} className="relative group">
-                  {item.children ? (
-                    <>
-                      <button
-                        onClick={(e) => toggleDropdown(e, item.label)}
-                        className="flex items-center gap-1 px-4 py-2 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-50 transition-all"
-                      >
-                        {item.label}
-                        <i className="fas fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
-                      </button>
-                      <ul className="absolute top-full left-0 w-56 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all">
-                        {item.children.map((child) => (
-                          <li key={child.label}>
-                            <Link
-                              href={child.path}
-                              onClick={() => handleLinkClick(false)}
-                              className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors"
-                            >
-                              <i className={`fas ${child.icon} w-5`}></i>
-                              {child.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  ) : (
-                    <Link
-                      href={item.path}
-                      onClick={() => handleLinkClick(false)}
-                      className="block px-4 py-2 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-50 transition-all"
-                    >
-                      {item.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <nav className="hidden md:flex items-center gap-6">
+            <Link href="/" className="text-[#0A2647] hover:text-[#FF5400] transition-colors">
+              Home
+            </Link>
+            
+            <Link href="/about" className="text-[#0A2647] hover:text-[#FF5400] transition-colors">
+              About
+            </Link>
+
+            <Link href="/capabilities" className="text-[#0A2647] hover:text-[#FF5400] transition-colors">
+              Capabilities
+            </Link>
+
+            <Link href="/graphics" className="text-[#0A2647] hover:text-[#FF5400] transition-colors">
+              Graphics
+            </Link>
+
+            <Link href="/web-development" className="text-[#0A2647] hover:text-[#FF5400] transition-colors">
+              Web Development
+            </Link>
+
+            {/* Services Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1 text-[#0A2647] hover:text-[#FF5400] transition-colors">
+                Services
+                <i className="fas fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
+              </button>
+              <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all">
+                <Link href="/branding" className="block px-4 py-2 text-[#0A2647] hover:text-[#FF5400] hover:bg-gray-50">
+                  Branding
+                </Link>
+                <Link href="/marketing" className="block px-4 py-2 text-[#0A2647] hover:text-[#FF5400] hover:bg-gray-50">
+                  Marketing
+                </Link>
+                <Link href="/consulting" className="block px-4 py-2 text-[#0A2647] hover:text-[#FF5400] hover:bg-gray-50">
+                  Consulting
+                </Link>
+              </div>
+            </div>
+
+            <Link href="/contact" className="text-[#0A2647] hover:text-[#FF5400] transition-colors">
+              Contact
+            </Link>
+          </nav>
 
           {/* Mobile Menu Button */}
           <button

@@ -30,47 +30,86 @@ export default function About() {
   return (
     <main className="pt-16">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-br from-primary/5 via-white to-secondary/5">
-        <div className="container py-20">
+      <section className="relative min-h-[85vh] flex items-center bg-gradient-to-br from-[#0A2647]/5 via-white to-[#FF5400]/5">
+        <div className="container py-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            transition={{ duration: 0.8 }}
+            className="max-w-5xl mx-auto text-center"
           >
-            <h1 className="text-6xl lg:text-7xl font-bold mb-8">
-              Crafting 
-              <span className="text-primary block mt-2">Digital Excellence</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-3xl mx-auto mb-12">
+            <motion.span 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-[#FF5400] font-medium text-sm uppercase tracking-wider mb-6 block"
+            >
+              Welcome to Mocky Digital
+            </motion.span>
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-6xl lg:text-7xl font-bold mb-8"
+            >
+              <span className="text-[#0A2647]">Crafting</span>
+              <span className="text-[#FF5400] block mt-4">Digital Excellence</span>
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-3xl mx-auto"
+            >
               We're a team of passionate digital creators committed to transforming ideas into impactful digital experiences.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <a 
-                href="https://wa.me/254741590670?text=Hi%20Mocky%20Digital,%20I'm%20interested%20in%20starting%20a%20project%20with%20you." 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 bg-primary text-white rounded-full hover:bg-primary-dark transition-all hover:scale-105"
-              >
-                Start Your Project
-                <i className="fab fa-whatsapp ml-2"></i>
-              </a>
-              <a 
-                href="/graphics" 
-                className="px-8 py-4 bg-white text-primary border-2 border-primary rounded-full hover:bg-primary/5 transition-all"
-              >
-                View Our Work
-                <i className="fas fa-external-link-alt ml-2"></i>
-              </a>
-            </div>
+            </motion.p>
           </motion.div>
         </div>
         
-        {/* Optional: Abstract Background Elements */}
+        {/* Enhanced Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 bg-primary/5 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 bg-secondary/5 rounded-full blur-3xl"></div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.2 }}
+            className="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 bg-[#0A2647]/5 rounded-full blur-3xl"
+          />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.4 }}
+            className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 bg-[#FF5400]/5 rounded-full blur-3xl"
+          />
+          
+          {/* Additional Decorative Elements */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            transition={{ duration: 1 }}
+            className="absolute top-1/4 left-1/4 w-4 h-4 bg-[#FF5400]/20 rounded-full"
+          />
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.3 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="absolute bottom-1/4 right-1/4 w-6 h-6 bg-[#0A2647]/20 rounded-full"
+          />
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.4 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="absolute top-1/2 right-1/3 w-3 h-3 bg-[#FF5400]/20 rounded-full"
+          />
         </div>
+
+        {/* Subtle Grid Pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.015]" 
+          style={{ 
+            backgroundImage: 'linear-gradient(#0A2647 1px, transparent 1px), linear-gradient(to right, #0A2647 1px, transparent 1px)',
+            backgroundSize: '4rem 4rem'
+          }}
+        />
       </section>
 
       {/* CEO Section */}
@@ -142,7 +181,7 @@ export default function About() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -151,46 +190,163 @@ export default function About() {
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            <span className="text-primary font-medium mb-4 block">Our Principles</span>
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              Core Values that <span className="text-primary">Drive Us</span>
+            <span className="text-[#FF5400] font-medium text-sm uppercase tracking-wider mb-4 block">Our Principles</span>
+            <h2 className="text-4xl lg:text-5xl font-bold text-[#0A2647] mb-6">
+              Core Values that Define Us
             </h2>
-            <div className="w-20 h-1.5 bg-primary mx-auto rounded-full"></div>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Our values are more than just words – they're the foundation of our work ethic and the promises we make to our clients.
+            </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-            {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500"
-              >
-                {/* Icon Container */}
-                <div className="relative z-10">
-                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:rotate-6 transition-all duration-500">
-                    <i className={`${value.icon} text-2xl text-primary group-hover:text-white transition-colors duration-500`}></i>
-                  </div>
-                  
-                  {/* Content */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors duration-300">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-600 relative z-10">
-                    {value.description}
-                  </p>
+            {/* Innovation Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <div className="mb-6 relative">
+                <div className="w-16 h-16 bg-[#FF5400]/10 rounded-2xl flex items-center justify-center group-hover:bg-[#FF5400] transition-all duration-500">
+                  <i className="fas fa-lightbulb text-2xl text-[#FF5400] group-hover:text-white transition-colors duration-500"></i>
                 </div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#FF5400]/5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+              </div>
+              
+              <h3 className="text-xl font-bold text-[#0A2647] mb-4 group-hover:text-[#FF5400] transition-colors">
+                Innovation First
+              </h3>
+              <p className="text-gray-600 mb-4">
+                We constantly push boundaries and explore new technologies to deliver cutting-edge solutions that keep our clients ahead of the curve.
+              </p>
+              <ul className="space-y-2 text-gray-600">
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Creative problem-solving
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Latest technology adoption
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Forward-thinking approach
+                </li>
+              </ul>
+            </motion.div>
 
-                {/* Decorative Elements */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 rounded-b-2xl"></div>
-                
-                {/* Corner Accent */}
-                <div className="absolute top-0 right-0 w-8 h-8 bg-primary/0 group-hover:bg-primary/10 rounded-tr-2xl transition-colors duration-500"></div>
-              </motion.div>
-            ))}
+            {/* Quality Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <div className="mb-6 relative">
+                <div className="w-16 h-16 bg-[#FF5400]/10 rounded-2xl flex items-center justify-center group-hover:bg-[#FF5400] transition-all duration-500">
+                  <i className="fas fa-gem text-2xl text-[#FF5400] group-hover:text-white transition-colors duration-500"></i>
+                </div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#FF5400]/5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+              </div>
+              
+              <h3 className="text-xl font-bold text-[#0A2647] mb-4 group-hover:text-[#FF5400] transition-colors">
+                Uncompromising Quality
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Every pixel, every line of code, and every design element is crafted with precision and attention to detail.
+              </p>
+              <ul className="space-y-2 text-gray-600">
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Rigorous quality control
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Attention to detail
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Excellence in execution
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Integrity Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <div className="mb-6 relative">
+                <div className="w-16 h-16 bg-[#FF5400]/10 rounded-2xl flex items-center justify-center group-hover:bg-[#FF5400] transition-all duration-500">
+                  <i className="fas fa-shield-alt text-2xl text-[#FF5400] group-hover:text-white transition-colors duration-500"></i>
+                </div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#FF5400]/5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+              </div>
+              
+              <h3 className="text-xl font-bold text-[#0A2647] mb-4 group-hover:text-[#FF5400] transition-colors">
+                Unwavering Integrity
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Trust is earned through transparent communication, honest practices, and delivering on our promises.
+              </p>
+              <ul className="space-y-2 text-gray-600">
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Transparent communication
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Ethical practices
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Reliable partnerships
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Collaboration Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <div className="mb-6 relative">
+                <div className="w-16 h-16 bg-[#FF5400]/10 rounded-2xl flex items-center justify-center group-hover:bg-[#FF5400] transition-all duration-500">
+                  <i className="fas fa-hands-helping text-2xl text-[#FF5400] group-hover:text-white transition-colors duration-500"></i>
+                </div>
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#FF5400]/5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+              </div>
+              
+              <h3 className="text-xl font-bold text-[#0A2647] mb-4 group-hover:text-[#FF5400] transition-colors">
+                Effective Collaboration
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Success is achieved through strong partnerships and working closely with our clients throughout the journey.
+              </p>
+              <ul className="space-y-2 text-gray-600">
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Client-centric approach
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Open communication
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-check text-[#FF5400] mr-2"></i>
+                  Shared success
+                </li>
+              </ul>
+            </motion.div>
           </div>
 
           <motion.div
@@ -202,36 +358,9 @@ export default function About() {
           >
             <div className="max-w-3xl mx-auto px-8 py-6 bg-white rounded-2xl shadow-sm border border-gray-100">
               <p className="text-gray-600 text-lg">
-                These core values shape our approach to every project and guide our commitment to delivering exceptional digital solutions.
+                These core values are embedded in every project we undertake, ensuring consistent delivery of exceptional digital solutions that exceed expectations.
               </p>
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-primary text-white">
-        <div className="container text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <h2 className="text-4xl font-bold mb-6">Ready to Transform Your Digital Presence?</h2>
-            <p className="text-xl text-gray-100 mb-8">
-              Let's work together to bring your vision to life with our innovative solutions.
-            </p>
-            <a
-              href="https://wa.me/254741590670?text=Hi%20Mocky%20Digital,%20I'm%20interested%20in%20starting%20a%20project%20with%20you."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-8 py-4 bg-white text-primary font-semibold rounded-full hover:bg-gray-100 transition-all hover:scale-105"
-            >
-              Start Your Journey
-              <i className="fab fa-whatsapp ml-2"></i>
-            </a>
           </motion.div>
         </div>
       </section>
