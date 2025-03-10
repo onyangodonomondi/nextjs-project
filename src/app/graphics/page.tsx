@@ -117,7 +117,7 @@ export default function Graphics() {
   const [selectedProject, setSelectedProject] = useState('');
   const [selectedTimeline, setSelectedTimeline] = useState('');
   const [colors, setColors] = useState({
-    primary: '#000000',
+    primary: '#511515',
     secondary: '#000000',
     accent: '#000000'
   });
@@ -242,11 +242,18 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
   };
 
   const handleColorChange = (type: 'primary' | 'secondary' | 'accent', value: string) => {
-    // Validate hex color
-    const isValidHex = /^#[0-9A-F]{6}$/i.test(value);
-    if (isValidHex || value.length <= 7) {
-      setColors(prev => ({ ...prev, [type]: value }));
-    }
+    setColors(prev => ({
+      ...prev,
+      [type]: value
+    }));
+    // Also update the form data
+    setFormData(prev => ({
+      ...prev,
+      colors: {
+        ...prev.colors,
+        [type]: value
+      }
+    }));
   };
 
   // Add this useEffect near your other hooks
@@ -1024,59 +1031,56 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
               {/* Brand Colors */}
               <div className="space-y-4">
                 <h3 className="text-white font-medium text-lg mb-4">Brand Colors (Optional)</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="space-y-2">
-                    <label className="block text-gray-300">Primary Color</label>
-                    <div className="flex gap-3">
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-white font-medium mb-2">Primary Color</label>
+                    <div className="flex gap-4">
                       <input
                         type="color"
                         className="h-[42px] w-16 rounded cursor-pointer bg-white/5"
-                        value={formData.colors.primary}
-                        onChange={(e) => handleInputChange(e)}
+                        value={colors.primary}
+                        onChange={(e) => handleColorChange('primary', e.target.value)}
                       />
                       <input
                         type="text"
-                        name="colorPrimary"
-                        value={formData.colors.primary}
-                        onChange={(e) => handleInputChange(e)}
+                        value={colors.primary}
+                        onChange={(e) => handleColorChange('primary', e.target.value.startsWith('#') ? e.target.value : `#${e.target.value}`)}
                         placeholder="#000000"
                         className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="block text-gray-300">Secondary Color</label>
-                    <div className="flex gap-3">
+                  <div>
+                    <label className="block text-white font-medium mb-2">Secondary Color</label>
+                    <div className="flex gap-4">
                       <input
                         type="color"
                         className="h-[42px] w-16 rounded cursor-pointer bg-white/5"
-                        value={formData.colors.secondary}
-                        onChange={(e) => handleInputChange(e)}
+                        value={colors.secondary}
+                        onChange={(e) => handleColorChange('secondary', e.target.value)}
                       />
                       <input
                         type="text"
-                        name="colorSecondary"
-                        value={formData.colors.secondary}
-                        onChange={(e) => handleInputChange(e)}
+                        value={colors.secondary}
+                        onChange={(e) => handleColorChange('secondary', e.target.value.startsWith('#') ? e.target.value : `#${e.target.value}`)}
                         placeholder="#000000"
                         className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="block text-gray-300">Accent Color</label>
-                    <div className="flex gap-3">
+                  <div>
+                    <label className="block text-white font-medium mb-2">Accent Color</label>
+                    <div className="flex gap-4">
                       <input
                         type="color"
                         className="h-[42px] w-16 rounded cursor-pointer bg-white/5"
-                        value={formData.colors.accent}
-                        onChange={(e) => handleInputChange(e)}
+                        value={colors.accent}
+                        onChange={(e) => handleColorChange('accent', e.target.value)}
                       />
                       <input
                         type="text"
-                        name="colorAccent"
-                        value={formData.colors.accent}
-                        onChange={(e) => handleInputChange(e)}
+                        value={colors.accent}
+                        onChange={(e) => handleColorChange('accent', e.target.value.startsWith('#') ? e.target.value : `#${e.target.value}`)}
                         placeholder="#000000"
                         className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
                       />
