@@ -258,6 +258,40 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
     }
   };
 
+  const handleStartJourney = (formData: {
+    businessName: string;
+    businessType: string;
+    website: string;
+    designBrief: string;
+    colors: {
+      primary: string;
+      secondary: string;
+      accent: string;
+    };
+  }) => {
+    const message = encodeURIComponent(
+      `Hello! I'd like to start my design journey with you.
+      
+Business Details:
+- Name: ${formData.businessName}
+- Type: ${formData.businessType}
+- Website: ${formData.website}
+
+Design Brief:
+${formData.designBrief}
+
+Brand Colors:
+- Primary: ${formData.colors.primary}
+- Secondary: ${formData.colors.secondary}
+- Accent: ${formData.colors.accent}
+
+Remember, you need to make a deposit for the communication to be considered Official.`
+    );
+
+    const whatsappUrl = `https://wa.me/254741590670?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <>
       <Toaster />
@@ -408,15 +442,22 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
                   transition={{ delay: 0.3 }}
                   className="pt-2 md:pt-4"
                 >
-                  <a 
-                    href="mailto:info@mocky.co.ke"
-                    className="inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-[#FFB840] text-black rounded-full hover:bg-[#FFB840]/90 transition-colors text-base md:text-lg font-medium group w-full sm:w-auto"
+                  <button
+                    onClick={() => handleStartJourney({
+                      businessName: '',
+                      businessType: '',
+                      website: '',
+                      designBrief: '',
+                      colors: {
+                        primary: colors.primary,
+                        secondary: colors.secondary,
+                        accent: colors.accent
+                      }
+                    })}
+                    className="bg-[#FF5400] hover:bg-[#FF5400]/90 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-300"
                   >
-                    MAIL US
-                    <svg className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  </a>
+                    Start Your Design Journey
+                  </button>
                 </motion.div>
               </div>
             </div>
@@ -1024,10 +1065,18 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
               <div className="pt-4">
                 <button
                   type="button"
-                  onClick={() => {
-                    // WhatsApp message logic...
-                  }}
-                  className="w-full md:w-auto px-8 py-4 bg-[#FF5400] text-white rounded-lg hover:bg-[#FF5400]/90 transition-colors font-medium text-lg"
+                  onClick={() => handleStartJourney({
+                    businessName: '',
+                    businessType: '',
+                    website: '',
+                    designBrief: '',
+                    colors: {
+                      primary: colors.primary,
+                      secondary: colors.secondary,
+                      accent: colors.accent
+                    }
+                  })}
+                  className="bg-[#FF5400] hover:bg-[#FF5400]/90 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-300"
                 >
                   Start Your Design Journey
                 </button>
