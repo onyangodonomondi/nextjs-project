@@ -533,12 +533,16 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                   transition={{ delay: 0.3 }}
                   className="pt-2 md:pt-4"
                 >
-                  <button
-                    onClick={() => handleStartJourney(formData)}
-                    className="bg-[#FF5400] hover:bg-[#FF5400]/90 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-300"
+                  <motion.a
+                    href="/portfolio"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="inline-block px-8 py-4 bg-primary text-white font-medium rounded-full 
+                      hover:bg-primary-dark transition-all shadow-lg shadow-primary/20"
                   >
-                    Start Your Design Journey
-                  </button>
+                    View Our Portfolio
+                    <i className="fas fa-arrow-right ml-2"></i>
+                  </motion.a>
                 </motion.div>
               </div>
             </div>
