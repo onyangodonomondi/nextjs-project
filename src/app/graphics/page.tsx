@@ -504,9 +504,11 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                 <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-[1.1]"
+                  className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
                 >
-                  Design Without Limits
+                  Design 
+                  <span className="text-[#FF5400] block">Without</span>
+                  Limits
                 </motion.h1>
                 <div className="space-y-2 md:space-y-3 lg:space-y-4">
                   <motion.p
@@ -567,6 +569,66 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
             </motion.div>
           </div>
         </section>
+
+        {/* Add this after the hero section */}
+        <div className="bg-[#0A2647] py-4 relative overflow-hidden">
+          <motion.div
+            animate={{
+              x: [0, -1000],
+            }}
+            transition={{
+              x: {
+                duration: 20,
+                repeat: Infinity,
+                ease: "linear"
+              }
+            }}
+            className="whitespace-nowrap"
+          >
+            <div className="inline-flex items-center text-white text-lg font-medium">
+              <span>Logo Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Brand Identity</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Social Media Graphics</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>UI/UX Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Web Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Motion Graphics</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Print Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Packaging Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Illustration</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>3D Design</span>
+              {/* Duplicate the list to create seamless loop */}
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Logo Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Brand Identity</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Social Media Graphics</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>UI/UX Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Web Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Motion Graphics</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Print Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Packaging Design</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>Illustration</span>
+              <span className="mx-4 text-[#FF5400]">. . .</span>
+              <span>3D Design</span>
+            </div>
+          </motion.div>
+        </div>
 
         {/* Fix Your Graphics Design Bottleneck Section */}
         <section className="py-12 md:py-16 lg:py-24">
