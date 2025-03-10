@@ -123,6 +123,15 @@ export default function Graphics() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // First, add this style to handle body scroll when menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [mobileMenuOpen]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -217,139 +226,95 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
   return (
     <>
       {/* Navigation Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg">
-        <div className="container mx-auto px-4" ref={menuRef}>
-          <nav className="flex items-center justify-between h-20">
+      <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-lg">
+        <div className="w-full px-4 mx-auto">
+          <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <Image
                 src="/images/logo.png"
                 alt="Mocky Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8"
+                width={28}
+                height={28}
+                className="w-6 h-6 md:w-8 md:h-8"
               />
-              <span className="text-lg font-bold text-gray-900">MOCKY</span>
+              <span className="text-base md:text-lg font-bold text-gray-900">MOCKY</span>
             </Link>
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-6">
-              <Link 
-                href="/graphics" 
-                className="text-sm font-medium text-primary"
-              >
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-6">
+              <Link href="/graphics" className="text-sm font-medium text-primary">
                 Graphics
               </Link>
-              <Link 
-                href="/web" 
-                className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
-              >
+              <Link href="/web" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
                 Web
               </Link>
-              <Link 
-                href="/pricing" 
-                className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
-              >
+              <Link href="/pricing" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
                 Pricing
               </Link>
-              <Link 
-                href="/portfolio" 
-                className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
-              >
+              <Link href="/portfolio" className="text-sm font-medium text-gray-600 hover:text-primary transition-colors">
                 Portfolio
               </Link>
-              <Link 
-                href="/contact"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary bg-primary/10 rounded-full hover:bg-primary/20 transition-colors"
-              >
+              <Link href="/contact" className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary bg-primary/10 rounded-full hover:bg-primary/20 transition-colors">
                 Contact Us
               </Link>
-            </div>
+            </nav>
 
-            {/* Mobile Menu Button */}
-            <button 
+            {/* Mobile menu button */}
+            <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 text-gray-700 hover:text-gray-900 md:hidden"
-              aria-label="Toggle menu"
+              className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
             >
-              <svg 
-                className="w-6 h-6" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                {mobileMenuOpen ? (
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
+              <span className="sr-only">Open main menu</span>
+              <i className={`fas ${mobileMenuOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
             </button>
-
-            {/* Mobile Menu */}
-            <AnimatePresence>
-              {mobileMenuOpen && (
-                <motion.div 
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute top-full left-0 right-0 bg-white border-t border-gray-100 shadow-lg md:hidden"
-                >
-                  <div className="container mx-auto px-4 py-3">
-                    <div className="flex flex-col space-y-1">
-                      <Link 
-                        href="/graphics" 
-                        className="px-4 py-2 text-sm font-medium text-primary rounded-lg hover:bg-gray-50"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Graphics
-                      </Link>
-                      <Link 
-                        href="/web" 
-                        className="px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 hover:text-primary"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Web
-                      </Link>
-                      <Link 
-                        href="/pricing" 
-                        className="px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 hover:text-primary"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Pricing
-                      </Link>
-                      <Link 
-                        href="/portfolio" 
-                        className="px-4 py-2 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-50 hover:text-primary"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Portfolio
-                      </Link>
-                      <Link 
-                        href="/contact" 
-                        className="px-4 py-2 text-sm font-medium text-primary rounded-lg hover:bg-gray-50"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        Contact Us
-                      </Link>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </nav>
+          </div>
         </div>
+
+        {/* Mobile menu, show/hide based on menu state */}
+        {mobileMenuOpen && (
+          <div className="absolute top-16 left-0 w-full bg-white border-t shadow-lg md:hidden">
+            <div className="w-full px-4 mx-auto py-2">
+              <nav className="flex flex-col space-y-2">
+                <Link 
+                  href="/graphics" 
+                  className="block py-2 text-base font-medium text-primary hover:bg-primary/5"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Graphics
+                </Link>
+                <Link 
+                  href="/web" 
+                  className="block py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Web
+                </Link>
+                <Link 
+                  href="/pricing" 
+                  className="block py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Pricing
+                </Link>
+                <Link 
+                  href="/portfolio" 
+                  className="block py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Portfolio
+                </Link>
+                <Link 
+                  href="/contact"
+                  className="block py-2 text-base font-medium text-primary bg-primary/10 hover:bg-primary/20"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Contact Us
+                </Link>
+              </nav>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="bg-[#FDF9F3]"> {/* Duck Design's cream background */}
@@ -543,6 +508,9 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
               disableOnInteraction: true,
               pauseOnMouseEnter: true
             } : false}
+            allowTouchMove={true}
+            touchRatio={isMobile ? 1 : 0}
+            simulateTouch={isMobile}
             observer={true}
             observeParents={true}
             className="services-slider"
@@ -768,14 +736,9 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
               >
                 Start Your Project
               </motion.span>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-4xl md:text-5xl font-bold mb-4"
-              >
-                Our Works
-              </motion.h2>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-orange-500 mb-8">
+                Fill the form
+              </h1>
             </div>
 
             <motion.div
