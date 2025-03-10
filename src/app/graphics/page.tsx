@@ -227,8 +227,8 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
     <>
       {/* Navigation Header */}
       <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-lg">
-        <div className="w-full px-4 mx-auto">
-          <div className="flex justify-between items-center h-16">
+        <div className="w-full px-4">
+          <div className="max-w-6xl mx-auto flex justify-between items-center h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
               <Image
@@ -263,55 +263,56 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100"
             >
-              <span className="sr-only">Open main menu</span>
               <i className={`fas ${mobileMenuOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
             </button>
           </div>
         </div>
 
-        {/* Mobile menu, show/hide based on menu state */}
+        {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="absolute top-16 left-0 w-full bg-white border-t shadow-lg md:hidden">
-            <div className="w-full px-4 mx-auto py-2">
-              <nav className="flex flex-col space-y-2">
-                <Link 
-                  href="/graphics" 
-                  className="block py-2 text-base font-medium text-primary hover:bg-primary/5"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Graphics
-                </Link>
-                <Link 
-                  href="/web" 
-                  className="block py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Web
-                </Link>
-                <Link 
-                  href="/pricing" 
-                  className="block py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Pricing
-                </Link>
-                <Link 
-                  href="/portfolio" 
-                  className="block py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Portfolio
-                </Link>
-                <Link 
-                  href="/contact"
-                  className="block py-2 text-base font-medium text-primary bg-primary/10 hover:bg-primary/20"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Contact Us
-                </Link>
-              </nav>
+          <div className="md:hidden w-full border-t border-gray-100 bg-white shadow-lg">
+            <div className="w-full px-4">
+              <div className="max-w-6xl mx-auto py-2">
+                <nav className="flex flex-col">
+                  <Link 
+                    href="/graphics" 
+                    className="py-2 text-base font-medium text-primary hover:bg-primary/5"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Graphics
+                  </Link>
+                  <Link 
+                    href="/web" 
+                    className="py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Web
+                  </Link>
+                  <Link 
+                    href="/pricing" 
+                    className="py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Pricing
+                  </Link>
+                  <Link 
+                    href="/portfolio" 
+                    className="py-2 text-base font-medium text-gray-600 hover:bg-gray-50"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Portfolio
+                  </Link>
+                  <Link 
+                    href="/contact"
+                    className="py-2 text-base font-medium text-primary bg-primary/10 hover:bg-primary/20"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Contact Us
+                  </Link>
+                </nav>
+              </div>
             </div>
           </div>
         )}
@@ -620,7 +621,7 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
                 </div>
               </motion.div>
 
-              {/* M-PESA Payment Details Card */}
+              {/* Payment Details Section */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -633,63 +634,37 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 text-white">Step 2: M-PESA Payment</h3>
-                    <div className="space-y-4 md:space-y-6">
-                      {/* M-PESA Instructions */}
-                      <div className="text-gray-300 space-y-2 mb-4 md:mb-6">
-                        <p className="text-sm md:text-base">To make payment via M-PESA:</p>
-                        <ol className="list-decimal list-inside space-y-1 pl-4 text-xs md:text-sm">
-                          <li>Go to M-PESA on your phone</li>
-                          <li>Select Pay Bill option</li>
-                          <li>Enter Business number and Account number</li>
-                          <li>Enter amount and your M-PESA PIN</li>
-                          <li>Confirm payment details and submit</li>
-                        </ol>
-                      </div>
-
-                      {/* Payment Details */}
-                      <div className="space-y-3 md:space-y-4">
-                        <div className="flex items-center justify-between p-3 md:p-4 bg-white/[0.08] rounded-lg hover:bg-white/[0.12] transition-colors group/item">
-                          <div>
-                            <p className="text-xs md:text-sm text-gray-300">Safaricom M-PESA Paybill</p>
-                            <p className="text-base md:text-lg text-white font-medium">522533</p>
-                          </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold text-white mb-4">Step 2: M-PESA Payment</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-gray-400 text-sm mb-1">Safaricom M-PESA Paybill</p>
+                        <div className="flex items-center gap-3">
+                          <span className="text-white text-lg font-medium">522533</span>
                           <button
                             onClick={() => handleCopy('522533', 'paybill')}
-                            className="px-3 py-1.5 text-xs md:text-sm bg-white/[0.08] border border-white/20 rounded-lg hover:bg-white/[0.15] transition-all text-white flex items-center gap-2 group-hover/item:border-white/30"
+                            className="text-[#FF5400] hover:text-[#FF5400]/80 transition-colors"
                           >
                             {copiedText === 'paybill' ? (
-                              <>
-                                <svg className="w-3 h-3 md:w-4 md:h-4 text-[#4ADE80]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span className="text-[#4ADE80]">Copied</span>
-                              </>
+                              <span className="text-green-400 text-sm">Copied!</span>
                             ) : (
-                              'Copy Number'
+                              <span className="text-sm">Copy</span>
                             )}
                           </button>
                         </div>
-
-                        <div className="flex items-center justify-between p-3 md:p-4 bg-white/[0.08] rounded-lg hover:bg-white/[0.12] transition-colors group/item">
-                          <div>
-                            <p className="text-xs md:text-sm text-gray-300">Account Number</p>
-                            <p className="text-base md:text-lg text-white font-medium">7934479</p>
-                          </div>
+                      </div>
+                      <div>
+                        <p className="text-gray-400 text-sm mb-1">Account Number</p>
+                        <div className="flex items-center gap-3">
+                          <span className="text-white text-lg font-medium">7934479</span>
                           <button
                             onClick={() => handleCopy('7934479', 'account')}
-                            className="px-3 py-1.5 text-xs md:text-sm bg-white/[0.08] border border-white/20 rounded-lg hover:bg-white/[0.15] transition-all text-white flex items-center gap-2 group-hover/item:border-white/30"
+                            className="text-[#FF5400] hover:text-[#FF5400]/80 transition-colors"
                           >
                             {copiedText === 'account' ? (
-                              <>
-                                <svg className="w-3 h-3 md:w-4 md:h-4 text-[#4ADE80]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span className="text-[#4ADE80]">Copied</span>
-                              </>
+                              <span className="text-green-400 text-sm">Copied!</span>
                             ) : (
-                              'Copy Number'
+                              <span className="text-sm">Copy</span>
                             )}
                           </button>
                         </div>
@@ -727,20 +702,6 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
         {/* Project Details Form Section */}
         <section className="py-12 md:py-16 lg:py-20 bg-white">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="inline-block px-4 py-1.5 bg-primary/10 rounded-full text-primary font-medium mb-4"
-              >
-                Start Your Project
-              </motion.span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-orange-500 mb-8">
-                Fill the form
-              </h1>
-            </div>
-
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -752,41 +713,32 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <label className="block text-lg font-medium text-gray-700">Project Type</label>
-                    <select 
+                    <select
                       name="projectType"
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                       required
                     >
                       <option value="">Select Project Type</option>
-                      <option value="branding">Branding & Identity Design</option>
-                      <option value="ui-ux">UI/UX Design</option>
-                      <option value="motion">Motion Graphics & Animation</option>
-                      <option value="print">Print Design</option>
-                      <option value="social">Social Media Design</option>
-                      <option value="presentation">Presentation Design</option>
-                      <option value="packaging">Packaging Design</option>
-                      <option value="illustration">Custom Illustration</option>
-                      <option value="infographic">Infographic Design</option>
-                      <option value="email">Email Design</option>
-                      <option value="banner">Banner & Ad Design</option>
-                      <option value="book">Book & Magazine Design</option>
-                      <option value="merchandise">Merchandise Design</option>
-                      <option value="signage">Signage & Environmental Design</option>
-                      <option value="3d">3D Design & Rendering</option>
+                      <option value="Logo Design">Logo Design</option>
+                      <option value="Brand Identity">Brand Identity</option>
+                      <option value="Social Media Graphics">Social Media Graphics</option>
+                      <option value="Marketing Materials">Marketing Materials</option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
 
                   <div className="space-y-4">
                     <label className="block text-lg font-medium text-gray-700">Timeline</label>
-                    <select 
+                    <select
                       name="timeline"
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                       required
                     >
                       <option value="">Select Timeline</option>
-                      <option value="urgent">Urgent (1-2 days)</option>
-                      <option value="normal">Normal (3-5 days)</option>
-                      <option value="relaxed">Relaxed (1-2 weeks)</option>
+                      <option value="Urgent (1-2 days)">Urgent (1-2 days)</option>
+                      <option value="Standard (3-5 days)">Standard (3-5 days)</option>
+                      <option value="Relaxed (1-2 weeks)">Relaxed (1-2 weeks)</option>
+                      <option value="No Rush">No Rush</option>
                     </select>
                   </div>
                 </div>
@@ -832,102 +784,73 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
 
                 {/* Brand Assets */}
                 <div className="space-y-4">
-                  <label className="block text-lg font-medium text-gray-700">Brand Assets</label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                      <p className="text-gray-600">Brand Colors (if any)</p>
-                      <div className="flex flex-col space-y-3">
-                        <div className="flex items-center gap-3">
-                          <input 
-                            type="color" 
-                            name="color1" 
-                            value={colors.color1}
-                            onChange={(e) => handleColorChange(e, 'color1')}
-                            className="w-12 h-12 rounded border border-gray-200" 
-                          />
-                          <input
-                            type="text"
-                            name="color1_hex"
-                            value={colors.color1}
-                            onChange={(e) => handleHexChange(e, 'color1')}
-                            placeholder="Enter hex code (e.g. #FF5400)"
-                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                          />
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <input 
-                            type="color" 
-                            name="color2" 
-                            value={colors.color2}
-                            onChange={(e) => handleColorChange(e, 'color2')}
-                            className="w-12 h-12 rounded border border-gray-200" 
-                          />
-                          <input
-                            type="text"
-                            name="color2_hex"
-                            value={colors.color2}
-                            onChange={(e) => handleHexChange(e, 'color2')}
-                            placeholder="Enter hex code (e.g. #1E293B)"
-                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                          />
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <input 
-                            type="color" 
-                            name="color3" 
-                            value={colors.color3}
-                            onChange={(e) => handleColorChange(e, 'color3')}
-                            className="w-12 h-12 rounded border border-gray-200" 
-                          />
-                          <input
-                            type="text"
-                            name="color3_hex"
-                            value={colors.color3}
-                            onChange={(e) => handleHexChange(e, 'color3')}
-                            placeholder="Enter hex code (e.g. #B08968)"
-                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                          />
-                        </div>
+                  <h3 className="text-lg font-medium text-gray-700">Brand Colors</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">Primary Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          name="color1"
+                          value={colors.color1}
+                          onChange={(e) => handleColorChange(e, 'color1')}
+                          className="h-10 w-10 rounded border border-gray-300"
+                        />
+                        <input
+                          type="text"
+                          value={colors.color1.toUpperCase()}
+                          onChange={(e) => handleHexChange(e, 'color1')}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          placeholder="#000000"
+                        />
                       </div>
                     </div>
-                    <div className="space-y-4">
-                      <p className="text-gray-600">Upload Files (Logo, Brand Guide, etc.)</p>
-                      <div className="flex items-center justify-center w-full">
-                        <label className="w-full flex flex-col items-center px-4 py-6 bg-white rounded-lg border-2 border-gray-200 border-dashed cursor-pointer hover:border-primary transition-colors group">
-                          <div className="flex flex-col items-center justify-center">
-                            <svg className="w-8 h-8 text-gray-400 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                            </svg>
-                            <span className="mt-2 text-gray-600 group-hover:text-primary">Drop files here or click to upload</span>
-                            {selectedFiles.length > 0 && (
-                              <div className="mt-4 text-sm text-gray-500">
-                                {selectedFiles.map((file, index) => (
-                                  <div key={index} className="flex items-center gap-2">
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    {file.name}
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                          <input
-                            type="file"
-                            name="files"
-                            onChange={handleFileChange}
-                            className="hidden"
-                            multiple
-                            accept=".pdf,.jpg,.png,.ai,.psd"
-                          />
-                        </label>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">Secondary Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          name="color2"
+                          value={colors.color2}
+                          onChange={(e) => handleColorChange(e, 'color2')}
+                          className="h-10 w-10 rounded border border-gray-300"
+                        />
+                        <input
+                          type="text"
+                          value={colors.color2.toUpperCase()}
+                          onChange={(e) => handleHexChange(e, 'color2')}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          placeholder="#000000"
+                        />
                       </div>
-                      {selectedFiles.length > 0 && (
-                        <div className="text-sm text-gray-500">
-                          {selectedFiles.length} file(s) selected
-                        </div>
-                      )}
                     </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">Accent Color</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="color"
+                          name="color3"
+                          value={colors.color3}
+                          onChange={(e) => handleColorChange(e, 'color3')}
+                          className="h-10 w-10 rounded border border-gray-300"
+                        />
+                        <input
+                          type="text"
+                          value={colors.color3.toUpperCase()}
+                          onChange={(e) => handleHexChange(e, 'color3')}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
+                          placeholder="#000000"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4">
+                    <p className="text-sm text-gray-500">
+                      Choose your brand colors or leave them as default. These colors will help us maintain consistency in your design.
+                    </p>
                   </div>
                 </div>
 
@@ -957,28 +880,13 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
                 </div>
 
                 {/* Submit Button */}
-                <div className="text-center pt-4">
+                <div className="mt-8">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full sm:w-auto inline-flex items-center justify-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-primary to-[#FFB840] text-white rounded-full hover:shadow-xl hover:translate-y-[-2px] transition-all duration-300 text-base md:text-lg font-medium group disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Submitting...
-                      </>
-                    ) : (
-                      <>
-                        Submit Project Details
-                        <svg className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </>
-                    )}
+                    {isSubmitting ? 'Sending...' : 'Submit Project Details'}
                   </button>
                 </div>
               </form>

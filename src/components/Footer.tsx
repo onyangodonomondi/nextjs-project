@@ -4,26 +4,26 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary text-white py-16">
-      <div className="container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <footer className="bg-[#0A2647] text-white py-16">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-semibold mb-6">Mocky Digital</h3>
-            <p className="text-gray-300 mb-6">
+            <h3 className="text-orange-500 font-semibold text-lg mb-4">Mocky Digital</h3>
+            <p className="text-gray-300 text-sm mb-4">
               Professional Digital Agency offering Graphics Design, Web Development, and Digital Marketing services in Kenya.
             </p>
-            <div className="flex space-x-4">
-              <a href="https://facebook.com/mockydigital" className="text-gray-300 hover:text-white transition-colors">
+            <div className="flex gap-4">
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <i className="fab fa-facebook-f"></i>
               </a>
-              <a href="https://twitter.com/mockydigital" className="text-gray-300 hover:text-white transition-colors">
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <i className="fab fa-twitter"></i>
               </a>
-              <a href="https://instagram.com/mockydigital" className="text-gray-300 hover:text-white transition-colors">
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <i className="fab fa-instagram"></i>
               </a>
-              <a href="https://linkedin.com/company/mockydigital" className="text-gray-300 hover:text-white transition-colors">
+              <a href="#" className="text-gray-300 hover:text-white transition-colors">
                 <i className="fab fa-linkedin-in"></i>
               </a>
             </div>
@@ -31,20 +31,20 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-semibold mb-6">Quick Links</h3>
-            <ul className="space-y-4">
+            <h3 className="text-orange-500 font-semibold text-lg mb-4">Quick Links</h3>
+            <ul className="space-y-2">
               <li>
                 <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/capabilities" className="text-gray-300 hover:text-white transition-colors">
                   Our Services
                 </Link>
               </li>
               <li>
-                <Link href="/graphics" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/portfolio" className="text-gray-300 hover:text-white transition-colors">
                   Portfolio
                 </Link>
               </li>
@@ -58,8 +58,8 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="text-xl font-semibold mb-6">Services</h3>
-            <ul className="space-y-4">
+            <h3 className="text-orange-500 font-semibold text-lg mb-4">Services</h3>
+            <ul className="space-y-2">
               <li>
                 <Link href="/graphics" className="text-gray-300 hover:text-white transition-colors">
                   Graphics Design
@@ -85,34 +85,32 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-xl font-semibold mb-6">Contact Us</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start space-x-3">
-                <i className="fas fa-map-marker-alt mt-1"></i>
-                <span className="text-gray-300">Nairobi, Kenya</span>
+            <h3 className="text-orange-500 font-semibold text-lg mb-4">Contact Us</h3>
+            <ul className="space-y-2">
+              <li className="text-gray-300">
+                <i className="fas fa-map-marker-alt mr-2"></i> Nairobi, Kenya
               </li>
-              <li className="flex items-center space-x-3">
-                <i className="fas fa-phone"></i>
+              <li>
                 <a href="tel:+254741590670" className="text-gray-300 hover:text-white transition-colors">
-                  +254 741 590 670
+                  <i className="fas fa-phone mr-2"></i> +254 741 590 670
                 </a>
               </li>
-              <li className="flex items-center space-x-3">
-                <i className="fas fa-envelope"></i>
+              <li>
                 <a href="mailto:info@mockydigital.com" className="text-gray-300 hover:text-white transition-colors">
-                  info@mockydigital.com
+                  <i className="fas fa-envelope mr-2"></i> info@mockydigital.com
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm mb-4 md:mb-0">
+        {/* Bottom Bar */}
+        <div className="mt-12 pt-8 border-t border-gray-700">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-gray-400 text-sm">
               © {currentYear} Mocky Digital. All rights reserved.
             </p>
-            <div className="flex space-x-6">
+            <div className="flex gap-4">
               <Link href="/terms" className="text-gray-400 hover:text-white text-sm transition-colors">
                 Terms & Conditions
               </Link>
