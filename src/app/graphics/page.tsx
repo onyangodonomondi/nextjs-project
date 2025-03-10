@@ -22,6 +22,9 @@ import Link from 'next/link';
 // Import Swiper as SwiperType
 import { Swiper as SwiperType } from 'swiper';
 
+// Import Toaster and toast
+import { Toaster, toast } from 'react-hot-toast';
+
 // Sample portfolio works
 const portfolioWorks = [
   { id: 1, image: '/images/works/work1.jpg', category: 'Branding' },
@@ -80,7 +83,44 @@ function getRandomImages(count: number) {
   return shuffled.slice(0, count);
 }
 
+// Constants can stay outside the component
+const projectTypes = [
+  'Logo Design',
+  'Business Cards',
+  'Letterheads',
+  'Envelopes',
+  'Invoice/Quotations',
+  'Complimentary Slips',
+  'Brand Manual',
+  'Email Signatures',
+  'Brand Strategy',
+  'Social Media Graphics',
+  'Marketing Materials',
+  'Packaging Design',
+  'Brochures & Flyers',
+  'Posters & Banners',
+  'PowerPoint Templates',
+  'Menu Design',
+  'Book Covers',
+  'Magazine Layout'
+];
+
+const timelineOptions = [
+  'Urgent (24 hours)',
+  'Standard (2-3 days)',
+  'Regular (3-5 days)',
+  'Extended (1 week+)'
+];
+
 export default function Graphics() {
+  // Move state declarations inside the component
+  const [selectedProject, setSelectedProject] = useState('');
+  const [selectedTimeline, setSelectedTimeline] = useState('');
+  const [colors, setColors] = useState({
+    primary: '#000000',
+    secondary: '#000000',
+    accent: '#000000'
+  });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -88,11 +128,6 @@ export default function Graphics() {
   const menuRef = useRef<HTMLDivElement>(null);
   const [randomImages] = useState(() => getRandomImages(6));
   const swiperRef = useRef<SwiperType>();
-  const [colors, setColors] = useState({
-    color1: '#000000',
-    color2: '#000000',
-    color3: '#000000'
-  });
   const [isMobile, setIsMobile] = useState(false);
 
   // Add useEffect to handle mobile detection
@@ -193,23 +228,11 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
     setTimeout(() => setCopiedText(null), 2000);
   };
 
-  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>, colorKey: string) => {
-    const newColor = e.target.value.toUpperCase();
-    setColors(prev => ({ ...prev, [colorKey]: newColor }));
-  };
-
-  const handleHexChange = (e: React.ChangeEvent<HTMLInputElement>, colorKey: string) => {
-    let hex = e.target.value;
-    // Always update the text input value
-    setColors(prev => ({ ...prev, [colorKey]: hex }));
-    
-    // Only update the color picker if it's a valid hex
-    if (hex.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)) {
-      // If user didn't type #, add it
-      if (!hex.startsWith('#')) {
-        hex = '#' + hex;
-      }
-      setColors(prev => ({ ...prev, [colorKey]: hex }));
+  const handleColorChange = (type: 'primary' | 'secondary' | 'accent', value: string) => {
+    // Validate hex color
+    const isValidHex = /^#[0-9A-F]{6}$/i.test(value);
+    if (isValidHex || value.length <= 7) {
+      setColors(prev => ({ ...prev, [type]: value }));
     }
   };
 
@@ -223,8 +246,21 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, []);
 
+  // First, add this function at the top of your component
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      // Use a simple alert for now
+      alert('Copied to clipboard!');
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+      alert('Failed to copy to clipboard');
+    }
+  };
+
   return (
     <>
+      <Toaster />
       {/* Navigation Header */}
       <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-lg">
         <div className="w-full px-4">
@@ -491,547 +527,707 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
           </div>
         </section>
 
-        {/* Services Section - Simple */}
-        <section className="py-12 md:py-16 lg:py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Our Services
-            </h2>
-          </div>
-          
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay]}
-            spaceBetween={24}
-            slidesPerView="auto"
-            loop={true}
-            autoplay={!isMobile ? {
-              delay: 3000,
-              disableOnInteraction: true,
-              pauseOnMouseEnter: true
-            } : false}
-            allowTouchMove={false}
-            touchRatio={0}
-            simulateTouch={false}
-            preventInteractionOnTransition={true}
-            touchStartPreventDefault={true}
-            nested={true}
-            observer={true}
-            observeParents={true}
-            className="services-slider !touch-none"
-            onSwiper={(swiper) => {
-              swiperRef.current = swiper;
-            }}
-            onBeforeDestroy={(swiper) => {
-              swiper.autoplay?.stop();
-            }}
-          >
-            {services.map((service) => (
-              <SwiperSlide 
-                key={service.title} 
-                className="!w-[280px] sm:!w-[400px] md:!w-[600px] lg:!w-[700px]"
-              >
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className="group"
-                >
-                  <div className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 mb-4">
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 280px, (max-width: 768px) 400px, (max-width: 1024px) 600px, 700px"
-                      priority
-                    />
-                  </div>
-                  <div className="text-center px-4">
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-                      {service.title}
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-600">
-                      {service.description}
-                    </p>
-                  </div>
-                </motion.div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </section>
-
-        {/* Getting Started Section */}
-        <section className="py-12 md:py-20 bg-[#1E293B] w-full">
+        {/* Services Section */}
+        <section className="bg-white py-16 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-10 md:mb-16">
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="inline-block px-3 py-1.5 md:px-4 bg-white/20 rounded-full text-white text-xs md:text-sm font-medium mb-4"
-              >
-                START YOUR JOURNEY
-              </motion.span>
+            <div className="max-w-3xl mx-auto mb-16">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4"
+                className="text-3xl md:text-4xl font-bold text-[#0A2647] text-center mb-6"
               >
-                Fill the form to get started
+                Our Design Services
               </motion.h2>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-gray-300 max-w-xl mx-auto text-sm md:text-base"
+                className="text-lg text-gray-600 text-center"
               >
-                Begin your design journey with us in three simple steps
+                Professional design solutions for your brand
               </motion.p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto">
-              {/* Project Requirements Card */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+            {/* Services Grid */}
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Each service card */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="bg-white/[0.05] backdrop-blur-lg rounded-xl md:rounded-2xl p-6 md:p-8 border border-white/[0.08] hover:border-white/[0.15] transition-colors group"
+                className="group"
               >
-                <div className="flex items-start gap-4 md:gap-6">
-                  <div className="p-3 md:p-4 bg-[#FF5400]/20 rounded-xl shrink-0">
-                    <svg className="w-6 h-6 md:w-8 md:h-8 text-[#FF5400]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 text-white">Step 1: Project Requirements</h3>
-                    <ul className="space-y-3 md:space-y-4">
-                      {[
-                        'Your Business Name',
-                        'Nature of Business/Products/Services',
-                        'Design Ideas or Sketches (if any)'
-                      ].map((item, index) => (
-                        <li key={index} className="flex items-center text-gray-200 gap-3 group/item text-sm md:text-base">
-                          <span className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#FF5400]/30 flex items-center justify-center flex-shrink-0 group-hover/item:bg-[#FF5400]/40 transition-colors">
-                            <svg className="w-3 h-3 md:w-4 md:h-4 text-[#FF5400]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                          </span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div className="relative h-[300px] overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/logo.jpg"
+                    alt="Logo Design"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain transition-transform duration-300 group-hover:scale-105"
+                    priority
+                  />
                 </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Logo Design</h3>
+                <p className="text-gray-600">Professional and memorable logos that represent your brand identity</p>
               </motion.div>
 
-              {/* Payment Details Section */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="bg-white/[0.05] backdrop-blur-lg rounded-xl md:rounded-2xl p-6 md:p-8 border border-white/[0.08] hover:border-white/[0.15] transition-colors"
-              >
-                <div className="flex items-start gap-4 md:gap-6">
-                  <div className="p-3 md:p-4 bg-[#FF5400]/20 rounded-xl shrink-0">
-                    <svg className="w-6 h-6 md:w-8 md:h-8 text-[#FF5400]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg md:text-xl font-semibold text-white mb-4">Step 2: M-PESA Payment</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <p className="text-gray-400 text-sm mb-1">Safaricom M-PESA Paybill</p>
-                        <div className="flex items-center gap-3">
-                          <span className="text-white text-lg font-medium">522533</span>
-                          <button
-                            onClick={() => handleCopy('522533', 'paybill')}
-                            className="text-[#FF5400] hover:text-[#FF5400]/80 transition-colors"
-                          >
-                            {copiedText === 'paybill' ? (
-                              <span className="text-green-400 text-sm">Copied!</span>
-                            ) : (
-                              <span className="text-sm">Copy</span>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-sm mb-1">Account Number</p>
-                        <div className="flex items-center gap-3">
-                          <span className="text-white text-lg font-medium">7934479</span>
-                          <button
-                            onClick={() => handleCopy('7934479', 'account')}
-                            className="text-[#FF5400] hover:text-[#FF5400]/80 transition-colors"
-                          >
-                            {copiedText === 'account' ? (
-                              <span className="text-green-400 text-sm">Copied!</span>
-                            ) : (
-                              <span className="text-sm">Copy</span>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              {/* Business Cards */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/bscards.jpg"
+                    alt="Business Cards"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
                 </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Business Cards</h3>
+                <p className="text-gray-600">Eye-catching business cards that leave a lasting impression</p>
+              </motion.div>
+
+              {/* Brand Manual */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/brandmanual.jpeg"
+                    alt="Brand Manual"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Brand Manual</h3>
+                <p className="text-gray-600">Comprehensive brand guidelines to maintain consistency</p>
+              </motion.div>
+
+              {/* Brochures */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/bronchures.jpeg"
+                    alt="Brochures"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Brochures</h3>
+                <p className="text-gray-600">Informative and visually appealing brochures</p>
+              </motion.div>
+
+              {/* Caps */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/caps.jpeg"
+                    alt="Caps"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Branded Caps</h3>
+                <p className="text-gray-600">Custom designed caps with your brand identity</p>
+              </motion.div>
+
+              {/* Company Profile */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/companyprofile.jpeg"
+                    alt="Company Profile"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Company Profile</h3>
+                <p className="text-gray-600">Professional company profiles that showcase your business</p>
+              </motion.div>
+
+              {/* Email Signature */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/emailsignature.jpeg"
+                    alt="Email Signature"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Email Signature</h3>
+                <p className="text-gray-600">Professional email signatures for your business communications</p>
+              </motion.div>
+
+              {/* Fliers */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/fliers.jpeg"
+                    alt="Fliers"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Fliers</h3>
+                <p className="text-gray-600">Eye-catching fliers for your events and promotions</p>
+              </motion.div>
+
+              {/* Layered */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/layered.jpeg"
+                    alt="Layered Designs"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Layered Designs</h3>
+                <p className="text-gray-600">Complex layered designs for various applications</p>
+              </motion.div>
+
+              {/* Letterhead */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/letterhead.jpg"
+                    alt="Letterhead"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Letterhead</h3>
+                <p className="text-gray-600">Professional letterheads for your business correspondence</p>
+              </motion.div>
+
+              {/* Merchandise */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/merchandise.jpg"
+                    alt="Merchandise"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Merchandise</h3>
+                <p className="text-gray-600">Custom branded merchandise and promotional items</p>
+              </motion.div>
+
+              {/* Notebook */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/notebook.jpeg"
+                    alt="Notebook"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Notebooks</h3>
+                <p className="text-gray-600">Custom designed notebooks and stationery</p>
+              </motion.div>
+
+              {/* Pen */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/pen.jpeg"
+                    alt="Branded Pens"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Branded Pens</h3>
+                <p className="text-gray-600">Custom branded pens for your business</p>
+              </motion.div>
+
+              {/* Roll-up Banners */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/rollupbanners.jpeg"
+                    alt="Roll-up Banners"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Roll-up Banners</h3>
+                <p className="text-gray-600">Professional roll-up banners for events and displays</p>
+              </motion.div>
+
+              {/* Staff ID Cards */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/staffidcards.jpeg"
+                    alt="Staff ID Cards"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Staff ID Cards</h3>
+                <p className="text-gray-600">Professional staff identification cards</p>
+              </motion.div>
+
+              {/* Teardrop Banner */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/teardropbanner.jpeg"
+                    alt="Teardrop Banner"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Teardrop Banners</h3>
+                <p className="text-gray-600">Eye-catching teardrop banners for outdoor advertising</p>
+              </motion.div>
+
+              {/* Wristbands */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/wristbands.jpeg"
+                    alt="Wristbands"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Wristbands</h3>
+                <p className="text-gray-600">Custom designed wristbands for events and branding</p>
+              </motion.div>
+
+              {/* Billboard */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/billboard.jpeg"
+                    alt="Billboard"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Billboard Design</h3>
+                <p className="text-gray-600">Impactful billboard designs for outdoor advertising</p>
+              </motion.div>
+
+              {/* Backdrop */}
+              <motion.div className="group">
+                <div className="aspect-square relative overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/backdrop.jpeg"
+                    alt="Backdrop"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Event Backdrops</h3>
+                <p className="text-gray-600">Custom designed backdrops for events and exhibitions</p>
+              </motion.div>
+
+              {/* Calendar Design */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="group"
+              >
+                <div className="relative h-[300px] overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/calendar.jpeg"
+                    alt="Calendar Design"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain transition-transform duration-300 group-hover:scale-105"
+                    priority
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Calendar Design</h3>
+                <p className="text-gray-600">Custom designed calendars for your business and promotional needs</p>
+              </motion.div>
+
+              {/* T-shirt Design */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="group"
+              >
+                <div className="relative h-[300px] overflow-hidden rounded-xl mb-4">
+                  <Image
+                    src="/images/graphics/samples/tshirts.jpeg"
+                    alt="T-shirt Design"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-contain transition-transform duration-300 group-hover:scale-105"
+                    priority
+                  />
+                </div>
+                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">T-shirt Design</h3>
+                <p className="text-gray-600">Custom designed t-shirts for your brand, events, or team uniforms</p>
               </motion.div>
             </div>
-
-            {/* Step 3 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mt-8 md:mt-12 text-center max-w-2xl mx-auto px-4"
-            >
-              <h3 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4">Step 3: Project Kickoff</h3>
-              <p className="text-sm md:text-base text-gray-300">
-                Once payment is confirmed, our team will reach out to you within 24 hours to begin your project. We'll work closely with you to ensure your design needs are met with excellence.
-              </p>
-            </motion.div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center text-gray-300 mt-12 md:mt-16 max-w-2xl mx-auto italic text-sm md:text-base px-4"
-            >
-              We assure you that your investment is in good hands, and we are committed to delivering designs that exceed your expectations.
-            </motion.p>
           </div>
         </section>
 
-        {/* Project Details Form Section */}
-        <section className="py-12 md:py-16 lg:py-20 bg-white">
+        {/* Design Brief Section */}
+        <section className="bg-[#0A2647] py-16 md:py-20">
           <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-4xl mx-auto"
-            >
-              <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Project Type & Timeline */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-4">
-                    <label className="block text-lg font-medium text-gray-700">Project Type</label>
-                    <select
-                      name="projectType"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                      required
-                    >
-                      <option value="">Select Project Type</option>
-                      <option value="Logo Design">Logo Design</option>
-                      <option value="Brand Identity">Brand Identity</option>
-                      <option value="Social Media Graphics">Social Media Graphics</option>
-                      <option value="Marketing Materials">Marketing Materials</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
+            {/* Title Section */}
+            <div className="max-w-3xl mx-auto mb-16">
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-4xl font-bold text-white text-center mb-6"
+              >
+                Let's Bring Your Vision to Life
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-lg text-gray-300 text-center"
+              >
+                Share your project details with us, and let our expert designers create something exceptional for your brand
+              </motion.p>
+            </div>
 
-                  <div className="space-y-4">
-                    <label className="block text-lg font-medium text-gray-700">Timeline</label>
-                    <select
-                      name="timeline"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                      required
-                    >
-                      <option value="">Select Timeline</option>
-                      <option value="Urgent (1-2 days)">Urgent (1-2 days)</option>
-                      <option value="Standard (3-5 days)">Standard (3-5 days)</option>
-                      <option value="Relaxed (1-2 weeks)">Relaxed (1-2 weeks)</option>
-                      <option value="No Rush">No Rush</option>
-                    </select>
-                  </div>
+            {/* Form Container */}
+            <div className="max-w-4xl mx-auto space-y-12">
+              {/* Project Type & Timeline */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="block text-white font-medium">Design Service</label>
+                  <select 
+                    className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
+                    value={selectedProject}
+                    onChange={(e) => setSelectedProject(e.target.value)}
+                  >
+                    <option value="" className="text-gray-900">Select Design Service</option>
+                    {projectTypes.map((type) => (
+                      <option key={type} value={type} className="text-gray-900">{type}</option>
+                    ))}
+                  </select>
                 </div>
-
-                {/* Brand Details */}
-                <div className="space-y-4">
-                  <label className="block text-lg font-medium text-gray-700">Brand Details</label>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <input
-                      type="text"
-                      name="brandName"
-                      placeholder="Brand Name"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                      required
-                    />
-                    <input
-                      type="text"
-                      name="industry"
-                      placeholder="Industry"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                      required
-                    />
-                    <input
-                      type="url"
-                      name="website"
-                      placeholder="Website (if any)"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                    />
-                  </div>
+                <div className="space-y-2">
+                  <label className="block text-white font-medium">Preferred Timeline</label>
+                  <select 
+                    className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
+                    value={selectedTimeline}
+                    onChange={(e) => setSelectedTimeline(e.target.value)}
+                  >
+                    <option value="" className="text-gray-900">Select Timeline</option>
+                    {timelineOptions.map((timeline) => (
+                      <option key={timeline} value={timeline} className="text-gray-900">{timeline}</option>
+                    ))}
+                  </select>
                 </div>
+              </div>
 
-                {/* Project Description */}
-                <div className="space-y-4">
-                  <label className="block text-lg font-medium text-gray-700">Project Description</label>
-                  <textarea
-                    name="description"
-                    rows={4}
-                    placeholder="Describe your project requirements, goals, and any specific preferences..."
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                    required
-                  ></textarea>
-                </div>
-
-                {/* Brand Assets */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-medium text-gray-700">Brand Colors</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-2">Primary Color</label>
-                      <div className="flex gap-2">
-                        <input
-                          type="color"
-                          name="color1"
-                          value={colors.color1}
-                          onChange={(e) => handleColorChange(e, 'color1')}
-                          className="h-10 w-10 rounded border border-gray-300"
-                        />
-                        <input
-                          type="text"
-                          value={colors.color1.toUpperCase()}
-                          onChange={(e) => handleHexChange(e, 'color1')}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
-                          placeholder="#000000"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-2">Secondary Color</label>
-                      <div className="flex gap-2">
-                        <input
-                          type="color"
-                          name="color2"
-                          value={colors.color2}
-                          onChange={(e) => handleColorChange(e, 'color2')}
-                          className="h-10 w-10 rounded border border-gray-300"
-                        />
-                        <input
-                          type="text"
-                          value={colors.color2.toUpperCase()}
-                          onChange={(e) => handleHexChange(e, 'color2')}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
-                          placeholder="#000000"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-2">Accent Color</label>
-                      <div className="flex gap-2">
-                        <input
-                          type="color"
-                          name="color3"
-                          value={colors.color3}
-                          onChange={(e) => handleColorChange(e, 'color3')}
-                          className="h-10 w-10 rounded border border-gray-300"
-                        />
-                        <input
-                          type="text"
-                          value={colors.color3.toUpperCase()}
-                          onChange={(e) => handleHexChange(e, 'color3')}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
-                          placeholder="#000000"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4">
-                    <p className="text-sm text-gray-500">
-                      Choose your brand colors or leave them as default. These colors will help us maintain consistency in your design.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Contact Information */}
+              {/* Brand Information */}
+              <div className="space-y-4">
+                <h3 className="text-white font-medium text-lg mb-4">Tell Us About Your Brand</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <input
                     type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                    required
+                    placeholder="Business Name"
+                    className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white placeholder-gray-400"
                   />
                   <input
-                    type="email"
-                    name="email"
-                    placeholder="Email Address"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                    required
+                    type="text"
+                    placeholder="Industry/Business Type"
+                    className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white placeholder-gray-400"
                   />
                   <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Phone Number"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                    required
+                    type="text"
+                    placeholder="Website (Optional)"
+                    className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white placeholder-gray-400"
                   />
                 </div>
+              </div>
 
-                {/* Submit Button */}
-                <div className="mt-8">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? 'Sending...' : 'Submit Project Details'}
-                  </button>
+              {/* Design Brief */}
+              <div className="space-y-2">
+                <label className="block text-white font-medium">Design Brief</label>
+                <textarea
+                  rows={4}
+                  placeholder="Share your vision, specific requirements, or any design preferences. The more details you provide, the better we can understand your needs."
+                  className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white placeholder-gray-400"
+                ></textarea>
+              </div>
+
+              {/* Brand Colors */}
+              <div className="space-y-4">
+                <h3 className="text-white font-medium text-lg mb-4">Brand Colors (Optional)</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <label className="block text-gray-300">Primary Color</label>
+                    <div className="flex gap-3">
+                      <input
+                        type="color"
+                        className="h-[42px] w-16 rounded cursor-pointer bg-white/5"
+                        value={colors.primary}
+                        onChange={(e) => handleColorChange('primary', e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        value={colors.primary}
+                        onChange={(e) => handleColorChange('primary', e.target.value.startsWith('#') ? e.target.value : `#${e.target.value}`)}
+                        placeholder="#000000"
+                        className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="block text-gray-300">Secondary Color</label>
+                    <div className="flex gap-3">
+                      <input
+                        type="color"
+                        className="h-[42px] w-16 rounded cursor-pointer bg-white/5"
+                        value={colors.secondary}
+                        onChange={(e) => handleColorChange('secondary', e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        value={colors.secondary}
+                        onChange={(e) => handleColorChange('secondary', e.target.value.startsWith('#') ? e.target.value : `#${e.target.value}`)}
+                        placeholder="#000000"
+                        className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="block text-gray-300">Accent Color</label>
+                    <div className="flex gap-3">
+                      <input
+                        type="color"
+                        className="h-[42px] w-16 rounded cursor-pointer bg-white/5"
+                        value={colors.accent}
+                        onChange={(e) => handleColorChange('accent', e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        value={colors.accent}
+                        onChange={(e) => handleColorChange('accent', e.target.value.startsWith('#') ? e.target.value : `#${e.target.value}`)}
+                        placeholder="#000000"
+                        className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </form>
-            </motion.div>
+                <p className="text-sm text-gray-400 mt-3">
+                  Specify your brand colors to ensure design consistency, or leave them as default for our designers to propose a color scheme.
+                </p>
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    // WhatsApp message logic...
+                  }}
+                  className="w-full md:w-auto px-8 py-4 bg-[#FF5400] text-white rounded-lg hover:bg-[#FF5400]/90 transition-colors font-medium text-lg"
+                >
+                  Start Your Design Journey
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* How to Get Started Section */}
-        <section className="py-12 md:py-16 lg:py-24 bg-white">
+        {/* Project Requirements Section */}
+        <section className="bg-gray-50 py-16 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-16">
-              {/* Left Side - Title */}
-              <div className="w-full lg:w-1/3 lg:sticky lg:top-32">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="space-y-4 md:space-y-6"
-                >
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary">
-                    Here's how to get started:
-                  </h2>
-                  <motion.div
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+              {/* How It Works - Left Side */}
+              <div>
+                <div className="mb-12">
+                  <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.2 }}
+                    className="text-3xl md:text-4xl font-bold text-[#0A2647] mb-4"
                   >
-                    <Link 
-                      href="/pricing"
-                      className="inline-flex items-center px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-primary to-[#FFB840] text-white rounded-full hover:shadow-xl hover:translate-y-[-2px] transition-all duration-300 text-base md:text-lg font-medium group w-full sm:w-auto justify-center sm:justify-start"
-                    >
-                      SEE OUR PLANS
-                      <svg className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </Link>
-                  </motion.div>
-                </motion.div>
+                    How It Works
+                  </motion.h2>
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-lg text-gray-600"
+                  >
+                    Simple steps to get your design
+                  </motion.p>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-sm p-8">
+                  <div className="space-y-8">
+                    <div className="flex items-center gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold text-lg">
+                        1
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-[#0A2647] text-lg">Submit Your Brief</h4>
+                        <p className="text-gray-600">Fill in the project details and requirements</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold text-lg">
+                        2
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-[#0A2647] text-lg">Make Deposit</h4>
+                        <p className="text-gray-600">Secure your project slot with a small deposit</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold text-lg">
+                        3
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-[#0A2647] text-lg">Review & Feedback</h4>
+                        <p className="text-gray-600">Get your initial designs and provide feedback</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <div className="flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold text-lg">
+                        4
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-[#0A2647] text-lg">Final Delivery</h4>
+                        <p className="text-gray-600">Receive your polished, final design files</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Right Side - Timeline */}
-              <div className="w-full lg:w-2/3">
-                <div className="relative pl-10 sm:pl-12 md:pl-16">
-                  {/* Timeline Line */}
-                  <div className="absolute left-[18px] sm:left-[22px] md:left-[29px] top-[10px] bottom-[10px] w-[2px] bg-gradient-to-b from-primary/5 via-primary/20 to-primary/5" />
+              {/* Make Your Deposit - Right Side */}
+              <div>
+                <div className="mb-12">
+                  <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-3xl md:text-4xl font-bold text-[#0A2647] mb-4"
+                  >
+                    Make Your Deposit
+                  </motion.h2>
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-lg text-gray-600"
+                  >
+                    Secure your project slot with a deposit via M-PESA
+                  </motion.p>
+                </div>
 
-                  {/* Timeline Steps */}
-                  <div className="space-y-6 sm:space-y-8 md:space-y-12">
-                    {[
-                      {
-                        icon: (
-                          <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                          </svg>
-                        ),
-                        title: "Choose a Plan",
-                        description: "Clients select from various plans based on their needs and budget."
-                      },
-                      {
-                        icon: (
-                          <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                          </svg>
-                        ),
-                        title: "Payment",
-                        description: "After selecting a plan, clients proceed to payment."
-                      },
-                      {
-                        icon: (
-                          <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        ),
-                        title: "Onboarding and Brief",
-                        description: "Upon successful payment, a project manager is assigned to the client for onboarding and task clarification. Clients fill out a brief detailing their business and design needs."
-                      },
-                      {
-                        icon: (
-                          <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        ),
-                        title: "Designer Assignment",
-                        description: "A personal designer is assigned to the client after the brief is completed."
-                      },
-                      {
-                        icon: (
-                          <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                          </svg>
-                        ),
-                        title: "Task Creation and Submission",
-                        description: "Clients create and submit tasks, providing necessary materials (logos, texts, images, etc.)"
-                      },
-                      {
-                        icon: (
-                          <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                        ),
-                        title: "Feedback and Revisions",
-                        description: "The designer submits completed tasks for review. Clients review the work, request revisions if needed."
-                      },
-                      {
-                        icon: (
-                          <svg className="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        ),
-                        title: "Task Completion",
-                        description: "Once the client is satisfied, the task is marked as complete."
-                      }
-                    ].map((step, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: index * 0.1 }}
-                        className="relative pl-8 sm:pl-10 md:pl-14"
-                      >
-                        {/* Step Icon Container */}
-                        <div className="absolute left-0 top-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white rounded-full border-2 border-primary flex items-center justify-center shadow-lg text-primary transform -translate-x-1/2">
-                          {/* Icon Wrapper for proper scaling */}
-                          <div className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center">
-                            {step.icon}
-                          </div>
-                        </div>
-                        
-                        {/* Step Content */}
-                        <div className="pt-1.5">
-                          <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 text-primary">
-                            {step.title}
-                          </h3>
-                          <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed">
-                            {step.description}
-                          </p>
-                        </div>
-                      </motion.div>
-                    ))}
+                <div className="bg-white rounded-xl shadow-sm p-8 border border-gray-100">
+                  {/* M-PESA Header */}
+                  <div className="flex items-center gap-6 mb-8 pb-6 border-b border-gray-100">
+                    <div className="p-4 bg-[#FF5400]/10 rounded-xl">
+                      <i className="fas fa-money-bill-wave text-3xl text-[#FF5400]"></i>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-2xl text-[#0A2647] mb-2">M-PESA Payment</h3>
+                      <p className="text-gray-600">Follow these simple steps to make your deposit</p>
+                    </div>
                   </div>
+
+                  {/* Payment Steps */}
+                  <div className="space-y-6 mb-8">
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-8 h-8 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold">
+                        1
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Go to M-PESA on your phone</p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-8 h-8 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold">
+                        2
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Select Pay Bill option</p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="flex-shrink-0 w-8 h-8 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold">
+                        3
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Enter Business number and Account number below</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Payment Details */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-lg">
+                    <div>
+                      <label className="text-sm text-gray-600 block mb-2">Business Number</label>
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl font-semibold text-[#0A2647]">522533</span>
+                        <button 
+                          onClick={() => copyToClipboard('522533')}
+                          className="text-[#FF5400] hover:text-[#FF5400]/80 text-sm flex items-center gap-1"
+                        >
+                          <i className="fas fa-copy"></i>
+                          Copy
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-sm text-gray-600 block mb-2">Account Number</label>
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl font-semibold text-[#0A2647]">7934479</span>
+                        <button 
+                          onClick={() => copyToClipboard('7934479')}
+                          className="text-[#FF5400] hover:text-[#FF5400]/80 text-sm flex items-center gap-1"
+                        >
+                          <i className="fas fa-copy"></i>
+                          Copy
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Transaction Confirmation */}
+                  <div className="mt-8 p-6 bg-[#FF5400]/5 rounded-lg border border-[#FF5400]/10">
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-[#FF5400]/10 rounded-lg mt-1">
+                        <i className="fas fa-info-circle text-[#FF5400]"></i>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-[#0A2647] mb-2">Share Your Transaction</h4>
+                        <p className="text-gray-600 text-sm leading-relaxed">
+                          After making your payment, please share the M-PESA transaction message with us on WhatsApp 
+                          <a 
+                            href="https://wa.me/254741590670" 
+                            className="text-[#FF5400] hover:text-[#FF5400]/80 font-medium ml-1"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            (+254 741 590 670)
+                          </a>. 
+                          This will help us confirm your payment and begin your project immediately.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Note */}
+                  <p className="text-sm text-gray-500 mt-6 text-center">
+                    Once payment is complete, you will receive a confirmation message from M-PESA
+                  </p>
                 </div>
               </div>
             </div>

@@ -16,6 +16,7 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    domains: [], // Add any external domains if needed
   },
   // Add any other Next.js configuration options here
 };
