@@ -130,6 +130,19 @@ export default function Graphics() {
   const swiperRef = useRef<SwiperType>();
   const [isMobile, setIsMobile] = useState(false);
 
+  // Add state for form fields
+  const [formData, setFormData] = useState({
+    businessName: '',
+    businessType: '',
+    website: '',
+    designBrief: '',
+    colors: {
+      primary: '',
+      secondary: '',
+      accent: ''
+    }
+  });
+
   // Add useEffect to handle mobile detection
   useEffect(() => {
     const checkMobile = () => {
@@ -258,34 +271,44 @@ Files: ${selectedFiles.map(file => file.name).join(', ') || 'No files attached'}
     }
   };
 
-  const handleStartJourney = (formData: {
-    businessName: string;
-    businessType: string;
-    website: string;
-    designBrief: string;
-    colors: {
-      primary: string;
-      secondary: string;
-      accent: string;
-    };
-  }) => {
+  // Handle input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    if (name.startsWith('color')) {
+      setFormData(prev => ({
+        ...prev,
+        colors: {
+          ...prev.colors,
+          [name.replace('color', '').toLowerCase()]: value
+        }
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
+
+  // Update the WhatsApp button
+  const handleStartJourney = (data: typeof formData) => {
     const message = encodeURIComponent(
       `Hello! I'd like to start my design journey with you.
-      
+
+I will make the deposit to the provided paybill on the website to make the communication official.
+
 Business Details:
-- Name: ${formData.businessName}
-- Type: ${formData.businessType}
-- Website: ${formData.website}
+- Name: ${data.businessName}
+- Type: ${data.businessType}
+${data.website ? `- Website: ${data.website}` : ''}
 
 Design Brief:
-${formData.designBrief}
+${data.designBrief}
 
-Brand Colors:
-- Primary: ${formData.colors.primary}
-- Secondary: ${formData.colors.secondary}
-- Accent: ${formData.colors.accent}
-
-Remember, you need to make a deposit for the communication to be considered Official.`
+${data.colors.primary || data.colors.secondary || data.colors.accent ? `Brand Colors:
+${data.colors.primary ? `- Primary: ${data.colors.primary}` : ''}
+${data.colors.secondary ? `- Secondary: ${data.colors.secondary}` : ''}
+${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
     );
 
     const whatsappUrl = `https://wa.me/254741590670?text=${message}`;
@@ -443,17 +466,7 @@ Remember, you need to make a deposit for the communication to be considered Offi
                   className="pt-2 md:pt-4"
                 >
                   <button
-                    onClick={() => handleStartJourney({
-                      businessName: '',
-                      businessType: '',
-                      website: '',
-                      designBrief: '',
-                      colors: {
-                        primary: colors.primary,
-                        secondary: colors.secondary,
-                        accent: colors.accent
-                      }
-                    })}
+                    onClick={() => handleStartJourney(formData)}
                     className="bg-[#FF5400] hover:bg-[#FF5400]/90 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-300"
                   >
                     Start Your Design Journey
@@ -971,16 +984,25 @@ Remember, you need to make a deposit for the communication to be considered Offi
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <input
                     type="text"
+                    name="businessName"
+                    value={formData.businessName}
+                    onChange={handleInputChange}
                     placeholder="Business Name"
                     className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white placeholder-gray-400"
                   />
                   <input
                     type="text"
+                    name="businessType"
+                    value={formData.businessType}
+                    onChange={handleInputChange}
                     placeholder="Industry/Business Type"
                     className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white placeholder-gray-400"
                   />
                   <input
                     type="text"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleInputChange}
                     placeholder="Website (Optional)"
                     className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white placeholder-gray-400"
                   />
@@ -991,7 +1013,9 @@ Remember, you need to make a deposit for the communication to be considered Offi
               <div className="space-y-2">
                 <label className="block text-white font-medium">Design Brief</label>
                 <textarea
-                  rows={4}
+                  name="designBrief"
+                  value={formData.designBrief}
+                  onChange={handleInputChange}
                   placeholder="Share your vision, specific requirements, or any design preferences. The more details you provide, the better we can understand your needs."
                   className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white placeholder-gray-400"
                 ></textarea>
@@ -1007,13 +1031,14 @@ Remember, you need to make a deposit for the communication to be considered Offi
                       <input
                         type="color"
                         className="h-[42px] w-16 rounded cursor-pointer bg-white/5"
-                        value={colors.primary}
-                        onChange={(e) => handleColorChange('primary', e.target.value)}
+                        value={formData.colors.primary}
+                        onChange={(e) => handleInputChange(e)}
                       />
                       <input
                         type="text"
-                        value={colors.primary}
-                        onChange={(e) => handleColorChange('primary', e.target.value.startsWith('#') ? e.target.value : `#${e.target.value}`)}
+                        name="colorPrimary"
+                        value={formData.colors.primary}
+                        onChange={(e) => handleInputChange(e)}
                         placeholder="#000000"
                         className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
                       />
@@ -1025,13 +1050,14 @@ Remember, you need to make a deposit for the communication to be considered Offi
                       <input
                         type="color"
                         className="h-[42px] w-16 rounded cursor-pointer bg-white/5"
-                        value={colors.secondary}
-                        onChange={(e) => handleColorChange('secondary', e.target.value)}
+                        value={formData.colors.secondary}
+                        onChange={(e) => handleInputChange(e)}
                       />
                       <input
                         type="text"
-                        value={colors.secondary}
-                        onChange={(e) => handleColorChange('secondary', e.target.value.startsWith('#') ? e.target.value : `#${e.target.value}`)}
+                        name="colorSecondary"
+                        value={formData.colors.secondary}
+                        onChange={(e) => handleInputChange(e)}
                         placeholder="#000000"
                         className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
                       />
@@ -1043,13 +1069,14 @@ Remember, you need to make a deposit for the communication to be considered Offi
                       <input
                         type="color"
                         className="h-[42px] w-16 rounded cursor-pointer bg-white/5"
-                        value={colors.accent}
-                        onChange={(e) => handleColorChange('accent', e.target.value)}
+                        value={formData.colors.accent}
+                        onChange={(e) => handleInputChange(e)}
                       />
                       <input
                         type="text"
-                        value={colors.accent}
-                        onChange={(e) => handleColorChange('accent', e.target.value.startsWith('#') ? e.target.value : `#${e.target.value}`)}
+                        name="colorAccent"
+                        value={formData.colors.accent}
+                        onChange={(e) => handleInputChange(e)}
                         placeholder="#000000"
                         className="w-full px-4 py-3.5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#FF5400] focus:border-[#FF5400] bg-white/5 text-white"
                       />
@@ -1065,17 +1092,7 @@ Remember, you need to make a deposit for the communication to be considered Offi
               <div className="pt-4">
                 <button
                   type="button"
-                  onClick={() => handleStartJourney({
-                    businessName: '',
-                    businessType: '',
-                    website: '',
-                    designBrief: '',
-                    colors: {
-                      primary: colors.primary,
-                      secondary: colors.secondary,
-                      accent: colors.accent
-                    }
-                  })}
+                  onClick={() => handleStartJourney(formData)}
                   className="bg-[#FF5400] hover:bg-[#FF5400]/90 text-white px-8 py-4 rounded-lg font-medium text-lg transition-all duration-300"
                 >
                   Start Your Design Journey
