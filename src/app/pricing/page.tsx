@@ -139,153 +139,153 @@ const pricingPlans = {
   ]
 };
 
+// Type definitions
+type ServiceType = 'All' | 'Design' | 'Print' | 'Design & Print';
+
+const priceList = [
+  { no: '01', description: 'Company Profile', price: '5000', type: 'Design' },
+  { no: '02', description: 'Logo design', price: '1500', type: 'Design' },
+  { no: '03', description: 'Business card design', price: '500', type: 'Design' },
+  { no: '04', description: '100 Pcs Bs Card Print', price: '1000', type: 'Print' },
+  { no: '05', description: 'Letterhead design', price: '500', type: 'Design' },
+  { no: '06', description: 'Receipt design', price: '500', type: 'Design' },
+  { no: '07', description: 'Invoice design', price: '500', type: 'Design' },
+  { no: '08', description: 'Quotation design', price: '500', type: 'Design' },
+  { no: '09', description: 'Single Flier design', price: '500', type: 'Design' },
+  { no: '10', description: '10 Fliers design package', price: '3000', type: 'Design' },
+  { no: '11', description: 'Rollup Banner (Design & Print)', price: '8000', type: 'Design & Print' },
+  { no: '12', description: 'Brochure design', price: '1000', type: 'Design' },
+  { no: '13', description: 'Banner/Sticker design', price: '500', type: 'Design' },
+  { no: '14', description: 'Banner/Sticker print (per m²)', price: '600', type: 'Print' },
+  { no: '15', description: 'Packaging design', price: '3000', type: 'Design' },
+  { no: '16', description: 'Poster design', price: '1000', type: 'Design' },
+  { no: '17', description: 'Certificate design', price: '1000', type: 'Design' },
+];
+
 export default function Pricing() {
-  const [selectedService, setSelectedService] = useState<'graphics' | 'web' | 'social'>('graphics');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedType, setSelectedType] = useState<ServiceType>('All');
+  
+  // Enhanced filtering logic
+  const filteredPriceList = priceList.filter(item => {
+    const matchesSearch = item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         item.type.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = selectedType === 'All' || item.type === selectedType;
+    return matchesSearch && matchesType;
+  });
+
+  // Get unique types for filter buttons
+  const serviceTypes: ServiceType[] = ['All', 'Design', 'Print', 'Design & Print'];
 
   return (
     <>
       <Navbar />
       <main className="pt-24">
         <PageHero 
-          title="Pricing Plans"
-          description="Flexible pricing options tailored to your business needs"
+          title="Price List"
+          description="Comprehensive pricing for our design and printing services"
         />
 
-        <section className="pricing-section py-20">
-          <div className="container">
-            <div className="service-selector mb-16">
-              <div className="flex justify-center gap-4 flex-wrap">
-                <button
-                  onClick={() => setSelectedService('graphics')}
-                  className={`px-6 py-3 rounded-full font-medium transition-all ${
-                    selectedService === 'graphics'
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  Graphics Design
-                </button>
-                <button
-                  onClick={() => setSelectedService('web')}
-                  className={`px-6 py-3 rounded-full font-medium transition-all ${
-                    selectedService === 'web'
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  Web Development
-                </button>
-                <button
-                  onClick={() => setSelectedService('social')}
-                  className={`px-6 py-3 rounded-full font-medium transition-all ${
-                    selectedService === 'social'
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  Social Media
-                </button>
-              </div>
-            </div>
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              {/* Search and Filter Controls */}
+              <div className="mb-8 space-y-4">
+                {/* Search Input */}
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search services..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full px-4 py-3 pl-10 pr-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-gray-700"
+                  />
+                  <i className="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {pricingPlans[selectedService].map((plan, index) => (
-                <div
-                  key={plan.name}
-                  className="pricing-card"
-                  data-aos="fade-up"
-                  data-aos-delay={index * 100}
-                >
-                  <div className={`relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all ${
-                    plan.popular ? 'border-2 border-accent' : ''
-                  }`}>
-                    {plan.popular && (
-                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <span className="bg-accent text-white px-4 py-1 rounded-full text-sm font-medium">
-                          Most Popular
-                        </span>
-                      </div>
-                    )}
-                    <div className="text-center mb-8">
-                      <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                      <div className="text-4xl font-bold mb-2">
-                        <span className="text-lg">KES </span>
-                        {plan.price}
-                      </div>
-                      <p className="text-gray-600">{plan.description}</p>
-                    </div>
-                    <ul className="space-y-4 mb-8">
-                      {plan.features.map(feature => (
-                        <li key={feature} className="flex items-center gap-3">
-                          <i className="fas fa-check-circle text-accent"></i>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="text-center">
-                      <a
-                        href={`https://wa.me/254741590670?text=Hi%20Mocky%20Digital,%20I'm%20interested%20in%20the%20${plan.name}%20${selectedService}%20package.`}
-                        className={`inline-flex items-center justify-center gap-2 w-full py-3 rounded-full font-semibold transition-colors ${
-                          plan.popular
-                            ? 'bg-accent hover:bg-accent-hover text-white'
-                            : 'bg-primary hover:bg-secondary text-white'
+                {/* Type Filter Buttons */}
+                <div className="flex flex-wrap gap-2">
+                  {serviceTypes.map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => setSelectedType(type)}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors
+                        ${selectedType === type
+                          ? 'bg-primary text-white'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                         }`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Get Started
-                        <i className="fas fa-arrow-right"></i>
-                      </a>
-                    </div>
+                    >
+                      {type}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Results Count */}
+              <div className="mb-4 text-sm text-gray-600">
+                Showing {filteredPriceList.length} {filteredPriceList.length === 1 ? 'service' : 'services'}
+              </div>
+
+              {/* Price Table */}
+              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-primary text-white">
+                        <th className="py-4 px-6 text-left">NO</th>
+                        <th className="py-4 px-6 text-left">DESCRIPTION</th>
+                        <th className="py-4 px-6 text-left">TYPE</th>
+                        <th className="py-4 px-6 text-right">PRICE</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {filteredPriceList.map((item) => (
+                        <tr key={item.no} className="hover:bg-gray-50 transition-colors">
+                          <td className="py-4 px-6 text-gray-600">{item.no}</td>
+                          <td className="py-4 px-6 font-medium text-gray-900">{item.description}</td>
+                          <td className="py-4 px-6">
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              item.type === 'Design' 
+                                ? 'bg-blue-100 text-blue-800' 
+                                : item.type === 'Print'
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-purple-100 text-purple-800'
+                            }`}>
+                              {item.type}
+                            </span>
+                          </td>
+                          <td className="py-4 px-6 text-right font-medium">
+                            {item.price}<span className="text-gray-600 text-sm ml-1">Ksh</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {filteredPriceList.length === 0 && (
+                  <div className="text-center py-12">
+                    <i className="fas fa-search text-gray-400 text-3xl mb-4"></i>
+                    <p className="text-gray-500">No services found matching your search.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Disclaimer */}
+              <div className="mt-8 bg-gray-50 p-6 rounded-lg border border-gray-200">
+                <div className="flex items-start space-x-3">
+                  <i className="fas fa-info-circle text-primary mt-1"></i>
+                  <div className="text-gray-600 text-sm">
+                    <p className="font-medium mb-1">Important Notes:</p>
+                    <ul className="list-disc pl-4 space-y-1">
+                      <li>Prices are subject to change based on project requirements</li>
+                      <li>Custom projects may require a personalized quote</li>
+                      <li>All prices are in Kenyan Shillings (KSH)</li>
+                      <li>Contact us for bulk orders or special requirements</li>
+                    </ul>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="faq bg-gray-50 py-20">
-          <div className="container">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-              <p className="text-xl text-gray-600">Common questions about our pricing and services</p>
-            </div>
-
-            <div className="max-w-3xl mx-auto">
-              <div className="space-y-6">
-                <div className="bg-white rounded-xl p-6 shadow-md">
-                  <h3 className="text-xl font-semibold mb-2">Do you offer custom packages?</h3>
-                  <p className="text-gray-600">Yes, we can create custom packages tailored to your specific needs and budget. Contact us to discuss your requirements.</p>
-                </div>
-                <div className="bg-white rounded-xl p-6 shadow-md">
-                  <h3 className="text-xl font-semibold mb-2">What payment methods do you accept?</h3>
-                  <p className="text-gray-600">We accept M-Pesa, bank transfers, and other major payment methods. Payment terms can be discussed during consultation.</p>
-                </div>
-                <div className="bg-white rounded-xl p-6 shadow-md">
-                  <h3 className="text-xl font-semibold mb-2">Do you offer refunds?</h3>
-                  <p className="text-gray-600">We have a satisfaction guarantee policy. If you're not satisfied with our work, we'll revise until you're happy with the results.</p>
-                </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="cta bg-primary text-white py-20">
-          <div className="container">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-6">Need a Custom Solution?</h2>
-              <p className="text-xl text-gray-200 mb-8">
-                Let's discuss your specific requirements and create a tailored package for your business.
-              </p>
-              <a
-                href="https://wa.me/254741590670?text=Hi%20Mocky%20Digital,%20I'm%20interested%20in%20discussing%20a%20custom%20package."
-                className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold px-8 py-4 rounded-full transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Contact Us
-                <i className="fas fa-arrow-right"></i>
-              </a>
             </div>
           </div>
         </section>

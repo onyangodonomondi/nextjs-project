@@ -13,6 +13,7 @@ const menuItems = [
   { label: 'VPS Solutions', path: '/vps-solutions' },
   { label: 'Social Media', path: '/social-media' },
   { label: 'Portfolio', path: '/portfolio' },
+  { label: 'Pricing', path: '/pricing' },
   { label: 'Contact', path: '/contact' }
 ];
 
