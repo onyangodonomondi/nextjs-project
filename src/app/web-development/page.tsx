@@ -4,166 +4,7 @@ import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-
-type FeaturePrice = {
-  name: string;
-  price: number;
-  description: string;
-};
-
-const websiteBasePrice: Record<string, number> = {
-  'landing': 30000,
-  'business': 50000,
-  'portfolio': 40000,
-  'ecommerce': 80000,
-  'education': 70000,
-  'healthcare': 75000,
-  'real-estate': 65000,
-  'restaurant': 55000,
-  'travel': 60000,
-  'ngo': 45000,
-  'crm': 90000,
-  'booking': 85000,
-  'membership': 70000,
-  'marketplace': 100000
-};
-
-const additionalFeatures: FeaturePrice[] = [
-  {
-    name: 'Content Management System (CMS)',
-    price: 15000,
-    description: 'Easy-to-use system for updating website content'
-  },
-  {
-    name: 'E-commerce Integration',
-    price: 25000,
-    description: 'Online store with payment gateway integration'
-  },
-  {
-    name: 'Custom Database',
-    price: 20000,
-    description: 'Tailored database solution for your needs'
-  },
-  {
-    name: 'User Authentication',
-    price: 15000,
-    description: 'Secure login and user management system'
-  },
-  {
-    name: 'API Integration',
-    price: 10000,
-    description: 'Connect with third-party services'
-  },
-  {
-    name: 'Advanced SEO Package',
-    price: 12000,
-    description: 'Comprehensive search engine optimization'
-  },
-  {
-    name: 'Social Media Integration',
-    price: 8000,
-    description: 'Connect your website with social platforms'
-  },
-  {
-    name: 'Analytics Dashboard',
-    price: 10000,
-    description: 'Custom reporting and analytics'
-  }
-];
-
-const processSteps = [
-  {
-    title: 'Discovery',
-    description: 'We start by understanding your business goals, target audience, and project requirements.',
-    icon: 'fas fa-search',
-  },
-  {
-    title: 'Planning',
-    description: 'Creating a detailed project roadmap, wireframes, and technical specifications.',
-    icon: 'fas fa-sitemap',
-  },
-  {
-    title: 'Design',
-    description: 'Crafting beautiful, user-friendly interfaces that align with your brand.',
-    icon: 'fas fa-paint-brush',
-  },
-  {
-    title: 'Development',
-    description: 'Building your website using modern, scalable technologies.',
-    icon: 'fas fa-code',
-  },
-  {
-    title: 'Testing',
-    description: 'Rigorous testing across devices and browsers to ensure quality.',
-    icon: 'fas fa-vial',
-  },
-  {
-    title: 'Launch',
-    description: 'Deploying your website and providing ongoing support.',
-    icon: 'fas fa-rocket',
-  },
-];
-
-const developmentTimeline = {
-  phases: [
-    {
-      name: 'Discovery & Planning',
-      duration: '1-2 weeks',
-      tasks: [
-        'Requirements gathering',
-        'Project scope definition',
-        'Technology stack selection',
-        'Timeline planning'
-      ],
-      icon: 'fas fa-search-plus'
-    },
-    {
-      name: 'Design',
-      duration: '1-2 weeks',
-      tasks: [
-        'Wireframe creation',
-        'UI/UX design',
-        'Design review',
-        'Client feedback'
-      ],
-      icon: 'fas fa-pencil-ruler'
-    },
-    {
-      name: 'Development',
-      duration: '2-4 weeks',
-      tasks: [
-        'Frontend development',
-        'Backend integration',
-        'Database setup',
-        'Feature implementation'
-      ],
-      icon: 'fas fa-code'
-    },
-    {
-      name: 'Testing',
-      duration: '1 week',
-      tasks: [
-        'Quality assurance',
-        'Cross-browser testing',
-        'Performance optimization',
-        'Security testing'
-      ],
-      icon: 'fas fa-vial'
-    },
-    {
-      name: 'Deployment',
-      duration: '2-3 days',
-      tasks: [
-        'Server setup',
-        'Domain configuration',
-        'SSL installation',
-        'Go-live preparation'
-      ],
-      icon: 'fas fa-rocket'
-    }
-  ]
-};
+import { useState, useEffect } from 'react';
 
 // First, let's define better types for our technologies
 type TechStack = {
@@ -204,7 +45,7 @@ const technologies: TechStack[] = [
       },
       {
         name: 'Tailwind CSS',
-        icon: 'fas fa-paint-brush',
+    icon: 'fas fa-paint-brush',
         level: 'Expert',
         experience: '3+ years'
       },
@@ -244,7 +85,7 @@ const technologies: TechStack[] = [
       },
       {
         name: 'Express',
-        icon: 'fas fa-server',
+    icon: 'fas fa-server',
         level: 'Expert',
         experience: '4+ years'
       }
@@ -529,186 +370,6 @@ const websiteTypes: WebsiteType[] = [
   }
 ];
 
-// Add these types for hosting plans
-type HostingPlan = {
-  id: string;
-  name: string;
-  description: string;
-  isPopular?: boolean;
-  monthlyPrice: number;
-  specs: {
-    storage: string;
-    type: string;
-  };
-  features: string[];
-  color: {
-    primary: string;
-    light: string;
-    border: string;
-    text: string;
-  };
-};
-
-const hostingPlans: HostingPlan[] = [
-  {
-    id: 'premium',
-    name: 'Premium',
-    description: 'Basic hosting setup',
-    monthlyPrice: 500, // KES 6,000 per year
-    specs: {
-      storage: '100 GB SSD',
-      type: 'Shared Hosting'
-    },
-    features: [
-      'SSL certificates',
-      'Weekly backups',
-      'WordPress optimization',
-      'Basic support'
-    ],
-    color: {
-      primary: 'bg-blue-500',
-      light: 'bg-blue-50',
-      border: 'border-blue-200',
-      text: 'text-blue-600'
-    }
-  },
-  {
-    id: 'business',
-    name: 'Business',
-    description: 'Advanced hosting setup',
-    isPopular: true,
-    monthlyPrice: 667, // KES 8,000 per year
-    specs: {
-      storage: '200 GB NVMe',
-      type: 'Cloud Hosting'
-    },
-    features: [
-      'SSL certificates',
-      'Daily backups',
-      'Performance optimization',
-      'Priority support'
-    ],
-    color: {
-      primary: 'bg-purple-500',
-      light: 'bg-purple-50',
-      border: 'border-purple-200',
-      text: 'text-purple-600'
-    }
-  },
-  {
-    id: 'enterprise',
-    name: 'Enterprise',
-    description: 'Custom hosting setup',
-    monthlyPrice: 1250, // KES 15,000 per year
-    specs: {
-      storage: '200 GB NVMe',
-      type: 'VPS/Dedicated'
-    },
-    features: [
-      'SSL certificates',
-      'Daily backups',
-      'Server optimization',
-      'Premium support'
-    ],
-    color: {
-      primary: 'bg-gradient-to-r from-orange-500 to-pink-500',
-      light: 'bg-orange-50',
-      border: 'border-orange-200',
-      text: 'text-orange-600'
-    }
-  }
-];
-
-const domainExtensions = [
-  {
-    ext: '.com',
-    description: 'Most popular global domain, ideal for commercial websites',
-    price: '$8.99/year',
-    renewal: '$13.99/year',
-    features: [
-      'Global Recognition',
-      'Best for Business',
-      'High Availability',
-      'Brand Protection'
-    ]
-  },
-  {
-    ext: '.co.ke',
-    description: 'Kenya\'s official country-specific domain',
-    price: '$20/year',
-    renewal: '$20/year',
-    features: [
-      'Local Presence',
-      'Better Local SEO',
-      'Kenyan Identity',
-      'Government Recognition'
-    ]
-  },
-  {
-    ext: '.org',
-    description: 'Trusted domain for organizations and non-profits',
-    price: '$12.99/year',
-    renewal: '$17.99/year',
-    features: [
-      'Non-profit Status',
-      'Trust Building',
-      'Global Recognition',
-      'Community Focus'
-    ]
-  },
-  {
-    ext: '.net',
-    description: 'Popular for technology and network companies',
-    price: '$10.99/year',
-    renewal: '$15.99/year',
-    features: [
-      'Tech Credibility',
-      'Network Services',
-      'Alternative to .com',
-      'Professional Image'
-    ]
-  },
-  {
-    ext: '.biz',
-    description: 'Specifically for business entities',
-    price: '$9.99/year',
-    renewal: '$14.99/year',
-    features: [
-      'Business Focus',
-      'Good Availability',
-      'Professional Brand',
-      'Global Recognition'
-    ]
-  }
-];
-
-const sendHostingPlanToWhatsApp = (plan: any) => {
-  const message = `Hello! I'm interested in the following hosting plan:
-
-Plan Name: ${plan.name}
-Price: ${plan.price}
-Features:
-${plan.features.map((feature: string) => `- ${feature}`).join('\n')}
-
-Please help me get started with this plan.`;
-
-  const encodedMessage = encodeURIComponent(message);
-  window.open(`https://wa.me/254741590670?text=${encodedMessage}`, '_blank');
-};
-
-const sendDomainRequestToWhatsApp = (domain: any) => {
-  const message = `Hello! I'm interested in registering a domain:
-
-Extension: ${domain.ext}
-Price: ${domain.price}
-Renewal: ${domain.renewal}
-
-Please help me register this domain.`;
-
-  const encodedMessage = encodeURIComponent(message);
-  window.open(`https://wa.me/254741590670?text=${encodedMessage}`, '_blank');
-};
-
 const techStack = {
   frontend: {
     title: 'Frontend Technologies',
@@ -889,162 +550,126 @@ const phaseColors = {
   }
 };
 
-// Add this function to handle plan selection
-const handlePlanSelect = (plan: typeof hostingPlans[0]) => {
-  const message = `Hi! I'm interested in the ${plan.name} hosting plan:\n\n` +
-    `Price: KES ${plan.monthlyPrice}/mo (KES ${plan.monthlyPrice * 12}/year)\n` +
-    `Storage: ${plan.specs.storage}\n` +
-    `Type: ${plan.specs.type}\n\n` +
-    `Features:\n${plan.features.map(f => `- ${f}`).join('\n')}\n\n` +
-    `Please provide me with more information.`;
-    
-  window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
+// Define the timeline types
+type TimelinePhase = {
+  name: string;
+  duration: string;
+  tasks: string[];
+  icon: string;
 };
 
-// First, add this interface at the top of the file, before the component
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  projectType: string;
-  budget: string;
-  timeline: string;
-  description: string;
-  hostingPlan: string;
-  domainExtension: string;
-  domainName: string;
-  [key: string]: string | boolean; // Add index signature for dynamic keys
-  needHosting: boolean;
-  needDomain: boolean;
-  needSeo: boolean;
-  needMaintenance: boolean;
-  needSsl: boolean;
-  needAnalytics: boolean;
-  needEmail: boolean;
-  needContentCreation: boolean;
-}
+const developmentTimeline = {
+  phases: [
+    {
+      name: 'Discovery & Planning',
+      duration: '1-2 weeks',
+      tasks: [
+        'Requirements gathering',
+        'Project scope definition',
+        'Technology stack selection',
+        'Timeline planning'
+      ],
+      icon: 'fas fa-search-plus'
+    },
+    {
+      name: 'Design',
+      duration: '1-2 weeks',
+      tasks: [
+        'Wireframe creation',
+        'UI/UX design',
+        'Design review',
+        'Client feedback'
+      ],
+      icon: 'fas fa-pencil-ruler'
+    },
+    {
+      name: 'Development',
+      duration: '2-4 weeks',
+      tasks: [
+        'Frontend development',
+        'Backend integration',
+        'Database setup',
+        'Feature implementation'
+      ],
+      icon: 'fas fa-code'
+    },
+    {
+      name: 'Testing',
+      duration: '1 week',
+      tasks: [
+        'Quality assurance',
+        'Cross-browser testing',
+        'Performance optimization',
+        'Security testing'
+      ],
+      icon: 'fas fa-vial'
+    },
+    {
+      name: 'Deployment',
+      duration: '2-3 days',
+      tasks: [
+        'Server setup',
+        'Domain configuration',
+        'SSL installation',
+        'Go-live preparation'
+      ],
+      icon: 'fas fa-rocket'
+    }
+  ] as TimelinePhase[]
+};
 
-// First, define interfaces outside the component
-interface CalculatorState {
-  websiteType: string;
-  selectedFeatures: string[];
-  totalCost: number;
-  name: string;
-  email: string;
-  phone: string;
-  projectType: string;
-  budget: string;
-  timeline: string;
-  description: string;
-}
+const processSteps = [
+  {
+    title: 'Discovery',
+    description: 'We start by understanding your business goals, target audience, and project requirements.',
+    icon: 'fas fa-search',
+  },
+  {
+    title: 'Planning',
+    description: 'Creating a detailed project roadmap, wireframes, and technical specifications.',
+    icon: 'fas fa-sitemap',
+  },
+  {
+    title: 'Design',
+    description: 'Crafting beautiful, user-friendly interfaces that align with your brand.',
+    icon: 'fas fa-paint-brush',
+  },
+  {
+    title: 'Development',
+    description: 'Building your website using modern, scalable technologies.',
+    icon: 'fas fa-code',
+  },
+  {
+    title: 'Testing',
+    description: 'Rigorous testing across devices and browsers to ensure quality.',
+    icon: 'fas fa-vial',
+  },
+  {
+    title: 'Launch',
+    description: 'Deploying your website and providing ongoing support.',
+    icon: 'fas fa-rocket',
+  },
+];
 
 export default function WebDevelopment() {
-  // State declarations
   const [showFeatures, setShowFeatures] = useState(false);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  
-  // Calculator state
-  const [calculator, setCalculator] = useState<CalculatorState>({
-    websiteType: '',
-    selectedFeatures: [],
-    totalCost: 0,
-    name: '',
-    email: '',
-    phone: '',
-    projectType: '',
-    budget: '',
-    timeline: '',
-    description: ''
-  });
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  // Input change handler
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setCalculator(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  // Service selection handler
-  const handleServiceSelection = (serviceId: string) => {
-    setSelectedServices(prev => 
-      prev.includes(serviceId)
-        ? prev.filter(id => id !== serviceId)
-        : [...prev, serviceId]
-    );
-  };
-
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    projectType: '',
-    budget: '',
-    timeline: '',
-    description: '',
-    hostingPlan: '',
-    domainExtension: '',
-    domainName: '',
-    needHosting: false,
-    needDomain: false,
-    needSeo: false,
-    needMaintenance: false,
-    needSsl: false,
-    needAnalytics: false,
-    needEmail: false,
-    needContentCreation: false
-  });
-
-  const updateTotalCost = (type: string, features: string[]) => {
-    const basePrice = websiteBasePrice[type] || 0;
-    const featuresPrice = features.reduce((total, feature) => {
-      const featurePrice = additionalFeatures.find(f => f.name === feature)?.price || 0;
-      return total + featurePrice;
-    }, 0);
-    return basePrice + featuresPrice;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const additionalFeatures = [
-      formData.needSeo && 'SEO',
-      formData.needMaintenance && 'Monthly Maintenance',
-      formData.needSsl && 'SSL Certificate',
-      formData.needAnalytics && 'Google Analytics',
-      formData.needEmail && 'Custom Email',
-      formData.needContentCreation && 'Content Creation'
-    ].filter(Boolean);
-
-    const message = `*New Web Project Quote Request*\n
-*Contact Details*
-Name: ${formData.name || 'Not provided'}
-Email: ${formData.email || 'Not provided'}
-Phone: ${formData.phone || 'Not provided'}\n
-*Project Details*
-Project Type: ${calculator.websiteType || 'Not selected'}
-Budget Range: ${formData.budget || 'Not specified'}
-Timeline: ${formData.timeline || 'Not specified'}\n
-*Additional Services Required*
-${selectedServices.length > 0 
-  ? selectedServices.map(service => `- ${service.charAt(0).toUpperCase() + service.slice(1)}`).join('\n')
-  : 'None selected'}\n
-*Additional Features Required*
-${calculator.selectedFeatures.length > 0
-  ? calculator.selectedFeatures.map(feature => `- ${feature}`).join('\n')
-  : 'None selected'}\n
-*Project Description*
-${formData.description || 'No description provided'}\n
-*Estimated Cost*
-KES ${calculator.totalCost.toLocaleString()}`;
-
-    window.open(
-      `https://wa.me/254741590670?text=${encodeURIComponent(message)}`,
-      '_blank'
-    );
-  };
+  // Add scroll event listener to update active dot
+  useEffect(() => {
+    const slider = document.getElementById('websiteSlider');
+    if (slider) {
+      const handleScroll = () => {
+        const index = Math.round(slider.scrollLeft / (350 + 24)); // card width + gap
+        setActiveIndex(index);
+      };
+      
+      slider.addEventListener('scroll', handleScroll);
+      return () => slider.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
 
   return (
     <>
@@ -1056,208 +681,403 @@ KES ${calculator.totalCost.toLocaleString()}`;
           bgImage="/images/web-dev-hero.jpg"
         />
 
-        <section className="py-20 bg-gray-50">
-          <div className="container">
+        {/* Contact Form Section */}
+        <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+          <div className="container max-w-7xl mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-8"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Types of Websites We Create</h2>
-              <p className="mt-4 text-gray-600">Specialized web solutions for every industry</p>
+              <h2 className="text-3xl font-bold text-gray-900">Get Started</h2>
+              <p className="mt-2 text-gray-600">Tell us about your project</p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {websiteTypes.map((type, index) => (
-                <motion.div
-                  key={type.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group relative"
-                >
-                  <div className={`absolute inset-0 ${type.color.light} rounded-2xl transform transition-transform group-hover:scale-105`} />
-                  
-                  <div className="relative p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className={`w-16 h-16 rounded-xl ${type.color.light} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                        {type.icon && <type.icon />}
-                  </div>
-                      <div>
-                        <h3 className={`text-xl font-semibold ${type.color.text}`}>{type.title}</h3>
-                        <p className="text-sm text-gray-600 mt-1">{type.description}</p>
-                      </div>
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+              <div className="p-4 sm:p-6 md:p-8">
+                <form>
+                  {/* Contact Details Section */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-gray-700">Full Name</label>
+                      <input
+                        id="fullName"
+                        type="text"
+                        className="w-full p-3 rounded-xl border border-gray-200 
+                          focus:outline-none focus:ring-2 focus:ring-primary/20
+                          bg-gray-50/50 hover:bg-gray-50 transition-colors"
+                        placeholder="John Doe"
+                      />
                     </div>
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-gray-700">Email Address</label>
+                      <input
+                        id="email"
+                        type="email"
+                        className="w-full p-3 rounded-xl border border-gray-200 
+                          focus:outline-none focus:ring-2 focus:ring-primary/20
+                          bg-gray-50/50 hover:bg-gray-50 transition-colors"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        className="w-full p-3 rounded-xl border border-gray-200 
+                          focus:outline-none focus:ring-2 focus:ring-primary/20
+                          bg-gray-50/50 hover:bg-gray-50 transition-colors"
+                        placeholder="+254 700 000000"
+                      />
+                    </div>
+            </div>
 
-                    <div className="space-y-3">
-                      {type.features.map((feature, i) => (
-                        <motion.div
-                          key={feature}
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: i * 0.1 }}
-                          className="flex items-center gap-3"
-                        >
-                          <div className={`w-5 h-5 rounded-full ${type.color.light} flex items-center justify-center`}>
-                            <i className={`fas fa-check text-xs ${type.color.text}`} />
-                          </div>
-                        <span className="text-gray-600">{feature}</span>
-                        </motion.div>
-                    ))}
-                </div>
-
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      className="mt-6"
-                    >
-                      <button
-                        className={`w-full py-3 rounded-xl ${type.color.light} ${type.color.text} font-medium 
-                          transition-colors hover:bg-white hover:shadow-sm border-2 ${type.color.border}`}
+                  {/* Project Details Section */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-gray-700">Project Type</label>
+                      <select
+                        id="projectType"
+                        className="w-full p-3 rounded-xl border border-gray-200 
+                          focus:outline-none focus:ring-2 focus:ring-primary/20 
+                          appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
+                          cursor-pointer"
                       >
-                        Learn More
-                        <i className="fas fa-arrow-right ml-2" />
-                      </button>
-                    </motion.div>
+                        <option value="" disabled selected>Select project type</option>
+                        <option value="website">Website Development</option>
+                        <option value="ecommerce">E-commerce Platform</option>
+                        <option value="webapp">Web Application</option>
+                        <option value="portal">Customer Portal</option>
+                        <option value="cms">Content Management System</option>
+                        <option value="custom">Custom Solution</option>
+                      </select>
                   </div>
-                </motion.div>
-              ))}
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-gray-700">Timeline</label>
+                      <select
+                        id="timeline"
+                        className="w-full p-3 rounded-xl border border-gray-200 
+                          focus:outline-none focus:ring-2 focus:ring-primary/20 
+                          appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
+                          cursor-pointer"
+                      >
+                        <option value="" disabled selected>Select timeline</option>
+                        <option value="urgent">Urgent (1-2 weeks)</option>
+                        <option value="normal">Normal (2-4 weeks)</option>
+                        <option value="relaxed">Relaxed (4-8 weeks)</option>
+                        <option value="flexible">Flexible</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-gray-700">Budget Range (KES)</label>
+                      <select
+                        id="budget"
+                        className="w-full p-3 rounded-xl border border-gray-200 
+                          focus:outline-none focus:ring-2 focus:ring-primary/20 
+                          appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
+                          cursor-pointer"
+                      >
+                        <option value="" disabled selected>Select budget</option>
+                        <option value="30k-50k">30K - 50K</option>
+                        <option value="50k-100k">50K - 100K</option>
+                        <option value="100k-200k">100K - 200K</option>
+                        <option value="200k-500k">200K - 500K</option>
+                        <option value="500k+">500K+</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="block text-sm font-medium text-gray-700">Priority Level</label>
+                      <select
+                        id="priority"
+                        className="w-full p-3 rounded-xl border border-gray-200 
+                          focus:outline-none focus:ring-2 focus:ring-primary/20 
+                          appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
+                          cursor-pointer"
+                      >
+                        <option value="" disabled selected>Select priority</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Project Description */}
+                  <div className="mb-6 sm:mb-8 space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Project Description</label>
+                    <textarea
+                      id="description"
+                      className="w-full p-3 rounded-xl border border-gray-200 
+                        focus:outline-none focus:ring-2 focus:ring-primary/20 
+                        bg-gray-50/50 hover:bg-gray-50 transition-colors resize-none"
+                      rows={3}
+                      placeholder="Tell us about your project goals, features required, and any specific requirements..."
+                    ></textarea>
+                  </div>
+
+                  {/* Form Actions */}
+                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div className="text-sm text-gray-500 order-2 sm:order-1">
+                      <i className="fas fa-shield-alt mr-2"></i>
+                      Your information is secure and encrypted
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-xl 
+                        font-medium hover:bg-primary-dark transition-all shadow-md 
+                        flex items-center justify-center gap-2 order-1 sm:order-2"
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        
+                        // Get form values
+                        const name = (document.getElementById('fullName') as HTMLInputElement)?.value;
+                        const email = (document.getElementById('email') as HTMLInputElement)?.value;
+                        const phone = (document.getElementById('phone') as HTMLInputElement)?.value;
+                        const projectType = (document.getElementById('projectType') as HTMLSelectElement)?.value;
+                        const timeline = (document.getElementById('timeline') as HTMLSelectElement)?.value;
+                        const budget = (document.getElementById('budget') as HTMLSelectElement)?.value;
+                        const priority = (document.getElementById('priority') as HTMLSelectElement)?.value;
+                        const description = (document.getElementById('description') as HTMLTextAreaElement)?.value;
+
+                        // Validate required fields
+                        if (!name || !email || !phone || !projectType || !budget || !description) {
+                          alert('Please fill in all required fields');
+                          return;
+                        }
+
+                        // Format WhatsApp message
+                        const message = `*New Project Request*\n\n` +
+                          `*Contact Details*\n` +
+                          `Name: ${name}\n` +
+                          `Email: ${email}\n` +
+                          `Phone: ${phone}\n\n` +
+                          `*Project Details*\n` +
+                          `Type: ${projectType}\n` +
+                          `Timeline: ${timeline}\n` +
+                          `Budget: ${budget}\n` +
+                          `Priority: ${priority}\n\n` +
+                          `*Project Description*\n${description}`;
+
+                        // Open WhatsApp with formatted message
+                        window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
+                      }}
+                    >
+                      Submit Request
+                    </motion.button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="py-20">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                Our Development Process
-              </h2>
-              <p className="mt-4 text-gray-600">
-                A systematic approach to delivering exceptional results
-              </p>
-            </motion.div>
-
-            <div className="max-w-6xl mx-auto">
-              {/* Timeline Container */}
-              <div className="relative">
-                {/* Progress Line */}
-                <div className="absolute top-[45px] left-0 right-0 h-1 bg-gray-100">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-red-500"
-                    initial={{ width: "0%" }}
-                    whileInView={{ width: "100%" }}
-                    transition={{ 
-                      duration: 3,
-                      ease: "easeInOut",
-                      delay: 0.5
-                    }}
-                    viewport={{ once: true }}
-                  />
+        {/* Types of Websites Section */}
+        <section className="py-20 overflow-hidden">
+          <div className="container max-w-7xl mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900">Types of Websites We Create</h2>
+              <p className="mt-2 text-gray-600">Specialized web solutions for every industry</p>
             </div>
 
-                {/* Phases */}
-                <div className="relative grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-8">
-                  {developmentTimeline.phases.map((phase, index) => (
-                    <motion.div
-                      key={phase.name}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ 
-                        opacity: 1, 
-                        y: 0,
-                      }}
-                      transition={{ 
-                        duration: 0.5, 
-                        delay: index * 0.2 
-                      }}
-                      viewport={{ once: true }}
-                      className="relative"
+            <div className="relative">
+              {/* Slider Container */}
+              <div 
+                className="overflow-x-auto hide-scrollbar"
+                id="websiteSlider"
+              >
+                <div className="flex gap-6 pb-8">
+                  {/* Website Cards */}
+              {websiteTypes.map((type, index) => (
+                <div
+                      key={type.id} 
+                      className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg 
+                        transition-all duration-300 min-w-[350px] border border-gray-100
+                        hover:border-primary/20 group"
                     >
-                      {/* Phase Dot */}
-                      <div className="hidden md:flex justify-center">
-                        <motion.div 
-                          className="w-[90px] h-[90px] rounded-full flex items-center justify-center 
-                            relative z-10 bg-white border-2 transition-all duration-300"
-                          initial={{ scale: 0.9, borderColor: 'rgb(229, 231, 235)' }}
-                          whileInView={{ 
-                            scale: 1.05,
-                            borderColor: 'rgb(59, 130, 246)',
-                            backgroundColor: 'rgb(239, 246, 255)'
-                          }}
-                          transition={{ 
-                            duration: 0.5,
-                            delay: 0.5 + (index * 0.2)
-                          }}
-                          viewport={{ once: true }}
-                        >
-                          <motion.span 
-                            className="text-2xl font-bold"
-                            initial={{ color: 'rgb(156, 163, 175)' }}
-                            whileInView={{ color: 'rgb(37, 99, 235)' }}
-                            transition={{ 
-                              duration: 0.5,
-                              delay: 0.5 + (index * 0.2)
-                            }}
-                            viewport={{ once: true }}
-                          >
-                            {index + 1}
-                          </motion.span>
-                        </motion.div>
-                  </div>
-
-                      {/* Content Card */}
-                      <motion.div
-                        className="mt-6 mx-4 rounded-xl bg-white shadow-sm overflow-hidden
-                          h-[280px] flex flex-col"
-                        initial={{ opacity: 0.6, scale: 0.95 }}
-                        whileInView={{ 
-                          opacity: 1,
-                          scale: 1,
-                          y: -5
-                        }}
-                        transition={{ 
-                          duration: 0.5,
-                          delay: 0.7 + (index * 0.2)
-                        }}
-                        viewport={{ once: true }}
-                      >
-                        {/* Header */}
-                        <div className="p-4 bg-gray-50">
-                          <div className="flex items-center gap-3">
-                            <div className="md:hidden w-10 h-10 rounded-full bg-white flex items-center justify-center">
-                              <span className="text-lg font-bold text-gray-500">{index + 1}</span>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4 
+                        group-hover:text-primary transition-colors">
+                        {type.title}
+                      </h3>
+                    <p className="text-gray-600 mb-6">{type.description}</p>
+                      <ul className="space-y-3 text-gray-600">
+                        {type.features.map((feature) => (
+                          <li key={feature} className="flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary/30 
+                              group-hover:bg-primary transition-colors"></span>
+                            {feature}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                            <div>
-                              <h3 className="text-lg font-semibold text-gray-900">{phase.name}</h3>
-                              <span className="text-sm text-gray-500">{phase.duration}</span>
-                            </div>
-                          </div>
-                        </div>
+              ))}
+                </div>
+              </div>
 
-                        {/* Content area with flex-grow to fill space */}
-                        <div className="p-4 flex-grow">
-                          <div className="space-y-3">
-                            {phase.tasks.map((task, i) => (
-                              <motion.div
-                                key={i}
-                                className="flex items-start gap-2" // Changed to items-start for better alignment
-                              >
-                                <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2"></div>
-                                <span className="text-sm text-gray-600 leading-tight">{task}</span>
-                              </motion.div>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
-                    </motion.div>
+              {/* Navigation Controls */}
+              <div className="flex items-center justify-center gap-8 mt-6">
+                {/* Left Arrow */}
+                <button
+                  className="p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
+                    shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                  onClick={() => {
+                    const slider = document.getElementById('websiteSlider');
+                    if (slider) {
+                      const newIndex = activeIndex === 0 ? websiteTypes.length - 1 : activeIndex - 1;
+                      const scrollAmount = newIndex * (350 + 24);
+                      slider.scrollTo({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                      });
+                      setActiveIndex(newIndex);
+                    }
+                  }}
+                  aria-label="Previous"
+                >
+                  <i className="fas fa-arrow-left text-lg" />
+                </button>
+
+                {/* Scroll Dots */}
+                <div className="flex justify-center items-center gap-3">
+                  {websiteTypes.map((_, index) => (
+                    <button
+                      key={index}
+                      className={`transition-all duration-300 rounded-full
+                        ${index === activeIndex 
+                          ? 'w-8 h-3 bg-primary shadow-md' 
+                          : 'w-3 h-3 bg-gray-200 hover:bg-primary/40'
+                        }`}
+                      onClick={() => {
+                        const slider = document.getElementById('websiteSlider');
+                        if (slider) {
+                          const scrollAmount = index * (350 + 24);
+                          slider.scrollTo({
+                            left: scrollAmount,
+                            behavior: 'smooth'
+                          });
+                          setActiveIndex(index);
+                        }
+                      }}
+                      aria-label={`View ${websiteTypes[index].title}`}
+                    />
                   ))}
+                </div>
+
+                {/* Right Arrow */}
+                <button
+                  className="p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
+                    shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                  onClick={() => {
+                    const slider = document.getElementById('websiteSlider');
+                    if (slider) {
+                      const newIndex = activeIndex === websiteTypes.length - 1 ? 0 : activeIndex + 1;
+                      const scrollAmount = newIndex * (350 + 24);
+                      slider.scrollTo({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                      });
+                      setActiveIndex(newIndex);
+                    }
+                  }}
+                  aria-label="Next"
+                >
+                  <i className="fas fa-arrow-right text-lg" />
+                </button>
+              </div>
+
+              {/* Custom Scrollbar Styling */}
+              <style jsx global>{`
+                .hide-scrollbar {
+                  -ms-overflow-style: none;
+                  scrollbar-width: none;
+                  scroll-snap-type: x mandatory;
+                }
+                .hide-scrollbar::-webkit-scrollbar {
+                  display: none;
+                }
+              `}</style>
+            </div>
+          </div>
+        </section>
+
+        {/* Development Process Section */}
+        <section className="py-20 bg-white">
+          <div className="container max-w-7xl mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-bold text-gray-900">Our Development Process</h2>
+              <p className="mt-2 text-gray-600">A systematic approach to delivering exceptional results</p>
+            </div>
+
+            {/* Timeline Container */}
+            <div className="relative max-w-5xl mx-auto">
+              {/* Horizontal Line - Hidden on mobile */}
+              <div className="hidden md:block absolute top-[25px] left-0 w-full h-[2px]">
+                <div className="h-full bg-gradient-to-r from-blue-400 via-purple-500 to-red-400"></div>
+              </div>
+
+              {/* Vertical Line - Shown only on mobile */}
+              <div className="md:hidden absolute left-[25px] top-0 h-full w-[2px]">
+                <div className="h-full bg-gradient-to-b from-blue-400 via-purple-500 to-red-400"></div>
+              </div>
+
+              {/* Timeline Steps */}
+              <div className="relative flex flex-col md:flex-row md:justify-between gap-8 md:gap-0">
+                {/* Step 1 */}
+                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                  <div className="w-[50px] h-[50px] rounded-full border-2 border-blue-400 bg-white 
+                    flex items-center justify-center text-blue-400 text-xl font-semibold z-10">
+                    1
+                  </div>
+                  <div className="md:text-center">
+                    <h3 className="text-[#ff6b00] font-semibold">Discovery & Planning</h3>
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                  <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-400 bg-white 
+                    flex items-center justify-center text-purple-400 text-xl font-semibold z-10">
+                    2
+                  </div>
+                  <div className="md:text-center">
+                    <h3 className="text-[#ff6b00] font-semibold">Design</h3>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                  <div className="w-[50px] h-[50px] rounded-full border-2 border-blue-400 bg-white 
+                    flex items-center justify-center text-blue-400 text-xl font-semibold z-10">
+                    3
+                  </div>
+                  <div className="md:text-center">
+                    <h3 className="text-[#ff6b00] font-semibold">Development</h3>
+                  </div>
+                </div>
+
+                {/* Step 4 */}
+                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                  <div className="w-[50px] h-[50px] rounded-full border-2 border-pink-400 bg-white 
+                    flex items-center justify-center text-pink-400 text-xl font-semibold z-10">
+                    4
+                  </div>
+                  <div className="md:text-center">
+                    <h3 className="text-[#ff6b00] font-semibold">Testing</h3>
+                  </div>
+                </div>
+
+                {/* Step 5 */}
+                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                  <div className="w-[50px] h-[50px] rounded-full border-2 border-red-400 bg-white 
+                    flex items-center justify-center text-red-400 text-xl font-semibold z-10">
+                    5
+                  </div>
+                  <div className="md:text-center">
+                    <h3 className="text-[#ff6b00] font-semibold">Deployment</h3>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1442,600 +1262,6 @@ KES ${calculator.totalCost.toLocaleString()}`;
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Hosting Plans Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Web Hosting Solutions</h2>
-              <p className="mt-4 text-gray-600">Professional hosting plans with premium features</p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {hostingPlans.map((plan) => (
-                <motion.div
-                  key={plan.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  whileHover={{ y: -5 }}
-                  className="relative"
-                >
-                  {plan.isPopular && (
-                    <div className="absolute -top-4 inset-x-0 flex justify-center">
-                      <span className="px-4 py-1 bg-primary text-white text-sm font-medium rounded-full">
-                        Most Popular
-                      </span>
-                    </div>
-                  )}
-
-                  <div className={`h-full bg-white rounded-2xl shadow-sm overflow-hidden ${
-                    plan.isPopular ? 'ring-2 ring-primary' : ''
-                  }`}>
-                    {/* Header */}
-                    <div className={`p-6 ${plan.color.light}`}>
-                      <h3 className={`text-xl font-semibold ${plan.color.text}`}>{plan.name}</h3>
-                      <p className="mt-2 text-sm text-gray-600">{plan.description}</p>
-                      
-                      {/* Pricing */}
-                      <div className="mt-4">
-                        <div className="flex items-baseline">
-                          <span className="text-3xl font-bold">KES {plan.monthlyPrice}</span>
-                          <span className="text-gray-500 ml-1">/mo</span>
-                        </div>
-                        <div className="text-sm text-gray-500 mt-1">
-                          KES {(plan.monthlyPrice * 12).toLocaleString()} billed yearly
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Features */}
-                    <div className="p-6 space-y-6">
-                      {/* Specs */}
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <i className={`fas fa-hdd text-lg ${plan.color.text}`} />
-                          <span>{plan.specs.storage}</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <i className={`fas fa-server text-lg ${plan.color.text}`} />
-                          <span>{plan.specs.type}</span>
-                        </div>
-                      </div>
-
-                      {/* Feature List */}
-                      <div className="space-y-3 pt-6 border-t">
-                        {plan.features.map((feature) => (
-                          <div key={feature} className="flex items-center gap-3">
-                            <i className={`fas fa-check text-sm ${plan.color.text}`} />
-                            <span className="text-sm text-gray-600">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* CTA */}
-                    <div className="p-6 pt-0">
-                      <button 
-                        onClick={() => handlePlanSelect(plan)}
-                        className={`w-full py-3 rounded-xl transition-all
-                          ${plan.isPopular 
-                            ? 'bg-primary text-white hover:bg-primary-dark' 
-                            : `${plan.color.light} ${plan.color.text} hover:bg-white hover:shadow-sm border-2 ${plan.color.border}`
-                          }`}
-                      >
-                        Select Plan
-                        <i className="fas fa-arrow-right ml-2" />
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Domain Extensions Section */}
-        <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Domain Extensions</h2>
-              <p className="mt-4 text-gray-600">Choose the perfect domain for your brand</p>
-            </motion.div>
-
-            <div className="max-w-7xl mx-auto space-y-6">
-              {[
-                {
-                  extension: '.com',
-                  badge: 'Most Popular',
-                  description: 'Most popular global domain, ideal for commercial websites',
-                  price: 8.99,
-                  renewal: 13.99,
-                  features: ['Global Recognition', 'High Availability', 'Best for Business', 'Brand Protection'],
-                  color: 'blue'
-                },
-                {
-                  extension: '.co.ke',
-                  description: "Kenya's official country-specific domain",
-                  price: 20,
-                  renewal: 20,
-                  features: ['Local Presence', 'Kenyan Identity', 'Better Local SEO', 'Government Recognition'],
-                  color: 'green'
-                },
-                {
-                  extension: '.org',
-                  description: 'Trusted domain for organizations and non-profits',
-                  price: 12.99,
-                  renewal: 17.99,
-                  features: ['Non-profit Status', 'Global Recognition', 'Trust Building', 'Community Focus'],
-                  color: 'purple'
-                },
-                {
-                  extension: '.net',
-                  description: 'Technical and network-related websites',
-                  price: 10.99,
-                  renewal: 15.99,
-                  features: ['Tech Recognition', 'Network Identity', 'Professional Appeal', 'Global Reach'],
-                  color: 'orange'
-                }
-              ].map((domain, index) => (
-                <motion.div
-                  key={domain.extension}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-gray-100"
-                >
-                  <div className="flex flex-col md:flex-row items-center md:items-stretch">
-                    {/* Extension and Description */}
-                    <div className="p-6 md:w-1/3 flex flex-col justify-center">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-2xl font-bold text-gray-900">{domain.extension}</h3>
-                        {domain.badge && (
-                          <span className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
-                            {domain.badge}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-gray-600">{domain.description}</p>
-                    </div>
-
-                    {/* Features */}
-                    <div className="p-6 md:w-1/3 bg-gray-50 flex flex-col justify-center">
-                      <div className="grid grid-cols-2 gap-3">
-                        {domain.features.map((feature) => (
-                          <div key={feature} className="flex items-center gap-2">
-                            <i className={`fas fa-check text-${domain.color}-500 text-sm`}></i>
-                            <span className="text-sm text-gray-600">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Pricing and Action */}
-                    <div className="p-6 md:w-1/3 flex flex-col justify-center items-center md:items-end">
-                      <div className="text-center md:text-right">
-                        <div className="text-3xl font-bold text-gray-900">
-                          ${domain.price}
-                          <span className="text-sm font-normal text-gray-500">/year</span>
-                        </div>
-                        <div className="text-sm text-gray-500 mt-1">
-                          Renewal: ${domain.renewal}/year
-                        </div>
-                      </div>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className={`mt-4 px-6 py-2 rounded-xl font-medium transition-all
-                          bg-${domain.color}-50 text-${domain.color}-600 hover:bg-${domain.color}-100`}
-                      >
-                        Register Now
-                        <i className="fas fa-arrow-right ml-2"></i>
-                      </motion.button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Form section JSX */}
-        <section className="py-16 bg-white">
-          <div className="container">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="text-4xl font-bold text-gray-900 mb-4">Request a Quote</h2>
-                <p className="text-xl text-gray-600">Let's bring your vision to life</p>
-              </div>
-
-              <form className="space-y-8">
-                {/* Contact Information */}
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={calculator.name}
-                      onChange={handleInputChange}
-                      placeholder="Your name"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={calculator.email}
-                      onChange={handleInputChange}
-                      placeholder="your@email.com"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={calculator.phone}
-                      onChange={handleInputChange}
-                      placeholder="Your phone number"
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    />
-                  </div>
-                </div>
-
-                {/* Project Details */}
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Project Type</label>
-                    <select
-                      name="projectType"
-                      value={calculator.projectType}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    >
-                      <option value="">Select project type</option>
-                      <option value="Corporate Website">Corporate Website</option>
-                      <option value="E-commerce Store">E-commerce Store</option>
-                      <option value="Landing Page">Landing Page</option>
-                      <option value="Web Application">Web Application</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Budget Range</label>
-                    <select
-                      name="budget"
-                      value={calculator.budget}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    >
-                      <option value="">Select budget range</option>
-                      <option value="Below KES 50,000">Below KES 50,000</option>
-                      <option value="KES 50,000 - 100,000">KES 50,000 - 100,000</option>
-                      <option value="KES 100,000 - 200,000">KES 100,000 - 200,000</option>
-                      <option value="Above KES 200,000">Above KES 200,000</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Timeline</label>
-                    <select
-                      name="timeline"
-                      value={calculator.timeline}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    >
-                      <option value="">Select timeline</option>
-                      <option value="Urgent (2-3 weeks)">Urgent (2-3 weeks)</option>
-                      <option value="Standard (1-2 months)">Standard (1-2 months)</option>
-                      <option value="Flexible (2+ months)">Flexible (2+ months)</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Project Description */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Project Description</label>
-                  <textarea
-                    name="description"
-                    value={calculator.description}
-                    onChange={handleInputChange}
-                    placeholder="Tell us about your project requirements..."
-                    rows={4}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20"
-                  ></textarea>
-                </div>
-
-                {/* Additional Services */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-4">Additional Services</label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {[
-                      { id: 'hosting', icon: 'fas fa-server', label: 'Web Hosting' },
-                      { id: 'domain', icon: 'fas fa-globe', label: 'Domain Name' },
-                      { id: 'seo', icon: 'fas fa-search', label: 'SEO Service' },
-                      { id: 'maintenance', icon: 'fas fa-tools', label: 'Maintenance' },
-                      { id: 'ssl', icon: 'fas fa-lock', label: 'SSL Certificate' },
-                      { id: 'analytics', icon: 'fas fa-chart-line', label: 'Analytics' },
-                      { id: 'email', icon: 'fas fa-envelope', label: 'Custom Email' },
-                      { id: 'content', icon: 'fas fa-pen', label: 'Content Creation' }
-                    ].map((service) => (
-                      <motion.div
-                        key={service.id}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => handleServiceSelection(service.id)}
-                        className="cursor-pointer"
-                      >
-                        <div className={`flex items-center gap-3 p-4 rounded-xl transition-all
-                          ${selectedServices.includes(service.id)
-                            ? 'bg-primary/10 border-primary/20 border'
-                            : 'bg-gray-50/80 hover:bg-primary/5 hover:border-primary/20 border border-transparent'
-                          }`}
-                        >
-                          <i className={`${service.icon} ${
-                            selectedServices.includes(service.id) ? 'text-primary' : 'text-gray-600'
-                          }`}></i>
-                          <span className={`font-medium ${
-                            selectedServices.includes(service.id) ? 'text-primary' : 'text-gray-700'
-                          }`}>
-                            {service.label}
-                          </span>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Add this after the Additional Services section, but still inside the form */}
-                <div className="mt-8 text-center">
-                  <motion.button
-                    type="button"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => {
-                      const message = `*New Web Project Quote Request*
-
-*Contact Details*
-Name: ${calculator.name}
-Email: ${calculator.email}
-Phone: ${calculator.phone}
-
-*Project Details*
-Project Type: ${calculator.projectType}
-Budget Range: ${calculator.budget}
-Timeline: ${calculator.timeline}
-
-*Additional Services Required*
-${selectedServices.map(service => `- ${service.charAt(0).toUpperCase() + service.slice(1)}`).join('\n') || 'None selected'}
-
-*Project Description*
-${calculator.description || 'No description provided'}`;
-
-                      window.open(
-                        `https://wa.me/254741590670?text=${encodeURIComponent(message)}`,
-                        '_blank'
-                      );
-                    }}
-                    className="px-8 py-4 bg-gradient-to-r from-primary via-primary to-primary-dark text-white 
-                      rounded-xl font-medium transition-all inline-flex items-center gap-2 
-                      shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.16)]"
-                  >
-                    Send Quote Request
-                    <i className="fas fa-paper-plane"></i>
-                  </motion.button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Cost Calculator</h2>
-              <p className="mt-4 text-gray-600">Estimate the cost of your web development project</p>
-            </motion.div>
-
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-                {/* Website Type Selection */}
-                <div className="p-8 border-b border-gray-100">
-                  <h3 className="text-xl font-semibold mb-6">Select Website Type</h3>
-                  <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {Object.entries(websiteBasePrice).map(([type, price]) => (
-                      <motion.div
-                        key={type}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className={`group p-4 rounded-xl cursor-pointer transition-all ${
-                          calculator.websiteType === type
-                            ? 'bg-primary text-white shadow-md'
-                            : 'bg-gray-50 hover:bg-gray-100'
-                        }`}
-                        onClick={() => {
-                          setCalculator(prev => ({
-                            ...prev,
-                            websiteType: type,
-                            totalCost: updateTotalCost(type, prev.selectedFeatures)
-                          }));
-                        }}
-                      >
-                        <div className="flex flex-col gap-2">
-                          <span className="capitalize font-medium">{type.replace('-', ' ')}</span>
-                          <span className={`font-bold ${
-                            calculator.websiteType === type ? 'text-white' : 'text-primary'
-                          }`}>
-                            KES {price.toLocaleString()}
-                          </span>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Additional Features */}
-                <div className="p-8 bg-gray-50">
-                  <button 
-                    onClick={() => setShowFeatures(!showFeatures)}
-                    className="w-full flex items-center justify-between mb-6"
-                  >
-                    <h3 className="text-xl font-semibold">Additional Features</h3>
-                    <span className={`transition-transform duration-300 ${showFeatures ? 'rotate-180' : ''}`}>
-                      <i className="fas fa-chevron-down text-gray-400"></i>
-                    </span>
-                  </button>
-
-                  <motion.div
-                    initial={false}
-                    animate={{ 
-                      height: showFeatures ? 'auto' : 0,
-                      opacity: showFeatures ? 1 : 0
-                    }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      {additionalFeatures.map((feature) => (
-                        <motion.div
-                          key={feature.name}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className={`p-4 bg-white rounded-xl cursor-pointer transition-all shadow-sm ${
-                            calculator.selectedFeatures.includes(feature.name)
-                              ? 'ring-2 ring-primary'
-                              : 'hover:shadow-md'
-                          }`}
-                          onClick={() => {
-                            setCalculator(prev => {
-                              const features = prev.selectedFeatures.includes(feature.name)
-                                ? prev.selectedFeatures.filter(f => f !== feature.name)
-                                : [...prev.selectedFeatures, feature.name];
-                              return {
-                                ...prev,
-                                selectedFeatures: features,
-                                totalCost: updateTotalCost(prev.websiteType, features)
-                              };
-                            });
-                          }}
-                        >
-                          <div className="flex flex-col gap-2">
-                            <div>
-                              <h4 className="font-medium text-gray-900">{feature.name}</h4>
-                              <p className="text-sm text-gray-600 mt-1">{feature.description}</p>
-                            </div>
-                            <span className="font-bold text-primary">
-                              KES {feature.price.toLocaleString()}
-                            </span>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
-
-                  {/* Selected Features Summary */}
-                  <div className={`mt-4 ${showFeatures ? 'hidden' : 'block'}`}>
-                    <div className="flex flex-wrap gap-2">
-                      {calculator.selectedFeatures.length > 0 ? (
-                        calculator.selectedFeatures.map((feature) => (
-                          <span 
-                            key={feature}
-                            className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm"
-                          >
-                            {feature}
-                          </span>
-                        ))
-                      ) : (
-                        <span className="text-gray-500 text-sm">No additional features selected</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Total Cost Display */}
-                <div className="p-8 bg-gradient-to-r from-primary/5 to-primary/10">
-                  <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-900">Total Estimated Cost</h3>
-                      <p className="text-sm text-gray-600 mt-1">
-                        * Final cost may vary based on specific requirements
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-8">
-                      <div className="text-3xl font-bold text-primary">
-                        KES {calculator.totalCost.toLocaleString()}
-                      </div>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => {
-                          const selectedFeaturesList = calculator.selectedFeatures
-                            .map(feature => `- ${feature}`)
-                            .join('\n');
-
-                          const selectedServicesList = selectedServices
-                            .map(service => `- ${service.charAt(0).toUpperCase() + service.slice(1)}`)
-                            .join('\n');
-
-                          const message = `*New Web Project Quote Request*\n
-*Contact Details*
-Name: ${calculator.name}
-Email: ${calculator.email}
-Phone: ${calculator.phone}\n
-*Project Details*
-Project Type: ${calculator.websiteType}
-Budget Range: ${calculator.budget}
-Timeline: ${calculator.timeline}\n
-*Additional Services Required*
-${selectedServicesList}\n
-*Additional Features Required*
-${selectedFeaturesList}\n
-*Project Description*
-${calculator.description || 'No description provided'}\n
-*Estimated Cost*
-KES ${calculator.totalCost.toLocaleString()}`;
-
-                          window.open(
-                            `https://wa.me/254741590670?text=${encodeURIComponent(message)}`,
-                            '_blank'
-                          );
-                        }}
-                        className="px-8 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark 
-                          transition-all shadow-lg shadow-primary/20"
-                      >
-                        Submit
-                      </motion.button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
