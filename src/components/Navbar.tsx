@@ -11,6 +11,8 @@ const menuItems = [
   { label: 'Graphics', path: '/graphics' },
   { label: 'Web Development', path: '/web-development' },
   { label: 'VPS Solutions', path: '/vps-solutions' },
+  { label: 'Social Media', path: '/social-media' },
+  { label: 'Portfolio', path: '/portfolio' },
   { label: 'Contact', path: '/contact' }
 ];
 
