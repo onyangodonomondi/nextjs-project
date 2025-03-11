@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 // First, let's define better types for our technologies
 type TechStack = {
@@ -45,7 +46,7 @@ const technologies: TechStack[] = [
       },
       {
         name: 'Tailwind CSS',
-    icon: 'fas fa-paint-brush',
+        icon: 'fas fa-paint-brush',
         level: 'Expert',
         experience: '3+ years'
       },
@@ -85,7 +86,7 @@ const technologies: TechStack[] = [
       },
       {
         name: 'Express',
-    icon: 'fas fa-server',
+        icon: 'fas fa-server',
         level: 'Expert',
         experience: '4+ years'
       }
@@ -732,7 +733,7 @@ export default function WebDevelopment() {
                         placeholder="+254 700 000000"
                       />
                     </div>
-            </div>
+                  </div>
 
                   {/* Project Details Section */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
@@ -753,7 +754,7 @@ export default function WebDevelopment() {
                         <option value="cms">Content Management System</option>
                         <option value="custom">Custom Solution</option>
                       </select>
-                  </div>
+                    </div>
                     <div className="space-y-1">
                       <label className="block text-sm font-medium text-gray-700">Timeline</label>
                       <select
@@ -1110,7 +1111,7 @@ export default function WebDevelopment() {
                   <div className="flex items-center gap-4 mb-6">
                     <div className={`w-12 h-12 rounded-xl ${tech.textColor} bg-white shadow-sm flex items-center justify-center`}>
                       <i className={`${tech.icon} text-2xl`}></i>
-                  </div>
+                    </div>
                     <div>
                       <h3 className={`text-xl font-semibold ${tech.textColor}`}>{tech.category}</h3>
                       <p className="text-sm text-gray-600">{tech.description}</p>

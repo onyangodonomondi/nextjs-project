@@ -10,15 +10,7 @@ const menuItems = [
   { label: 'Capabilities', path: '/capabilities' },
   { label: 'Graphics', path: '/graphics' },
   { label: 'Web Development', path: '/web-development' },
-  { 
-    label: 'Services',
-    children: [
-      { label: 'Branding', path: '/branding' },
-      { label: 'Marketing', path: '/marketing' },
-      { label: 'Consulting', path: '/consulting' },
-      { label: 'VPS Solutions', path: '/vps-solutions' },
-    ]
-  },
+  { label: 'VPS Solutions', path: '/vps-solutions' },
   { label: 'Contact', path: '/contact' }
 ];
 
@@ -103,39 +95,13 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-8">
             {menuItems.map((item) => (
               <div key={item.label} className="relative group">
-                {item.children ? (
-                  <>
-                    <button
-                      onClick={(e) => toggleDropdown(e, item.label)}
-                      className="dropdown-button flex items-center space-x-1 text-gray-700 hover:text-primary"
-                    >
-                      <span>{item.label}</span>
-                      <i className="fas fa-chevron-down text-xs"></i>
-                    </button>
-                    {activeDropdown === item.label && (
-                      <div className="dropdown-menu absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.label}
-                            href={child.path}
-                            className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                            onClick={() => closeMenu()}
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    href={item.path}
-                    className="text-gray-700 hover:text-primary"
-                    onClick={() => handleLinkClick(false)}
-                  >
-                    {item.label}
-                  </Link>
-                )}
+                <Link
+                  href={item.path}
+                  className="text-gray-700 hover:text-primary"
+                  onClick={() => handleLinkClick(false)}
+                >
+                  {item.label}
+                </Link>
               </div>
             ))}
           </div>
@@ -156,39 +122,13 @@ export default function Navbar() {
           <nav className="container mx-auto px-4 py-4">
             {menuItems.map((item) => (
               <div key={item.label}>
-                {item.children ? (
-                  <>
-                    <button
-                      onClick={(e) => toggleDropdown(e, item.label)}
-                      className="w-full flex items-center justify-between py-3 text-gray-700"
-                    >
-                      <span>{item.label}</span>
-                      <i className={`fas fa-chevron-${activeDropdown === item.label ? 'up' : 'down'} text-xs`}></i>
-                    </button>
-                    {activeDropdown === item.label && (
-                      <div className="pl-4">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.label}
-                            href={child.path}
-                            className="block py-2 text-gray-700"
-                            onClick={() => closeMenu()}
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    href={item.path}
-                    className="block py-3 text-gray-700"
-                    onClick={() => handleLinkClick(false)}
-                  >
-                    {item.label}
-                  </Link>
-                )}
+                <Link
+                  href={item.path}
+                  className="block py-3 text-gray-700"
+                  onClick={() => handleLinkClick(false)}
+                >
+                  {item.label}
+                </Link>
               </div>
             ))}
           </nav>
