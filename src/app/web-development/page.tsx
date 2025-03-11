@@ -1241,7 +1241,7 @@ export default function WebDevelopment() {
                   <div className="p-4">
                     <h4 className="text-xl font-semibold mb-2">{project.title}</h4>
                     <p className="text-gray-600 mb-4">{project.description}</p>
-                    <div className="flex gap-4">
+                    <div>
                       <a
                         href={project.link}
                         className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors"
@@ -1249,14 +1249,6 @@ export default function WebDevelopment() {
                         rel="noopener noreferrer"
                       >
                         Visit Website <i className="fas fa-external-link-alt"></i>
-                      </a>
-                      <a
-                        href="#"
-                        className="inline-flex items-center gap-2 text-gray-500 hover:text-accent transition-colors"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View Details <i className="fas fa-info-circle"></i>
                       </a>
                     </div>
                   </div>
