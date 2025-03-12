@@ -177,6 +177,30 @@ export default function Pricing() {
   // Get unique types for filter buttons
   const serviceTypes: ServiceType[] = ['All', 'Design', 'Print', 'Design & Print'];
 
+  const PriceCard = ({ item }: { item: typeof priceList[0] }) => (
+    <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          <h3 className="font-medium text-gray-900">{item.description}</h3>
+          <span className={`inline-block mt-2 px-2 py-1 rounded-full text-xs font-medium ${
+            item.type === 'Design' 
+              ? 'bg-blue-100 text-blue-800' 
+              : item.type === 'Print'
+              ? 'bg-green-100 text-green-800'
+              : 'bg-purple-100 text-purple-800'
+          }`}>
+            {item.type}
+          </span>
+        </div>
+        <div className="text-right">
+          <span className="text-lg font-semibold">{item.price}</span>
+          <span className="text-gray-600 text-sm ml-1">Ksh</span>
+        </div>
+      </div>
+      <div className="text-xs text-gray-500">Service ID: {item.no}</div>
+    </div>
+  );
+
   return (
     <>
       <Navbar />
@@ -226,8 +250,8 @@ export default function Pricing() {
                 Showing {filteredPriceList.length} {filteredPriceList.length === 1 ? 'service' : 'services'}
               </div>
 
-              {/* Price Table */}
-              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+              {/* Desktop Table View */}
+              <div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
@@ -265,6 +289,20 @@ export default function Pricing() {
 
                 {filteredPriceList.length === 0 && (
                   <div className="text-center py-12">
+                    <i className="fas fa-search text-gray-400 text-3xl mb-4"></i>
+                    <p className="text-gray-500">No services found matching your search.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="md:hidden grid gap-4">
+                {filteredPriceList.map((item) => (
+                  <PriceCard key={item.no} item={item} />
+                ))}
+                
+                {filteredPriceList.length === 0 && (
+                  <div className="text-center py-12 bg-white rounded-lg">
                     <i className="fas fa-search text-gray-400 text-3xl mb-4"></i>
                     <p className="text-gray-500">No services found matching your search.</p>
                   </div>

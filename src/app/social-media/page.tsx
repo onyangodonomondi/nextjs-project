@@ -469,7 +469,7 @@ ${message || 'N/A'}
       </main>
     </>
   );
-}
+} 
 
 const AdNote = () => (
   <div className="mt-6 pt-4 border-t border-gray-100">
