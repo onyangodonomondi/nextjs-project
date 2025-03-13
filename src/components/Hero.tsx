@@ -38,51 +38,27 @@ export default function Hero() {
 
   return (
     <section className="min-h-screen bg-[#0A2647] relative overflow-hidden">
-      <div className="container mx-auto px-4 pt-16">
-        {/* Animated Gradient Mesh Background */}
-        <div className="absolute inset-0 bg-gradient-mesh">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary-dark/80 to-secondary/90" />
-        </div>
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-gradient-mesh pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary-dark/80 to-secondary/90" />
+      </div>
 
-        {/* Animated Lines */}
-        <div className="absolute inset-0">
-          <div className="lines">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="line hidden md:block" />
-            ))}
-            {[...Array(3)].map((_, i) => (
-              <div key={i + 3} className="line hidden lg:block" />
-            ))}
-          </div>
-        </div>
-
-        {/* Interactive Ripple Effect */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {ripples.map(ripple => (
-            <div
-              key={ripple.id}
-              className="absolute rounded-full ripple-gradient transform -translate-x-1/2 -translate-y-1/2"
-              style={{
-                left: ripple.x,
-                top: ripple.y,
-                width: `${ripple.size}px`,
-                height: `${ripple.size}px`,
-                opacity: ripple.alpha,
-              }}
-            />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="lines">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="line hidden md:block" />
           ))}
-          <div 
-            className="absolute w-20 h-20 rounded-full bg-white/5 blur-md transform -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
-            style={{
-              left: mousePos.x,
-              top: mousePos.y,
-            }}
-          />
+          {[...Array(3)].map((_, i) => (
+            <div key={i + 3} className="line hidden lg:block" />
+          ))}
         </div>
+      </div>
 
+      {/* Main Content */}
+      <div className="container mx-auto px-4 pt-16 relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center py-20 md:py-0">
           {/* Text Content */}
-          <div className={`text-white space-y-6 transition-all duration-1000 ${
+          <div className={`text-white space-y-6 transition-all duration-1000 relative ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}>
             <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium">
@@ -90,56 +66,40 @@ export default function Hero() {
             </span>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              <span className="text-orange-500 animate-gradient">Transform</span> Your<br />
-              <span className="text-blue-400 inline-block min-h-[80px]">
-                <TypeAnimation
-                  sequence={[
-                    'Digital Presence',
-                    2000,
-                    'Brand Identity',
-                    2000,
-                    'Online Success',
-                    2000,
-                    'Creative Vision',
-                    2000,
-                  ]}
-                  wrapper="span"
-                  speed={50}
-                  repeat={Infinity}
-                  className="inline-block"
-                />
-              </span>
+              <span className="text-orange-500">Transform</span> Your<br />
+              <span className="text-blue-400">Digital Presence</span>
             </h1>
             
-            <div className="max-w-xl">
-              <TypeAnimation
-                sequence={[
-                  500,
-                  'We create effective visual experiences that drive growth through strategic branding and innovative digital solutions.',
-                ]}
-                wrapper="p"
-                speed={50}
-                className="text-lg md:text-xl text-gray-200"
-                cursor={false}
-              />
-            </div>
+            <p className="text-lg md:text-xl text-gray-200 max-w-xl">
+              We create effective visual experiences that drive growth
+              through strategic branding and innovative digital solutions.
+            </p>
 
+            {/* Buttons Container */}
             <div className="flex flex-wrap gap-4 pt-8">
-              <Link
-                href="/contact"
-                className="inline-flex items-center px-8 py-4 bg-[#FF5400] text-white rounded-full hover:bg-[#FF5400]/90 transition-colors text-lg font-medium"
+              {/* Get Started - WhatsApp Link */}
+              <a
+                href={`https://wa.me/254756331327?text=${encodeURIComponent(
+                  "Hello Mocky Digital! I'm interested in your services. Can you help me with my project?"
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-8 py-4 bg-[#FF4500] text-white rounded-full hover:bg-[#FF4500]/90 transition-all duration-300 text-lg font-medium transform hover:scale-105 active:scale-95"
               >
                 Get Started
-                <i className="fas fa-arrow-right ml-2"></i>
-              </Link>
+                <i className="fab fa-whatsapp ml-2 text-xl"></i>
+              </a>
               
-              <Link
-                href="/portfolio"
-                className="inline-flex items-center px-8 py-4 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors text-lg font-medium backdrop-blur-sm"
+              {/* View Our Work - Facebook Link */}
+              <a
+                href="https://www.facebook.com/mockydigital"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-8 py-4 bg-[#1E3A5F] text-white rounded-full hover:bg-[#1E3A5F]/90 transition-all duration-300 text-lg font-medium transform hover:scale-105 active:scale-95"
               >
                 View Our Work
-                <i className="fas fa-external-link-alt ml-2"></i>
-              </Link>
+                <i className="fas fa-arrow-up-right-from-square ml-2"></i>
+              </a>
             </div>
           </div>
 
@@ -181,6 +141,30 @@ export default function Hero() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Interactive Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {ripples.map(ripple => (
+          <div
+            key={ripple.id}
+            className="absolute rounded-full ripple-gradient transform -translate-x-1/2 -translate-y-1/2"
+            style={{
+              left: ripple.x,
+              top: ripple.y,
+              width: `${ripple.size}px`,
+              height: `${ripple.size}px`,
+              opacity: ripple.alpha,
+            }}
+          />
+        ))}
+        <div 
+          className="absolute w-20 h-20 rounded-full bg-white/5 blur-md transform -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
+          style={{
+            left: mousePos.x,
+            top: mousePos.y,
+          }}
+        />
       </div>
     </section>
   );
