@@ -38,10 +38,10 @@ export default function Navbar() {
   }, []);
 
   // Handle mobile menu link clicks
-  const handleMobileClick = (hasDropdown: boolean, label?: string) => {
+  const handleMobileClick = (hasDropdown: boolean, label: string) => {
     if (hasDropdown) {
       // Toggle dropdown without closing menu
-      setActiveDropdown(activeDropdown === label ? null : label);
+      setActiveDropdown(prevState => prevState === label ? null : label);
     } else {
       // Close menu only for regular links
       setIsMenuOpen(false);
@@ -140,7 +140,7 @@ export default function Navbar() {
                             key={child.label}
                             href={child.path}
                             className="block py-3 text-gray-200 hover:text-white"
-                            onClick={() => handleMobileClick(false)}
+                            onClick={() => handleMobileClick(false, item.label)}
                           >
                             {child.label}
                           </Link>
@@ -153,7 +153,7 @@ export default function Navbar() {
                   <Link
                     href={item.path}
                     className="block py-4 text-white text-lg"
-                    onClick={() => handleMobileClick(false)}
+                    onClick={() => handleMobileClick(false, item.label)}
                   >
                     {item.label}
                   </Link>
