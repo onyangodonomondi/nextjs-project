@@ -37,49 +37,49 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="hero-section" className="relative min-h-screen overflow-hidden pt-32 md:pt-20">
-      {/* Animated Gradient Mesh Background */}
-      <div className="absolute inset-0 bg-gradient-mesh">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary-dark/80 to-secondary/90" />
-      </div>
-
-      {/* Animated Lines */}
-      <div className="absolute inset-0">
-        <div className="lines">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="line hidden md:block" />
-          ))}
-          {[...Array(3)].map((_, i) => (
-            <div key={i + 3} className="line hidden lg:block" />
-          ))}
+    <section className="min-h-screen bg-[#0A2647] relative overflow-hidden">
+      <div className="container mx-auto px-4 pt-16">
+        {/* Animated Gradient Mesh Background */}
+        <div className="absolute inset-0 bg-gradient-mesh">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary-dark/80 to-secondary/90" />
         </div>
-      </div>
 
-      {/* Interactive Ripple Effect */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {ripples.map(ripple => (
-          <div
-            key={ripple.id}
-            className="absolute rounded-full ripple-gradient transform -translate-x-1/2 -translate-y-1/2"
+        {/* Animated Lines */}
+        <div className="absolute inset-0">
+          <div className="lines">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="line hidden md:block" />
+            ))}
+            {[...Array(3)].map((_, i) => (
+              <div key={i + 3} className="line hidden lg:block" />
+            ))}
+          </div>
+        </div>
+
+        {/* Interactive Ripple Effect */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {ripples.map(ripple => (
+            <div
+              key={ripple.id}
+              className="absolute rounded-full ripple-gradient transform -translate-x-1/2 -translate-y-1/2"
+              style={{
+                left: ripple.x,
+                top: ripple.y,
+                width: `${ripple.size}px`,
+                height: `${ripple.size}px`,
+                opacity: ripple.alpha,
+              }}
+            />
+          ))}
+          <div 
+            className="absolute w-20 h-20 rounded-full bg-white/5 blur-md transform -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
             style={{
-              left: ripple.x,
-              top: ripple.y,
-              width: `${ripple.size}px`,
-              height: `${ripple.size}px`,
-              opacity: ripple.alpha,
+              left: mousePos.x,
+              top: mousePos.y,
             }}
           />
-        ))}
-        <div 
-          className="absolute w-20 h-20 rounded-full bg-white/5 blur-md transform -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
-          style={{
-            left: mousePos.x,
-            top: mousePos.y,
-          }}
-        />
-      </div>
+        </div>
 
-      <div className="container relative z-10 mx-auto px-4 min-h-[calc(100vh-80px)] flex items-center">
         <div className="grid lg:grid-cols-2 gap-12 items-center py-20 md:py-0">
           {/* Text Content */}
           <div className={`text-white space-y-6 transition-all duration-1000 ${
@@ -124,27 +124,21 @@ export default function Hero() {
               />
             </div>
 
-            <div className="flex flex-wrap gap-4">
-              <Link 
+            <div className="flex flex-wrap gap-4 pt-8">
+              <Link
                 href="/contact"
-                className="inline-flex items-center px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-full transition-all transform hover:scale-105 hover:shadow-lg"
+                className="inline-flex items-center px-8 py-4 bg-[#FF5400] text-white rounded-full hover:bg-[#FF5400]/90 transition-colors text-lg font-medium"
               >
                 Get Started
-                <svg className="w-5 h-5 ml-2 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                <i className="fas fa-arrow-right ml-2"></i>
               </Link>
               
-              <Link 
-                href="https://www.facebook.com/mockydigital"
-                className="inline-flex items-center px-6 py-3 border-2 border-white/30 hover:border-white/60 text-white rounded-full transition-all transform hover:scale-105"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/portfolio"
+                className="inline-flex items-center px-8 py-4 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors text-lg font-medium backdrop-blur-sm"
               >
                 View Our Work
-                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
+                <i className="fas fa-external-link-alt ml-2"></i>
               </Link>
             </div>
           </div>

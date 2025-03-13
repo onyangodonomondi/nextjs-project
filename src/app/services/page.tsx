@@ -1,5 +1,6 @@
 import PageHero from '@/components/PageHero';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const services = [
   {
@@ -14,7 +15,8 @@ const services = [
       "SSL Security"
     ],
     icon: "fa-code",
-    image: "/images/web/web-design.jpg"
+    image: "/images/services/web-design.jpeg",
+    link: "/web-development"
   },
   {
     title: "Graphic Design Services",
@@ -28,7 +30,23 @@ const services = [
       "Packaging Design"
     ],
     icon: "fa-pen-nib",
-    image: "/images/graphics/graphic-design.jpg"
+    image: "/images/services/graphic-design.jpeg",
+    link: "/graphics"
+  },
+  {
+    title: "Tech Solutions",
+    description: "Comprehensive IT solutions and technical support for businesses in Kenya. We help you leverage technology for growth.",
+    features: [
+      "VPS Hosting Solutions",
+      "Domain Registration",
+      "Email Hosting",
+      "Cloud Services",
+      "Technical Support",
+      "Server Management"
+    ],
+    icon: "fa-server",
+    image: "/images/services/tech-solutions.jpg",
+    link: "/vps-solutions"
   },
   {
     title: "Digital Marketing",
@@ -42,7 +60,8 @@ const services = [
       "Analytics & Reporting"
     ],
     icon: "fa-chart-line",
-    image: "/images/services/digital-marketing.jpg"
+    image: "/images/services/digital-marketing.jpg",
+    link: "/social-media"
   }
 ];
 
@@ -73,10 +92,11 @@ export default function ServicesPage() {
           {services.map((service, index) => (
             <div key={index} className="mb-20 last:mb-0">
               <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className={`space-y-6 ${index % 2 === 0 ? 'order-1 md:order-none' : ''}`}>
+                {/* Text Content */}
+                <div className={index % 2 === 0 ? 'order-2 md:order-2' : 'order-2 md:order-1'}>
                   <h3 className="text-3xl font-bold text-gray-900">{service.title}</h3>
-                  <p className="text-gray-600 text-lg">{service.description}</p>
-                  <ul className="space-y-4">
+                  <p className="text-gray-600 text-lg mt-4">{service.description}</p>
+                  <ul className="space-y-4 mt-6">
                     {service.features.map((feature, idx) => (
                       <li key={idx} className="flex items-center gap-3 text-gray-700">
                         <i className="fas fa-check-circle text-primary"></i>
@@ -84,22 +104,26 @@ export default function ServicesPage() {
                       </li>
                     ))}
                   </ul>
-                  <a 
-                    href="/contact" 
-                    className="inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+                  <Link 
+                    href={service.link}
+                    className="inline-flex items-center px-6 py-3 bg-[#0A2647] text-white rounded-lg hover:bg-[#0A2647]/90 transition-colors mt-8"
                   >
                     Learn More
                     <i className="fas fa-arrow-right ml-2"></i>
-                  </a>
+                  </Link>
                 </div>
-                <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
+
+                {/* Image */}
+                <div className={index % 2 === 0 ? 'order-1 md:order-1' : 'order-1 md:order-2'}>
+                  <div className="relative h-[400px] rounded-2xl overflow-hidden">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -177,7 +201,7 @@ export default function ServicesPage() {
 
             <div className="relative h-[400px] rounded-2xl overflow-hidden">
               <Image
-                src="/images/hero/services-hero.jpg"
+                src="/images/services/web-design.jpeg"
                 alt="Digital Services in Kenya"
                 fill
                 className="object-cover"

@@ -43,8 +43,19 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
         <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
         <script src="https://unpkg.com/@phosphor-icons/web"></script>
+        <script 
+          async 
+          defer 
+          crossOrigin="anonymous" 
+          src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0" 
+          nonce="random_nonce"
+        />
+        <script async src="https://platform.twitter.com/widgets.js"></script>
+        <script async src="https://www.instagram.com/embed.js" />
+        <script async src="https://www.tiktok.com/embed.js" />
       </head>
       <body className={inter.className}>
+        <div id="fb-root"></div>
         <Navbar />
         <ClientLayout>
           {children}

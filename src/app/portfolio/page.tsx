@@ -16,8 +16,8 @@ export default async function Graphics() {
     packaging: packagingImages,
     portfolio: {
       cards: cardImages,
-      fliers: flierImages,
-      letterheads: letterheadImages
+      flyers: flierImages,
+      brochures: letterheadImages
     }
   };
 

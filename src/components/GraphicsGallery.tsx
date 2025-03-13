@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 import GraphicsRequestForm from './GraphicsRequestForm';
 
@@ -17,8 +16,8 @@ interface Categories {
   packaging: ImageItem[];
   portfolio: {
     cards: ImageItem[];
-    fliers: ImageItem[];
-    letterheads: ImageItem[];
+    flyers: ImageItem[];
+    brochures: ImageItem[];
   };
 }
 
@@ -37,8 +36,8 @@ type CategoryTitles = {
 }
 
 export default function GraphicsGallery({ categories }: Props) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [activeCategory, setActiveCategory] = useState<keyof CategoryTitles>('all');
+  const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -64,7 +63,7 @@ export default function GraphicsGallery({ categories }: Props) {
             key={item.id}
             className={`group relative ${aspectRatio} bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow cursor-pointer`}
             data-aos="fade-up"
-            onClick={() => setSelectedImage(item.src)}
+            onClick={() => setSelectedImage(item)}
           >
             <Image
               src={item.src}
@@ -83,11 +82,10 @@ export default function GraphicsGallery({ categories }: Props) {
 
   return (
     <>
-      <Navbar />
       <main className="pt-24">
         <PageHero 
           title="Graphics Design Portfolio"
-          description="Explore our creative designs and find the perfect style for your brand"
+          subtitle="Creative designs that bring your brand to life"
         />
 
         {/* Request Button */}
@@ -113,9 +111,9 @@ export default function GraphicsGallery({ categories }: Props) {
             <div className="container">
               <div className="flex flex-wrap gap-4 justify-center">
                 <button
-                  onClick={() => setActiveCategory('all')}
+                  onClick={() => setSelectedCategory('all')}
                   className={`px-6 py-3 rounded-full font-medium transition-colors ${
-                    activeCategory === 'all'
+                    selectedCategory === 'all'
                       ? 'bg-primary text-white'
                       : 'bg-white text-gray-600 hover:bg-gray-100'
                   }`}
@@ -125,9 +123,9 @@ export default function GraphicsGallery({ categories }: Props) {
                 {Object.entries(categoryTitles).slice(1).map(([key, title]) => (
                   <button
                     key={key}
-                    onClick={() => setActiveCategory(key as keyof CategoryTitles)}
+                    onClick={() => setSelectedCategory(key as keyof CategoryTitles)}
                     className={`px-6 py-3 rounded-full font-medium transition-colors ${
-                      activeCategory === key as keyof CategoryTitles
+                      selectedCategory === key as keyof CategoryTitles
                         ? 'bg-primary text-white'
                         : 'bg-white text-gray-600 hover:bg-gray-100'
                     }`}
@@ -148,7 +146,7 @@ export default function GraphicsGallery({ categories }: Props) {
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
                 className="w-full px-6 py-3 bg-white border rounded-lg shadow-sm flex items-center justify-between"
               >
-                <span>{categoryTitles[activeCategory]}</span>
+                <span>{categoryTitles[selectedCategory]}</span>
                 <i className={`fas fa-chevron-down transition-transform ${showMobileMenu ? 'rotate-180' : ''}`}></i>
               </button>
 
@@ -158,11 +156,11 @@ export default function GraphicsGallery({ categories }: Props) {
                     <button
                       key={key}
                       onClick={() => {
-                        setActiveCategory(key as keyof CategoryTitles);
+                        setSelectedCategory(key as keyof CategoryTitles);
                         setShowMobileMenu(false);
                       }}
                       className={`w-full px-6 py-3 text-left transition-colors ${
-                        activeCategory === key as keyof CategoryTitles
+                        selectedCategory === key as keyof CategoryTitles
                           ? 'bg-primary text-white'
                           : 'text-gray-600 hover:bg-gray-50'
                       }`}
@@ -180,7 +178,7 @@ export default function GraphicsGallery({ categories }: Props) {
         <section className="py-20">
           <div className="container">
             {/* Branding Section */}
-            {(activeCategory === 'all' || activeCategory === 'branding') && 
+            {(selectedCategory === 'all' || selectedCategory === 'branding') && 
               renderSection(
                 'Merchandise',
                 'Complete branding solutions for businesses',
@@ -188,7 +186,7 @@ export default function GraphicsGallery({ categories }: Props) {
               )}
 
             {/* Packaging Section */}
-            {(activeCategory === 'all' || activeCategory === 'packaging') && 
+            {(selectedCategory === 'all' || selectedCategory === 'packaging') && 
               renderSection(
                 'Identity Mockups',
                 'Creative packaging designs that stand out',
@@ -196,7 +194,7 @@ export default function GraphicsGallery({ categories }: Props) {
               )}
 
             {/* Business Cards Section */}
-            {(activeCategory === 'all' || activeCategory === 'cards') && 
+            {(selectedCategory === 'all' || selectedCategory === 'cards') && 
               renderSection(
                 'Business Cards',
                 'Professional business card designs',
@@ -205,20 +203,20 @@ export default function GraphicsGallery({ categories }: Props) {
               )}
 
             {/* Fliers Section */}
-            {(activeCategory === 'all' || activeCategory === 'fliers') && 
+            {(selectedCategory === 'all' || selectedCategory === 'fliers') && 
               renderSection(
                 'Marketing Fliers',
                 'Eye-catching flier designs',
-                categories.portfolio.fliers,
+                categories.portfolio.flyers,
                 'aspect-[3/4]'
               )}
 
             {/* Letterheads Section */}
-            {(activeCategory === 'all' || activeCategory === 'letterheads') && 
+            {(selectedCategory === 'all' || selectedCategory === 'letterheads') && 
               renderSection(
                 'Corporate Letterheads',
                 'Professional letterhead designs that enhance your business communication',
-                categories.portfolio.letterheads,
+                categories.portfolio.brochures,
                 'aspect-[1/1.4]'
               )}
           </div>
@@ -232,8 +230,8 @@ export default function GraphicsGallery({ categories }: Props) {
           >
             <div className="relative w-full max-w-5xl">
               <Image
-                src={selectedImage}
-                alt="Enlarged design"
+                src={selectedImage.src}
+                alt={selectedImage.alt}
                 width={1920}
                 height={1080}
                 quality={90}

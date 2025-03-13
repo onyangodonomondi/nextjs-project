@@ -10,6 +10,7 @@ import Stats from '@/components/Stats';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import { getTestimonials } from '@/utils/getTestimonials';
 import CallbackForm from '@/components/CallbackForm';
+import SocialFeeds from '@/components/SocialFeeds';
 
 // Add category to the images when getting them
 export default async function Home() {
@@ -34,20 +35,21 @@ export default async function Home() {
   return (
     <React.Fragment>
       <Navbar />
-      <main>
+      <main className="pt-20">
         <Hero />
         <CallbackForm />
         <Services />
         <Process />
+        <Stats />
+        <WhyChooseUs />
         <RecentWork 
           logos={logos} 
           graphics={graphics} 
           fliers={fliers} 
           websites={websites}
         />
-        <Stats />
         <Testimonials testimonials={testimonials} />
-        <WhyChooseUs />
+        <SocialFeeds />
       </main>
     </React.Fragment>
   );
