@@ -36,6 +36,12 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, []);
 
+  // Update the WhatsApp link section
+  const whatsappMessage = encodeURIComponent(
+    "Hello Mocky Digital! I'm interested in your services. Can you help me with my project?"
+  );
+  const whatsappLink = `https://wa.me/254741590670?text=${whatsappMessage}`;
+
   return (
     <section className="min-h-screen bg-[#0A2647] relative overflow-hidden">
       {/* Background Elements */}
@@ -79,9 +85,7 @@ export default function Hero() {
             <div className="flex flex-wrap gap-4 pt-8">
               {/* Get Started - WhatsApp Link */}
               <a
-                href={`https://wa.me/254756331327?text=${encodeURIComponent(
-                  "Hello Mocky Digital! I'm interested in your services. Can you help me with my project?"
-                )}`}
+                href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-8 py-4 bg-[#FF4500] text-white rounded-full hover:bg-[#FF4500]/90 transition-all duration-300 text-lg font-medium transform hover:scale-105 active:scale-95"
