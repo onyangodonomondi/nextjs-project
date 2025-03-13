@@ -46,47 +46,61 @@ export default function Hero() {
           <div className={`space-y-8 transition-all duration-1000 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}>
-            {/* Welcome Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20
-              backdrop-blur-sm shadow-inner shadow-accent/5">
-              <div className="flex space-x-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent animate-[pulse_1.5s_ease-in-out_infinite]" />
-                <span className="h-1.5 w-1.5 rounded-full bg-accent animate-[pulse_1.5s_ease-in-out_0.3s_infinite]" />
-                <span className="h-1.5 w-1.5 rounded-full bg-accent animate-[pulse_1.5s_ease-in-out_0.6s_infinite]" />
+            {/* Enhanced Welcome Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10
+              backdrop-blur-sm shadow-inner shadow-white/5">
+              <div className="flex space-x-1.5">
+                <span className="h-2 w-2 rounded-full bg-white animate-[pulse_1.5s_ease-in-out_infinite]" />
+                <span className="h-2 w-2 rounded-full bg-white animate-[pulse_1.5s_ease-in-out_0.3s_infinite]" />
+                <span className="h-2 w-2 rounded-full bg-white animate-[pulse_1.5s_ease-in-out_0.6s_infinite]" />
               </div>
-              <span className="text-sm font-medium text-accent/90">Welcome to Mocky Graphics LTD</span>
+              <span className="text-sm font-medium text-white">Welcome to Mocky Graphics LTD</span>
             </div>
 
-            {/* Main Heading */}
-            <div className="space-y-2">
+            {/* Enhanced Typography */}
+            <div className="space-y-6">
               <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
-                <div className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent-hover pb-2">
-                  Transform
+                <div className="relative inline-block">
+                  <span className="absolute -inset-2 bg-accent/20 blur-xl rounded-full"></span>
+                  <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80 drop-shadow-[0_0_10px_rgba(255,255,255,0.25)]">
+                    Transform
+                  </span>
                 </div>
-                <div className="text-transparent bg-clip-text bg-gradient-to-r from-navy-200 to-navy-400 pb-2">
-                  Your Digital
+                
+                <div className="relative mt-2 inline-block">
+                  <span className="absolute -inset-2 bg-navy-400/20 blur-xl rounded-full"></span>
+                  <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-navy-200 via-navy-100 to-white 
+                    drop-shadow-[0_0_10px_rgba(179,209,255,0.25)]">
+                    Your Digital
+                  </span>
                 </div>
-                <div className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-navy-300 to-navy-400">
-                  Presence
+                
+                <div className="relative mt-2 inline-block">
+                  <span className="absolute -inset-2 bg-accent/20 blur-xl rounded-full"></span>
+                  <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-white via-navy-100 to-navy-200
+                    drop-shadow-[0_0_10px_rgba(255,255,255,0.25)]">
+                    Presence
+                  </span>
                 </div>
               </h1>
               
-              <p className="max-w-xl text-lg text-navy-100/80 leading-relaxed mt-6">
+              <p className="max-w-xl text-lg text-white/90 leading-relaxed mt-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
                 We create effective visual experiences that drive growth
                 through strategic branding and innovative digital solutions.
               </p>
             </div>
 
-            {/* CTA Buttons */}
+            {/* Enhanced CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 pt-8">
               <a
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative overflow-hidden rounded-full bg-accent px-8 py-4 inline-flex items-center justify-center
-                  text-white transition-all duration-300 hover:bg-accent-hover hover:scale-105 hover:shadow-lg hover:shadow-accent/25"
+                className="group relative overflow-hidden rounded-full bg-white px-8 py-4 inline-flex items-center justify-center
+                  text-navy-900 font-semibold transition-all duration-300 hover:bg-accent hover:text-white hover:scale-105 
+                  hover:shadow-lg hover:shadow-white/25"
               >
-                <span className="relative z-10 flex items-center text-lg font-medium">
+                <span className="relative z-10 flex items-center text-lg">
                   Get Started
                   <i className="fab fa-whatsapp ml-3 text-xl transition-transform group-hover:translate-x-1" />
                 </span>
@@ -94,11 +108,11 @@ export default function Hero() {
 
               <a
                 href="#work"
-                className="group relative overflow-hidden rounded-full bg-white/5 backdrop-blur-sm border border-white/10 
-                  px-8 py-4 inline-flex items-center justify-center text-white transition-all duration-300 
-                  hover:bg-white/10 hover:scale-105 hover:shadow-lg hover:shadow-white/5"
+                className="group relative overflow-hidden rounded-full bg-transparent border-2 border-white/20 
+                  px-8 py-4 inline-flex items-center justify-center text-white font-semibold transition-all duration-300 
+                  hover:border-white hover:scale-105 hover:shadow-lg hover:shadow-white/10"
               >
-                <span className="relative z-10 flex items-center text-lg font-medium">
+                <span className="relative z-10 flex items-center text-lg">
                   View Our Work
                   <i className="fas fa-arrow-right ml-3 text-xl transition-transform group-hover:translate-x-1" />
                 </span>
