@@ -1,8 +1,9 @@
 import { writeFile } from 'fs/promises';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
+import { promises as fs } from 'fs';
 
-const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'blog');
+const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads');
 
 export async function saveFile(file: File): Promise<string> {
   try {
