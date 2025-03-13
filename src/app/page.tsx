@@ -52,3 +52,9 @@ export default async function Home() {
     </React.Fragment>
   );
 }
+
+export const metadata = {
+  title: 'Mocky Digital - Leading Graphic Design & Web Development Agency in Nairobi, Kenya',
+  description: 'Professional web design, graphic design, and digital marketing services in Nairobi. Expert branding, SEO services, and custom web development solutions for Kenyan businesses.',
+  keywords: 'graphic design nairobi, web development kenya, digital marketing agency, professional website design, branding experts kenya, seo services nairobi, corporate branding'
+};

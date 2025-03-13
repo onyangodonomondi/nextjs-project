@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 
@@ -131,43 +130,24 @@ export default function Capabilities() {
 
           <div className="container mx-auto px-4 relative">
             <div className="text-center max-w-4xl mx-auto">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 mb-8"
-              >
+              <div className="animate-fadeIn inline-flex items-center gap-2 mb-8">
                 <div className="h-[2px] w-8 bg-[#FF5400]"></div>
                 <span className="text-[#FF5400] font-medium tracking-wider text-sm">OUR EXPERTISE</span>
                 <div className="h-[2px] w-8 bg-[#FF5400]"></div>
-              </motion.div>
+              </div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-8"
-              >
+              <h1 className="animate-slideUp text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-8">
                 <span className="text-[#FF5400]">Creative agency</span> <br />
                 specializing in building
-              </motion.h1>
+              </h1>
 
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-3xl md:text-4xl lg:text-6xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-300 text-transparent bg-clip-text"
-              >
+              <h2 className="animate-slideUp text-3xl md:text-4xl lg:text-6xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-300 text-transparent bg-clip-text">
                 brands & visual experiences
-              </motion.h2>
+              </h2>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="mt-8 text-gray-300 text-lg max-w-2xl mx-auto"
-              >
+              <p className="animate-fadeIn mt-8 text-gray-300 text-lg max-w-2xl mx-auto">
                 We transform ideas into compelling visual stories that captivate and connect with your audience.
-              </motion.p>
+              </p>
             </div>
           </div>
         </section>
@@ -177,12 +157,7 @@ export default function Capabilities() {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Brand Identity Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100"
-              >
+              <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="p-3 bg-primary/10 rounded-xl">
                     <i className="fas fa-fingerprint text-2xl text-primary"></i>
@@ -197,16 +172,10 @@ export default function Capabilities() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
 
               {/* Illustration Designs Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100"
-              >
+              <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="p-3 bg-primary/10 rounded-xl">
                     <i className="fas fa-pencil-ruler text-2xl text-primary"></i>
@@ -221,16 +190,10 @@ export default function Capabilities() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
 
               {/* Website Design Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100"
-              >
+              <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
                 <div className="flex items-center gap-4 mb-8">
                   <div className="p-3 bg-primary/10 rounded-xl">
                     <i className="fas fa-code text-2xl text-primary"></i>
@@ -245,7 +208,7 @@ export default function Capabilities() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
@@ -253,20 +216,10 @@ export default function Capabilities() {
         {/* CTA Section */}
         <section className="py-16 bg-[#0A2647]">
           <div className="container mx-auto px-4 text-center">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-white mb-8"
-            >
+            <h2 className="animate-fadeIn text-3xl md:text-4xl font-bold text-white mb-8">
               Ready to start your project?
-            </motion.h2>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-            >
+            </h2>
+            <div className="animate-fadeIn">
               <a
                 href="/contact"
                 className="inline-flex items-center px-8 py-4 bg-[#FF5400] text-white rounded-full hover:bg-[#FF5400]/90 transition-colors text-lg font-medium group"
@@ -274,7 +227,7 @@ export default function Capabilities() {
                 Get Started
                 <i className="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
               </a>
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>

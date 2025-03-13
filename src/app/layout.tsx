@@ -8,9 +8,21 @@ import Navbar from '@/components/Navbar';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Mocky Digital - Creative Digital Agency | Kenya",
-  description: "Professional Digital Agency offering Graphics Design, Web Development, and Digital Marketing services in Kenya",
   metadataBase: new URL('https://mocky.co.ke'),
+  title: {
+    default: 'Mocky Digital - Professional Web Design & Digital Marketing Agency Kenya',
+    template: '%s | Mocky Digital Kenya'
+  },
+  description: 'Leading digital agency in Nairobi offering professional web design, graphic design, and digital marketing services. Expert branding and SEO solutions for Kenyan businesses.',
+  keywords: 'web design kenya, graphic design nairobi, digital marketing agency, seo services, professional branding, website development, social media marketing',
+  openGraph: {
+    title: 'Mocky Digital - Professional Digital Agency in Kenya',
+    description: 'Expert web design, graphic design, and digital marketing services in Nairobi',
+    url: 'https://mocky.co.ke',
+    siteName: 'Mocky Digital',
+    locale: 'en_KE',
+    type: 'website',
+  },
   alternates: {
     canonical: '/',
     languages: {
