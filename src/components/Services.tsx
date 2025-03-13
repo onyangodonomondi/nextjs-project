@@ -1,8 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import FloatingRequestButton from './FloatingRequestButton';
-
 const services = [
   {
     title: 'Graphics Design',
@@ -80,11 +77,6 @@ export default function Services() {
                   Get Started
                   <span className="text-lg">→</span>
                 </a>
-              </div>
-              
-              {/* Add floating button for each service */}
-              <div className="absolute bottom-4 right-4">
-                <FloatingRequestButton />
               </div>
             </div>
           ))}

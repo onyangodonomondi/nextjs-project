@@ -1,0 +1,21 @@
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+    transform-origin: center;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-pulse-slower {
+    animation: pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+/* Optional: Add hover effect */
+.animate-float:hover {
+  animation-play-state: paused;
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+} 

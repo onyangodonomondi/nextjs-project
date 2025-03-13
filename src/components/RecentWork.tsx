@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { websiteProjects } from './WebsiteProjects';
-import GraphicsRequestForm from './GraphicsRequestForm';
 
 interface ImageItem {
   id: number;
@@ -55,7 +54,6 @@ export default function RecentWork({ logos, graphics, fliers, websites }: Props)
     logos: 4,
     websites: 4
   });
-  const [isFormOpen, setIsFormOpen] = useState(false);
 
   // Get random items for each category
   const randomGraphics = getRandomItems(graphics, visibleItems.graphics);
@@ -475,23 +473,6 @@ export default function RecentWork({ logos, graphics, fliers, websites }: Props)
           </div>
         )}
       </div>
-
-      {/* Floating Action Button */}
-      <button
-        onClick={() => setIsFormOpen(true)}
-        className="fixed bottom-8 right-8 bg-primary text-white w-16 h-16 rounded-full shadow-lg hover:bg-primary-dark transition-colors flex items-center justify-center group z-40"
-      >
-        <i className="fas fa-pencil-alt text-xl"></i>
-        <span className="absolute right-full mr-4 bg-black text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-          Request Graphics Service
-        </span>
-      </button>
-
-      {/* Graphics Request Form */}
-      <GraphicsRequestForm 
-        isOpen={isFormOpen}
-        onClose={() => setIsFormOpen(false)}
-      />
     </section>
   );
 } 

@@ -65,7 +65,10 @@ module.exports = {
       },
       animation: {
         fadeIn: 'fadeIn 0.3s ease-in-out',
-        slideIn: 'slideIn 0.4s ease-out forwards'
+        slideIn: 'slideIn 0.4s ease-out forwards',
+        'float': 'float 6s ease-in-out infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-slower': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         fadeIn: {
@@ -75,7 +78,18 @@ module.exports = {
         slideIn: {
           '0%': { transform: 'translateY(10px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' }
-        }
+        },
+        float: {
+          '0%, 100%': {
+            transform: 'translateY(0) rotate(0)',
+          },
+          '25%': {
+            transform: 'translateY(-10px) rotate(1deg)',
+          },
+          '75%': {
+            transform: 'translateY(10px) rotate(-1deg)',
+          },
+        },
       },
     },
   },

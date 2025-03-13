@@ -2,62 +2,25 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { TypeAnimation } from 'react-type-animation';
-
-// Temporary placeholder images
-const heroImages = [
-  '/images/hero/1.svg',
-  '/images/hero/2.svg',
-  '/images/hero/3.svg'
-];
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [ripples, setRipples] = useState<Array<{
-    id: number;
-    x: number;
-    y: number;
-    size: number;
-    alpha: number;
-  }>>([]);
-  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
-
-    // Rotate through images every 5 seconds with smooth transitions
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
   }, []);
 
-  // Update the WhatsApp link section
+  // WhatsApp link
   const whatsappMessage = encodeURIComponent(
     "Hello Mocky Digital! I'm interested in your services. Can you help me with my project?"
   );
   const whatsappLink = `https://wa.me/254741590670?text=${whatsappMessage}`;
 
   return (
-    <section className="min-h-screen bg-[#0A2647] relative overflow-hidden">
+    <section className="min-h-screen bg-[#111827] relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-mesh pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary-dark/80 to-secondary/90" />
-      </div>
-
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="lines">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="line hidden md:block" />
-          ))}
-          {[...Array(3)].map((_, i) => (
-            <div key={i + 3} className="line hidden lg:block" />
-          ))}
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1E293B]/90 via-[#111827]/80 to-[#0F172A]/90" />
       </div>
 
       {/* Main Content */}
@@ -88,10 +51,15 @@ export default function Hero() {
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 bg-[#FF4500] text-white rounded-full hover:bg-[#FF4500]/90 transition-all duration-300 text-lg font-medium transform hover:scale-105 active:scale-95"
+                className="inline-flex items-center px-8 py-3 bg-[#FF4500] text-white hover:bg-[#FF4500]/90 
+                transition-all duration-300 text-lg font-medium group relative overflow-hidden"
               >
-                Get Started
-                <i className="fab fa-whatsapp ml-2 text-xl"></i>
+                <span className="relative z-10 flex items-center">
+                  Get Started
+                  <i className="fab fa-whatsapp ml-2 text-xl group-hover:translate-x-1 transition-transform"></i>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#FF4500]/0 via-white/10 to-[#FF4500]/0 
+                translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
               </a>
               
               {/* View Our Work - Facebook Link */}
@@ -99,76 +67,43 @@ export default function Hero() {
                 href="https://www.facebook.com/mockydigital"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 bg-[#1E3A5F] text-white rounded-full hover:bg-[#1E3A5F]/90 transition-all duration-300 text-lg font-medium transform hover:scale-105 active:scale-95"
+                className="inline-flex items-center px-8 py-3 bg-[#1E3A5F] text-white hover:bg-[#1E3A5F]/90 
+                transition-all duration-300 text-lg font-medium group relative overflow-hidden"
               >
-                View Our Work
-                <i className="fas fa-arrow-up-right-from-square ml-2"></i>
+                <span className="relative z-10 flex items-center">
+                  View Our Work
+                  <i className="fas fa-arrow-up-right-from-square ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#1E3A5F]/0 via-white/10 to-[#1E3A5F]/0 
+                translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
               </a>
             </div>
           </div>
 
-          {/* Illustration Section */}
+          {/* Single Image with Animation */}
           <div className={`relative transition-all duration-1000 delay-300 ${
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
           }`}>
             <div className="relative w-full aspect-square max-w-[600px] mx-auto">
-              {!imageError ? (
-                heroImages.map((src, index) => (
-                  <Image
-                    key={src}
-                    src={src}
-                    alt={`Digital Transformation Illustration ${index + 1}`}
-                    width={600}
-                    height={600}
-                    className={`absolute top-0 left-0 object-contain transition-all duration-1000 
-                      ${currentImageIndex === index 
-                        ? 'opacity-100 transform scale-100 rotate-0 translate-y-0' 
-                        : 'opacity-0 transform scale-90 rotate-6 translate-y-8'
-                      }
-                      ${index === ((currentImageIndex + 1) % heroImages.length) 
-                        ? 'z-10' 
-                        : 'z-0'
-                      }`}
-                    priority={index === 0}
-                    onError={() => setImageError(true)}
-                  />
-                ))
-              ) : (
-                // Fallback content if images fail to load
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-white text-center">
-                    <div className="text-6xl mb-4">🎨</div>
-                    <p>Digital Solutions</p>
-                  </div>
-                </div>
-              )}
+              <Image
+                src="/images/hero/2.svg"
+                alt="Digital Marketing Illustration"
+                width={600}
+                height={600}
+                className="object-contain animate-float hover:animate-pulse"
+                priority
+              />
+              
+              {/* Decorative Elements */}
+              <div className="absolute -z-10 inset-0 animate-pulse-slow">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-4/5 bg-blue-500/20 rounded-full blur-3xl" />
+              </div>
+              <div className="absolute -z-10 inset-0 animate-pulse-slower">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-orange-500/20 rounded-full blur-3xl" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Interactive Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {ripples.map(ripple => (
-          <div
-            key={ripple.id}
-            className="absolute rounded-full ripple-gradient transform -translate-x-1/2 -translate-y-1/2"
-            style={{
-              left: ripple.x,
-              top: ripple.y,
-              width: `${ripple.size}px`,
-              height: `${ripple.size}px`,
-              opacity: ripple.alpha,
-            }}
-          />
-        ))}
-        <div 
-          className="absolute w-20 h-20 rounded-full bg-white/5 blur-md transform -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
-          style={{
-            left: mousePos.x,
-            top: mousePos.y,
-          }}
-        />
       </div>
     </section>
   );

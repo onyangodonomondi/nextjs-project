@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import PageHero from '@/components/PageHero';
-import GraphicsRequestForm from './GraphicsRequestForm';
 
 interface ImageItem {
   id: number;
@@ -40,7 +39,6 @@ export default function GraphicsGallery({ categories }: Props) {
   const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<keyof CategoryTitles>('all');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [isFormOpen, setIsFormOpen] = useState(false);
 
   // The categoryTitles object remains the same
   const categoryTitles: CategoryTitles = {
@@ -82,176 +80,157 @@ export default function GraphicsGallery({ categories }: Props) {
   );
 
   return (
-    <>
-      <main className="pt-24">
-        <PageHero 
-          title="Graphics Design Portfolio"
-          subtitle="Creative designs that bring your brand to life"
-        />
-
-        {/* Request Button */}
-        <div className="fixed bottom-8 right-8 z-40">
-          <button
-            onClick={() => setIsFormOpen(true)}
-            className="bg-primary text-white px-6 py-3 rounded-full shadow-lg hover:bg-primary-dark transition-colors flex items-center gap-2"
-          >
-            <i className="fas fa-pencil-alt"></i>
-            Request Graphics Design
-          </button>
-        </div>
-
-        {/* Graphics Request Form */}
-        <GraphicsRequestForm 
-          isOpen={isFormOpen}
-          onClose={() => setIsFormOpen(false)}
-        />
-
-        {/* Category Navigation - Desktop */}
-        <div className="hidden md:block">
-          <section className="py-8 bg-gray-50 sticky top-24 z-30 border-b">
-            <div className="container">
-              <div className="flex flex-wrap gap-4 justify-center">
+    <div className="pt-20">
+      <PageHero 
+        title="Graphics Gallery"
+        description="Explore our creative designs and visual solutions"
+      />
+      
+      {/* Category Navigation - Desktop */}
+      <div className="hidden md:block">
+        <section className="py-8 bg-gray-50 sticky top-20 z-30 border-b">
+          <div className="container">
+            <div className="flex flex-wrap gap-4 justify-center">
+              <button
+                onClick={() => setSelectedCategory('all')}
+                className={`px-6 py-3 rounded-full font-medium transition-colors ${
+                  selectedCategory === 'all'
+                    ? 'bg-primary text-white'
+                    : 'bg-white text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                All Work
+              </button>
+              {Object.entries(categoryTitles).slice(1).map(([key, title]) => (
                 <button
-                  onClick={() => setSelectedCategory('all')}
+                  key={key}
+                  onClick={() => setSelectedCategory(key as keyof CategoryTitles)}
                   className={`px-6 py-3 rounded-full font-medium transition-colors ${
-                    selectedCategory === 'all'
+                    selectedCategory === key as keyof CategoryTitles
                       ? 'bg-primary text-white'
                       : 'bg-white text-gray-600 hover:bg-gray-100'
                   }`}
                 >
-                  All Work
+                  {title}
                 </button>
-                {Object.entries(categoryTitles).slice(1).map(([key, title]) => (
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* Category Dropdown - Mobile */}
+      <div className="md:hidden sticky top-20 z-30 bg-white border-b">
+        <div className="container py-4">
+          <div className="relative">
+            <button
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+              className="w-full px-6 py-3 bg-white border rounded-lg shadow-sm flex items-center justify-between"
+            >
+              <span>{categoryTitles[selectedCategory]}</span>
+              <i className={`fas fa-chevron-down transition-transform ${showMobileMenu ? 'rotate-180' : ''}`}></i>
+            </button>
+
+            {showMobileMenu && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white border rounded-lg shadow-lg overflow-hidden">
+                {Object.entries(categoryTitles).map(([key, title]) => (
                   <button
                     key={key}
-                    onClick={() => setSelectedCategory(key as keyof CategoryTitles)}
-                    className={`px-6 py-3 rounded-full font-medium transition-colors ${
+                    onClick={() => {
+                      setSelectedCategory(key as keyof CategoryTitles);
+                      setShowMobileMenu(false);
+                    }}
+                    className={`w-full px-6 py-3 text-left transition-colors ${
                       selectedCategory === key as keyof CategoryTitles
                         ? 'bg-primary text-white'
-                        : 'bg-white text-gray-600 hover:bg-gray-100'
+                        : 'text-gray-600 hover:bg-gray-50'
                     }`}
                   >
                     {title}
                   </button>
                 ))}
               </div>
-            </div>
-          </section>
-        </div>
-
-        {/* Category Dropdown - Mobile */}
-        <div className="md:hidden sticky top-24 z-30 bg-white border-b">
-          <div className="container py-4">
-            <div className="relative">
-              <button
-                onClick={() => setShowMobileMenu(!showMobileMenu)}
-                className="w-full px-6 py-3 bg-white border rounded-lg shadow-sm flex items-center justify-between"
-              >
-                <span>{categoryTitles[selectedCategory]}</span>
-                <i className={`fas fa-chevron-down transition-transform ${showMobileMenu ? 'rotate-180' : ''}`}></i>
-              </button>
-
-              {showMobileMenu && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white border rounded-lg shadow-lg overflow-hidden">
-                  {Object.entries(categoryTitles).map(([key, title]) => (
-                    <button
-                      key={key}
-                      onClick={() => {
-                        setSelectedCategory(key as keyof CategoryTitles);
-                        setShowMobileMenu(false);
-                      }}
-                      className={`w-full px-6 py-3 text-left transition-colors ${
-                        selectedCategory === key as keyof CategoryTitles
-                          ? 'bg-primary text-white'
-                          : 'text-gray-600 hover:bg-gray-50'
-                      }`}
-                    >
-                      {title}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
+      </div>
 
-        {/* Portfolio Sections */}
-        <section className="py-20">
-          <div className="container">
-            {/* Branding Section */}
-            {(selectedCategory === 'all' || selectedCategory === 'branding') && 
-              renderSection(
-                'Merchandise',
-                'Complete branding solutions for businesses',
-                categories.branding
-              )}
+      {/* Portfolio Sections */}
+      <section className="py-20">
+        <div className="container">
+          {/* Branding Section */}
+          {(selectedCategory === 'all' || selectedCategory === 'branding') && 
+            renderSection(
+              'Merchandise',
+              'Complete branding solutions for businesses',
+              categories.branding
+            )}
 
-            {/* Packaging Section */}
-            {(selectedCategory === 'all' || selectedCategory === 'packaging') && 
-              renderSection(
-                'Identity Mockups',
-                'Creative packaging designs that stand out',
-                categories.packaging
-              )}
+          {/* Packaging Section */}
+          {(selectedCategory === 'all' || selectedCategory === 'packaging') && 
+            renderSection(
+              'Identity Mockups',
+              'Creative packaging designs that stand out',
+              categories.packaging
+            )}
 
-            {/* Business Cards Section */}
-            {(selectedCategory === 'all' || selectedCategory === 'cards') && 
-              renderSection(
-                'Business Cards',
-                'Professional business card designs',
-                categories.portfolio.cards,
-                'aspect-[1.6/1]'
-              )}
+          {/* Business Cards Section */}
+          {(selectedCategory === 'all' || selectedCategory === 'cards') && 
+            renderSection(
+              'Business Cards',
+              'Professional business card designs',
+              categories.portfolio.cards,
+              'aspect-[1.6/1]'
+            )}
 
-            {/* Fliers Section */}
-            {(selectedCategory === 'all' || selectedCategory === 'fliers') && 
-              renderSection(
-                'Marketing Fliers',
-                'Eye-catching flier designs',
-                categories.portfolio.flyers,
-                'aspect-[3/4]'
-              )}
+          {/* Fliers Section */}
+          {(selectedCategory === 'all' || selectedCategory === 'fliers') && 
+            renderSection(
+              'Marketing Fliers',
+              'Eye-catching flier designs',
+              categories.portfolio.flyers,
+              'aspect-[3/4]'
+            )}
 
-            {/* Letterheads Section */}
-            {(selectedCategory === 'all' || selectedCategory === 'letterheads') && 
-              renderSection(
-                'Corporate Letterheads',
-                'Professional letterhead designs that enhance your business communication',
-                categories.portfolio.brochures,
-                'aspect-[1/1.4]'
-              )}
+          {/* Letterheads Section */}
+          {(selectedCategory === 'all' || selectedCategory === 'letterheads') && 
+            renderSection(
+              'Corporate Letterheads',
+              'Professional letterhead designs that enhance your business communication',
+              categories.portfolio.brochures,
+              'aspect-[1/1.4]'
+            )}
+        </div>
+      </section>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative w-full max-w-5xl">
+            <Image
+              src={selectedImage.src}
+              alt={selectedImage.alt}
+              width={1920}
+              height={1080}
+              quality={90}
+              priority
+              className="object-contain w-full h-auto"
+            />
+            <button
+              className="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-70 transition-opacity"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedImage(null);
+              }}
+            >
+              <i className="fas fa-times"></i>
+            </button>
           </div>
-        </section>
-
-        {/* Image Modal */}
-        {selectedImage && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedImage(null)}
-          >
-            <div className="relative w-full max-w-5xl">
-              <Image
-                src={selectedImage.src}
-                alt={selectedImage.alt}
-                width={1920}
-                height={1080}
-                quality={90}
-                priority
-                className="object-contain w-full h-auto"
-              />
-              <button
-                className="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-70 transition-opacity"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedImage(null);
-                }}
-              >
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
-          </div>
-        )}
-      </main>
-    </>
+        </div>
+      )}
+    </div>
   );
 } 
