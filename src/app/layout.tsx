@@ -10,6 +10,14 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Mocky Digital - Creative Digital Agency | Kenya",
   description: "Professional Digital Agency offering Graphics Design, Web Development, and Digital Marketing services in Kenya",
+  metadataBase: new URL('https://mocky.co.ke'),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US',
+      'sw-KE': '/sw-KE',
+    },
+  },
 };
 
 export default function RootLayout({
