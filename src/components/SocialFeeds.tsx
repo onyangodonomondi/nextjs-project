@@ -1,27 +1,93 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+// Loading component
+const LoadingCard = ({ platform }: { platform: string }) => (
+  <div className="transform hover:scale-[1.02] transition-transform duration-300">
+    <div className="bg-white rounded-2xl shadow-lg shadow-gray-200/60 overflow-hidden min-h-[500px]">
+      <div className="border-b border-gray-100 p-4 flex items-center gap-3">
+        <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+        <span className="font-semibold text-gray-800">{platform}</span>
+      </div>
+      <div className="p-4 flex items-center justify-center h-[400px]">
+        <div className="animate-pulse flex flex-col items-center gap-4">
+          <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
+          <div className="text-gray-400">Loading {platform} feed...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// Dynamically import components with loading fallback
+const FacebookFeed = dynamic(
+  () => import('./social/FacebookFeed'),
+  { loading: () => <LoadingCard platform="Facebook" />, ssr: false }
+);
+
+const InstagramFeed = dynamic(
+  () => import('./social/InstagramFeed'),
+  { loading: () => <LoadingCard platform="Instagram" />, ssr: false }
+);
+
+const TwitterFeed = dynamic(
+  () => import('./social/TwitterFeed'),
+  { loading: () => <LoadingCard platform="Twitter" />, ssr: false }
+);
+
+const TikTokFeed = dynamic(
+  () => import('./social/TikTokFeed'),
+  { loading: () => <LoadingCard platform="TikTok" />, ssr: false }
+);
+
+// Add type definition for Facebook SDK
+declare global {
+  interface Window {
+    FB?: {
+      XFBML: {
+        parse: () => void;
+      };
+    };
+    twttr?: {
+      widgets: {
+        load: (element?: HTMLElement | null) => void;
+        createTimeline: (options: any) => void;
+      };
+      ready: (callback: () => void) => void;
+    };
+  }
+}
 
 export default function SocialFeeds() {
+  const [scriptsLoaded, setScriptsLoaded] = useState(false);
+
   useEffect(() => {
-    // Reinitialize Facebook SDK
-    if (window.FB) {
-      window.FB.XFBML.parse();
-    }
-
-    // Load Twitter widgets
-    if (window.twttr && window.twttr.widgets) {
-      window.twttr.widgets.load();
-    }
-
-    // Create TikTok embed script
-    const loadTikTokWidget = () => {
-      const script = document.createElement('script');
-      script.src = 'https://www.tiktok.com/embed.js';
-      script.async = true;
-      document.body.appendChild(script);
+    // Load all social media scripts
+    const loadScripts = async () => {
+      try {
+        await Promise.all([
+          // Facebook
+          loadScript('https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0'),
+          // Twitter
+          loadScript('https://platform.twitter.com/widgets.js'),
+          // Instagram
+          loadScript('https://www.instagram.com/static/bundles/es6/EmbedSDK.js/47c7ec92d91e.js')
+        ]);
+        setScriptsLoaded(true);
+      } catch (error) {
+        console.error('Error loading social media scripts:', error);
+      }
     };
-    loadTikTokWidget();
+
+    loadScripts();
+
+    return () => {
+      // Cleanup scripts on unmount
+      const scripts = document.querySelectorAll('script[data-social-script]');
+      scripts.forEach(script => script.remove());
+    };
   }, []);
 
   return (
@@ -39,86 +105,21 @@ export default function SocialFeeds() {
 
         {/* Social Feeds Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {/* Facebook Feed */}
-          <div className="transform hover:scale-[1.02] transition-transform duration-300">
-            <div className="bg-white rounded-2xl shadow-lg shadow-gray-200/60 overflow-hidden min-h-[500px]">
-              <div className="border-b border-gray-100 p-4 flex items-center gap-3">
-                <i className="fab fa-facebook text-[#1877F2] text-2xl"></i>
-                <span className="font-semibold text-gray-800">Facebook</span>
-              </div>
-              <div 
-                className="fb-page" 
-                data-href="https://www.facebook.com/mockydigital"
-                data-tabs="timeline"
-                data-width=""
-                data-height="400"
-                data-small-header="true"
-                data-adapt-container-width="true"
-                data-hide-cover="false"
-                data-show-facepile="true"
-              />
-            </div>
-          </div>
-
-          {/* Instagram Feed */}
-          <div className="transform hover:scale-[1.02] transition-transform duration-300">
-            <div className="bg-white rounded-2xl shadow-lg shadow-gray-200/60 overflow-hidden min-h-[500px]">
-              <div className="border-b border-gray-100 p-4 flex items-center gap-3">
-                <i className="fab fa-instagram text-[#E4405F] text-2xl"></i>
-                <span className="font-semibold text-gray-800">Instagram</span>
-              </div>
-              <blockquote 
-                className="instagram-media" 
-                data-instgrm-permalink="https://www.instagram.com/mockydigital/"
-                data-instgrm-version="14"
-                style={{ 
-                  minWidth: '326px',
-                  height: '400px'
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Twitter/X Feed */}
-          <div className="transform hover:scale-[1.02] transition-transform duration-300">
-            <div className="bg-white rounded-2xl shadow-lg shadow-gray-200/60 overflow-hidden min-h-[500px]">
-              <div className="border-b border-gray-100 p-4 flex items-center gap-3">
-                <i className="fab fa-x-twitter text-black text-2xl"></i>
-                <span className="font-semibold text-gray-800">Twitter/X</span>
-              </div>
-              <div className="p-4">
-                <a 
-                  className="twitter-timeline" 
-                  data-height="400"
-                  data-theme="light"
-                  href="https://twitter.com/mockydigital"
-                >
-                  Tweets by Mocky Digital
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* TikTok Feed */}
-          <div className="transform hover:scale-[1.02] transition-transform duration-300">
-            <div className="bg-white rounded-2xl shadow-lg shadow-gray-200/60 overflow-hidden min-h-[500px]">
-              <div className="border-b border-gray-100 p-4 flex items-center gap-3">
-                <i className="fab fa-tiktok text-black text-2xl"></i>
-                <span className="font-semibold text-gray-800">TikTok</span>
-              </div>
-              <blockquote 
-                className="tiktok-embed"
-                cite="https://www.tiktok.com/@mockydigital"
-                data-unique-id="mockydigital"
-                data-embed-type="creator"
-                style={{ maxWidth: '780px', minWidth: '288px' }}
-              >
-                <section>
-                  <a target="_blank" href="https://www.tiktok.com/@mockydigital">@mockydigital</a>
-                </section>
-              </blockquote>
-            </div>
-          </div>
+          {scriptsLoaded ? (
+            <>
+              <FacebookFeed />
+              <InstagramFeed />
+              <TwitterFeed />
+              <TikTokFeed />
+            </>
+          ) : (
+            <>
+              <LoadingCard platform="Facebook" />
+              <LoadingCard platform="Instagram" />
+              <LoadingCard platform="Twitter" />
+              <LoadingCard platform="TikTok" />
+            </>
+          )}
         </div>
 
         {/* Follow Buttons */}
@@ -163,4 +164,17 @@ export default function SocialFeeds() {
       </div>
     </section>
   );
+}
+
+// Helper function to load scripts
+function loadScript(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.setAttribute('data-social-script', 'true');
+    script.onload = () => resolve();
+    script.onerror = () => reject();
+    document.body.appendChild(script);
+  });
 } 

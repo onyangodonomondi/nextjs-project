@@ -25,8 +25,9 @@ interface Props {
   categories: Categories;
 }
 
-// Define the type for categoryTitles
+// Keep only one type definition
 type CategoryTitles = {
+  [key: string]: string;  // Allow string indexing
   all: string;
   branding: string;
   packaging: string;
@@ -37,11 +38,11 @@ type CategoryTitles = {
 
 export default function GraphicsGallery({ categories }: Props) {
   const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState<keyof CategoryTitles>('all');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  // Type the categoryTitles object
+  // The categoryTitles object remains the same
   const categoryTitles: CategoryTitles = {
     all: 'All Graphics',
     branding: 'Branding',
