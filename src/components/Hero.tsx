@@ -107,14 +107,16 @@ export default function Hero() {
               </a>
 
               <a
-                href="#work"
+                href="https://www.facebook.com/mockydigital"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group relative overflow-hidden rounded-full bg-transparent border-2 border-white/20 
                   px-8 py-4 inline-flex items-center justify-center text-white font-semibold transition-all duration-300 
                   hover:border-white hover:scale-105 hover:shadow-lg hover:shadow-white/10"
               >
                 <span className="relative z-10 flex items-center text-lg">
                   View Our Work
-                  <i className="fas fa-arrow-right ml-3 text-xl transition-transform group-hover:translate-x-1" />
+                  <i className="fab fa-facebook ml-3 text-xl transition-transform group-hover:translate-x-1" />
                 </span>
               </a>
             </div>
