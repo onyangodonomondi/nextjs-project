@@ -24,10 +24,10 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    domains: [],
+    domains: ['localhost', 'mocky.co.ke'],
   },
   experimental: {
-    serverComponentsExternalPackages: ['fs', 'path']
+    serverComponentsExternalPackages: ['sharp', 'fs', 'path']
   },
   output: 'standalone'
 };

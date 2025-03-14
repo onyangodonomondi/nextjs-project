@@ -16,39 +16,34 @@ export async function POST(request: Request) {
       );
     }
 
-    // Map category name to path
+    // Map category name to path and ensure it exists in public directory
     const categoryPaths: { [key: string]: string } = {
-      'Branding': 'images/branding',
-      'Packaging': 'images/packaging',
-      'Cards': 'images/portfolio/cards',
-      'Fliers': 'images/portfolio/fliers',
-      'Letterheads': 'images/portfolio/letterheads',
-      'Logos': 'images/logos'
+      'Branding': 'public/images/branding',
+      'Packaging': 'public/images/packaging',
+      'Cards': 'public/images/portfolio/cards',
+      'Fliers': 'public/images/portfolio/fliers',
+      'Letterheads': 'public/images/portfolio/letterheads',
+      'Logos': 'public/images/logos'
     };
 
-    const categoryPath = categoryPaths[categoryName];
-    if (!categoryPath) {
+    const uploadPath = categoryPaths[categoryName];
+    if (!uploadPath) {
       return NextResponse.json(
         { error: 'Invalid category' },
         { status: 400 }
       );
     }
 
-    // Create directory path
-    const directoryPath = join(process.cwd(), 'public', categoryPath);
+    // Create full directory path
+    const directoryPath = join(process.cwd(), uploadPath);
     
     // Ensure directory exists
-    try {
-      await mkdir(directoryPath, { recursive: true });
-    } catch (error) {
-      console.error('Error creating directory:', error);
-    }
+    await mkdir(directoryPath, { recursive: true });
 
-    // Convert file to buffer
+    // Process image with sharp
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Process image with sharp
     const processedBuffer = await sharp(buffer)
       .jpeg({ 
         quality: 80,
@@ -62,17 +57,20 @@ export async function POST(request: Request) {
       })
       .toBuffer();
 
-    // Create unique filename with .jpg extension since we're converting to JPEG
+    // Create unique filename
     const filename = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`.replace(/\.[^/.]+$/, '') + '.jpg';
     const filepath = join(directoryPath, filename);
 
-    // Write processed file
+    // Write file
     await writeFile(filepath, processedBuffer);
 
+    // Return path relative to public directory for client use
+    const clientPath = filepath.split('public')[1];
     return NextResponse.json({ 
       success: true,
-      path: `/${categoryPath}/${filename}`
+      path: clientPath
     });
+
   } catch (error) {
     console.error('Error uploading file:', error);
     return NextResponse.json(
