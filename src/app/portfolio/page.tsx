@@ -1,24 +1,15 @@
-import { getImagesFromDirectory } from '@/utils/getImages';
+import { getImagesFromFS } from '@/utils/server/fileSystem';
 import GraphicsGallery from '@/components/GraphicsGallery';
 
 // This needs to be a Server Component to use async
 export default async function Graphics() {
-  // Fetch all images using the API route
-  const fetchImages = async (path: string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/images?path=${encodeURIComponent(path)}`, {
-      cache: 'no-store' // Disable caching to always get fresh data
-    });
-    if (!response.ok) return [];
-    return response.json();
-  };
-
-  // Fetch all images
+  // Fetch all images directly from the file system
   const [brandingImages, packagingImages, cardImages, flierImages, letterheadImages] = await Promise.all([
-    fetchImages('/images/branding'),
-    fetchImages('/images/packaging'),
-    fetchImages('/images/portfolio/cards'),
-    fetchImages('/images/portfolio/fliers'),
-    fetchImages('/images/portfolio/letterheads')
+    getImagesFromFS('/images/branding'),
+    getImagesFromFS('/images/packaging'),
+    getImagesFromFS('/images/portfolio/cards'),
+    getImagesFromFS('/images/portfolio/fliers'),
+    getImagesFromFS('/images/portfolio/letterheads')
   ]);
 
   // Create categories object with fetched images

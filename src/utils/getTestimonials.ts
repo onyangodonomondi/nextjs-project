@@ -1,4 +1,4 @@
-import { getImagesFromDirectory } from './getImages';
+import { getImagesFromFS } from './serverUtils';
 
 export interface TestimonialType {
   id: number;
@@ -11,7 +11,7 @@ export interface TestimonialType {
 
 export async function getTestimonials(): Promise<TestimonialType[]> {
   try {
-    const testimonialImages = await getImagesFromDirectory('/images/testimonials');
+    const testimonialImages = await Promise.resolve(getImagesFromFS('/images/testimonials'));
     
     if (!testimonialImages || testimonialImages.length === 0) {
       console.log('No testimonial images found');

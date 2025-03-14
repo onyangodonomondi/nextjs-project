@@ -1,5 +1,6 @@
 import React from 'react';
-import { getImagesFromDirectory, ImageItem } from '@/utils/getImages';
+import { getImagesFromFS } from '@/utils/server/fileSystem';
+import type { ImageItem } from '@/utils/getImages';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
@@ -14,16 +15,17 @@ import SocialFeeds from '@/components/SocialFeeds';
 
 // Add category to the images when getting them
 export default async function Home() {
-  const logos = await getImagesFromDirectory('/images/logos')
+  // Get images directly from the file system during build
+  const logos = await Promise.resolve(getImagesFromFS('/images/logos'))
     .then(images => images.map((img: ImageItem) => ({ ...img, category: 'logo' })));
   
-  const graphics = await getImagesFromDirectory('/images/branding')
+  const graphics = await Promise.resolve(getImagesFromFS('/images/branding'))
     .then(images => images.map((img: ImageItem) => ({ ...img, category: 'graphics' })));
   
-  const fliers = await getImagesFromDirectory('/images/portfolio/fliers')
+  const fliers = await Promise.resolve(getImagesFromFS('/images/portfolio/fliers'))
     .then(images => images.map((img: ImageItem) => ({ ...img, category: 'flier' })));
   
-  const websites = await getImagesFromDirectory('/images/portfolio/websites')
+  const websites = await Promise.resolve(getImagesFromFS('/images/portfolio/websites'))
     .then(images => images.map((img: ImageItem) => ({ ...img, category: 'website' })));
 
   const testimonials = await getTestimonials();

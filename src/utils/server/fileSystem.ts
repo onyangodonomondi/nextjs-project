@@ -1,6 +1,6 @@
 import { readdirSync, existsSync } from 'fs';
 import { join } from 'path';
-import type { ImageItem } from './getImages';
+import type { ImageItem } from '../getImages';
 
 export function getImagesFromFS(path: string): ImageItem[] {
   try {

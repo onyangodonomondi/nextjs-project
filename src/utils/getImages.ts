@@ -1,5 +1,4 @@
-import { readFileSync, readdirSync, existsSync } from 'fs';
-import { join } from 'path';
+import { getImagesFromFS } from './serverUtils';
 
 export interface ImageItem {
   id: number;
