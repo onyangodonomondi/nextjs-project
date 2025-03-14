@@ -18,12 +18,12 @@ export async function POST(request: Request) {
 
     // Map category name to path
     const categoryPaths: { [key: string]: string } = {
-      'Branding': '/images/branding',
-      'Packaging': '/images/packaging',
-      'Cards': '/images/portfolio/cards',
-      'Fliers': '/images/portfolio/fliers',
-      'Letterheads': '/images/portfolio/letterheads',
-      'Logos': '/images/logos'
+      'Branding': 'images/branding',
+      'Packaging': 'images/packaging',
+      'Cards': 'images/portfolio/cards',
+      'Fliers': 'images/portfolio/fliers',
+      'Letterheads': 'images/portfolio/letterheads',
+      'Logos': 'images/logos'
     };
 
     const categoryPath = categoryPaths[categoryName];
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ 
       success: true,
-      path: `${categoryPath}/${filename}` 
+      path: `/${categoryPath}/${filename}`
     });
   } catch (error) {
     console.error('Error uploading file:', error);

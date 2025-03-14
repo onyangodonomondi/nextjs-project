@@ -19,7 +19,11 @@ export async function getImagesFromDirectory(path: string): Promise<ImageItem[]>
       throw new Error(`Failed to fetch images: ${response.statusText}`);
     }
 
-    return await response.json();
+    const images = await response.json();
+    return images.map((img: ImageItem) => ({
+      ...img,
+      src: img.src.startsWith('/') ? img.src : `/${img.src}`
+    }));
   } catch (error) {
     console.error('Error getting images:', error);
     return [];

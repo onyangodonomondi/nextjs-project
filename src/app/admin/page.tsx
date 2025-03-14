@@ -42,10 +42,18 @@ export default function AdminDashboard() {
   const loadImages = async () => {
     try {
       const updatedCategories = await Promise.all(
-        categories.map(async (category) => ({
-          ...category,
-          images: await getImagesFromDirectory(category.path),
-        }))
+        categories.map(async (category) => {
+          const images = await getImagesFromDirectory(category.path);
+          // Ensure image paths are correct
+          const processedImages = images.map(img => ({
+            ...img,
+            src: img.src.startsWith('/') ? img.src : `/${img.src}`
+          }));
+          return {
+            ...category,
+            images: processedImages,
+          };
+        })
       );
       setCategories(updatedCategories);
     } catch (error) {
@@ -295,6 +303,7 @@ export default function AdminDashboard() {
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src = '/images/placeholder.jpg';
+                        console.error('Image load error:', image.src);
                       }}
                     />
                     {/* Overlay */}
