@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { getImagesFromDirectory } from '@/utils/getImages';
 import type { ImageItem } from '@/utils/getImages';
 import toast from 'react-hot-toast';
+import imageCompression from 'browser-image-compression';
 
 interface ImageCategory {
   name: string;
@@ -84,14 +85,57 @@ export default function AdminDashboard() {
     router.push('/admin/login');
   };
 
+  const compressImage = async (file: File) => {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+      fileType: 'image/jpeg',
+    };
+
+    try {
+      const compressedFile = await imageCompression(file, options);
+      return compressedFile;
+    } catch (error) {
+      console.error('Error compressing image:', error);
+      throw new Error('Image compression failed');
+    }
+  };
+
   const handleFileUpload = async (files: FileList | null) => {
-    if (!files || files.length === 0) return;
+    if (!files?.length) return;
 
     const file = files[0];
+    setIsLoading(true);
+
     try {
+      // Check file type
+      if (!file.type.startsWith('image/')) {
+        throw new Error('Please upload an image file');
+      }
+
+      // Check file size (max 50MB for initial upload)
+      if (file.size > 50 * 1024 * 1024) {
+        throw new Error('File size too large (max 50MB)');
+      }
+
+      // Compress image if larger than 1MB
+      let uploadFile = file;
+      if (file.size > 1024 * 1024) {
+        try {
+          uploadFile = await compressImage(file);
+          console.log('Image compressed:', {
+            originalSize: file.size,
+            compressedSize: uploadFile.size
+          });
+        } catch (compressionError) {
+          console.error('Compression failed, using original file:', compressionError);
+        }
+      }
+
       const formData = new FormData();
-      formData.append('file', file);
-      formData.append('category', categories.find(cat => cat.name === selectedCategory)?.path || '');
+      formData.append('file', uploadFile);
+      formData.append('category', selectedCategory);
 
       const response = await fetch('/api/admin/uploadImage', {
         method: 'POST',
@@ -99,14 +143,18 @@ export default function AdminDashboard() {
       });
 
       if (!response.ok) {
-        throw new Error('Upload failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
       }
 
+      const data = await response.json();
       toast.success('Image uploaded successfully');
-      await loadImages();
+      loadImages(); // Refresh the image list
     } catch (error) {
-      console.error('Error uploading file:', error);
-      toast.error('Failed to upload image');
+      console.error('Upload error:', error);
+      toast.error(error instanceof Error ? error.message : 'Upload failed');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -268,6 +316,18 @@ export default function AdminDashboard() {
           </div>
         </div>
       </main>
+
+      {/* Add loading indicator */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl">
+            <div className="flex items-center space-x-3">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              <p>Processing image...</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 
