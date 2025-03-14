@@ -17,6 +17,7 @@ const menuItems = [
     children: [
       { label: 'VPS Solutions', path: '/vps-solutions' },
       { label: 'Portfolio', path: '/portfolio' },
+      { label: 'Logos', path: '/logos' },
       { label: 'Pricing', path: '/pricing' }
     ]
   },
