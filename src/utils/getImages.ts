@@ -1,37 +1,27 @@
-import fs from 'fs';
-import path from 'path';
+import { readFileSync, readdirSync, existsSync } from 'fs';
+import { join } from 'path';
 
-interface ImageItem {
+export interface ImageItem {
   id: number;
   src: string;
   alt: string;
+  category?: string;
 }
 
-export async function getImagesFromDirectory(dirPath: string): Promise<ImageItem[]> {
+export async function getImagesFromDirectory(path: string): Promise<ImageItem[]> {
   try {
-    const fullPath = path.join(process.cwd(), 'public', dirPath);
-    
-    if (!fs.existsSync(fullPath)) {
-      return [];
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/api/images?path=${encodeURIComponent(path)}`, {
+      cache: 'no-store'
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch images: ${response.statusText}`);
     }
-    
-    const files = fs.readdirSync(fullPath)
-      .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file))
-      .sort((a, b) => {
-        const aNum = parseInt(a.split('.')[0]);
-        const bNum = parseInt(b.split('.')[0]);
-        return aNum - bNum;
-      });
 
-    const images = files.map((file, index) => ({
-      id: index + 1,
-      src: `${dirPath}/${file}`,
-      alt: `Design ${index + 1}`
-    }));
-
-    return images;
+    return await response.json();
   } catch (error) {
-    console.error(`Error reading directory ${dirPath}:`, error);
+    console.error('Error getting images:', error);
     return [];
   }
 } 

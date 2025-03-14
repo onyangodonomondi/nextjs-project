@@ -13,40 +13,40 @@ export async function getTestimonials(): Promise<TestimonialType[]> {
   try {
     const testimonialImages = await getImagesFromDirectory('/images/testimonials');
     
-    // Make sure we have images before creating testimonials
     if (!testimonialImages || testimonialImages.length === 0) {
-      console.warn('No testimonial images found');
+      console.log('No testimonial images found');
       return [];
     }
 
+    // Map testimonial data with images
     return [
       {
         id: 1,
-        name: "Client 1",
+        name: "John Doe",
         role: "CEO",
-        company: "Company A",
+        company: "Tech Solutions Ltd",
         image: testimonialImages[0]?.src || "/images/placeholder-avatar.png",
-        testimonial: "Working with Mocky Digital was an absolute pleasure. Their attention to detail and creative solutions exceeded our expectations."
+        testimonial: "Working with Mocky Digital transformed our online presence. Their team delivered exceptional results that exceeded our expectations."
       },
       {
         id: 2,
-        name: "Client 2",
+        name: "Jane Smith",
         role: "Marketing Director",
-        company: "Company B",
+        company: "Creative Minds Inc",
         image: testimonialImages[1]?.src || "/images/placeholder-avatar.png",
-        testimonial: "The team at Mocky Digital delivered exceptional results. Their expertise in design and development helped transform our brand."
+        testimonial: "The professionalism and creativity of Mocky Digital's team helped us achieve our branding goals. Highly recommended!"
       },
       {
         id: 3,
-        name: "Client 3",
+        name: "David Wilson",
         role: "Founder",
-        company: "Company C",
+        company: "Startup Hub",
         image: testimonialImages[2]?.src || "/images/placeholder-avatar.png",
-        testimonial: "Professional, responsive, and highly skilled. Mocky Digital helped us achieve our digital goals with outstanding results."
+        testimonial: "Outstanding service and attention to detail. Mocky Digital helped us establish a strong digital presence from day one."
       }
     ];
   } catch (error) {
-    console.error('Error fetching testimonials:', error);
+    console.error('Error getting testimonials:', error);
     return [];
   }
 } 

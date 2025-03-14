@@ -1,5 +1,5 @@
 import React from 'react';
-import { getImagesFromDirectory } from '@/utils/getImages';
+import { getImagesFromDirectory, ImageItem } from '@/utils/getImages';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
@@ -14,21 +14,17 @@ import SocialFeeds from '@/components/SocialFeeds';
 
 // Add category to the images when getting them
 export default async function Home() {
-  const logos = await getImagesFromDirectory('/images/logos').then(images =>
-    images.map(img => ({ ...img, category: 'logo' }))
-  );
+  const logos = await getImagesFromDirectory('/images/logos')
+    .then(images => images.map((img: ImageItem) => ({ ...img, category: 'logo' })));
   
-  const graphics = await getImagesFromDirectory('/images/branding').then(images =>
-    images.map(img => ({ ...img, category: 'graphics' }))
-  );
+  const graphics = await getImagesFromDirectory('/images/branding')
+    .then(images => images.map((img: ImageItem) => ({ ...img, category: 'graphics' })));
   
-  const fliers = await getImagesFromDirectory('/images/portfolio/fliers').then(images =>
-    images.map(img => ({ ...img, category: 'flier' }))
-  );
+  const fliers = await getImagesFromDirectory('/images/portfolio/fliers')
+    .then(images => images.map((img: ImageItem) => ({ ...img, category: 'flier' })));
   
-  const websites = await getImagesFromDirectory('/images/portfolio/websites').then(images =>
-    images.map(img => ({ ...img, category: 'website' }))
-  );
+  const websites = await getImagesFromDirectory('/images/portfolio/websites')
+    .then(images => images.map((img: ImageItem) => ({ ...img, category: 'website' })));
 
   const testimonials = await getTestimonials();
 
