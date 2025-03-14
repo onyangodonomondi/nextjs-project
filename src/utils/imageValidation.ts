@@ -29,8 +29,9 @@ export class ImageValidator {
     }
 
     // Check file type
-    if (!settings.allowedTypes!.includes(file.type)) {
-      errors.push(`File type must be one of: ${settings.allowedTypes!.join(', ')}`);
+    const mimeType = lookup(file.name);
+    if (!mimeType || !settings.allowedTypes!.includes(mimeType)) {
+      errors.push(`Invalid file type. Only JPEG, PNG and WebP images are allowed.`);
     }
 
     // Check dimensions
