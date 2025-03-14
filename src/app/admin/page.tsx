@@ -7,6 +7,14 @@ import { getImagesFromDirectory } from '@/utils/getImages';
 import type { ImageItem } from '@/utils/getImages';
 import toast from 'react-hot-toast';
 import imageCompression from 'browser-image-compression';
+import { UploadQueue } from '@/services/uploadQueue';
+import { ImageValidator } from '@/utils/imageValidation';
+import { ErrorTracker } from '@/services/errorTracking';
+import { ImageDebug } from '@/components/ImageDebug';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { ImageLoader } from '@/components/ImageLoader';
+import { RenameDialog } from '@/components/RenameDialog';
+import { generateFileName } from '@/utils/fileNameUtils';
 
 interface ImageCategory {
   name: string;
@@ -28,6 +36,11 @@ export default function AdminDashboard() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [renameDialog, setRenameDialog] = useState({
+    isOpen: false,
+    file: null as File | null,
+    originalName: ''
+  });
 
   useEffect(() => {
     // Check authentication
@@ -43,15 +56,20 @@ export default function AdminDashboard() {
     try {
       const updatedCategories = await Promise.all(
         categories.map(async (category) => {
+          console.log('Loading images for category:', category.path);
           const images = await getImagesFromDirectory(category.path);
-          // Ensure image paths are correct
-          const processedImages = images.map(img => ({
-            ...img,
-            src: img.src.startsWith('/') ? img.src : `/${img.src}`
-          }));
+          console.log('Loaded images:', images);
+          
           return {
             ...category,
-            images: processedImages,
+            images: images.map(img => {
+              const src = img.src.startsWith('/') ? img.src : `/${img.src}`;
+              console.log('Processed image path:', src);
+              return {
+                ...img,
+                src,
+              };
+            })
           };
         })
       );
@@ -110,59 +128,72 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleFileUpload = async (files: FileList | null) => {
+  const handleFileUpload = useCallback(async (files: FileList | null) => {
     if (!files?.length) return;
-
     const file = files[0];
+    
+    // Open rename dialog
+    setRenameDialog({
+      isOpen: true,
+      file,
+      originalName: file.name
+    });
+  }, []);
+
+  const handleRename = async (newName: string) => {
+    if (!renameDialog.file) return;
+    
     setIsLoading(true);
-
     try {
-      // Check file type
-      if (!file.type.startsWith('image/')) {
-        throw new Error('Please upload an image file');
-      }
+      // Generate unique filename
+      const uniqueName = generateFileName(newName);
+      const fileExt = renameDialog.file.name.split('.').pop();
+      const finalName = `${uniqueName}.${fileExt}`;
 
-      // Check file size (max 50MB for initial upload)
-      if (file.size > 50 * 1024 * 1024) {
-        throw new Error('File size too large (max 50MB)');
-      }
-
-      // Compress image if larger than 1MB
-      let uploadFile = file;
-      if (file.size > 1024 * 1024) {
-        try {
-          uploadFile = await compressImage(file);
-          console.log('Image compressed:', {
-            originalSize: file.size,
-            compressedSize: uploadFile.size
-          });
-        } catch (compressionError) {
-          console.error('Compression failed, using original file:', compressionError);
-        }
-      }
-
-      const formData = new FormData();
-      formData.append('file', uploadFile);
-      formData.append('category', selectedCategory);
-
-      const response = await fetch('/api/admin/uploadImage', {
-        method: 'POST',
-        body: formData,
+      // Create new file with new name
+      const newFile = new File([renameDialog.file], finalName, {
+        type: renameDialog.file.type
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Upload failed');
+      // Validate image
+      const validation = await ImageValidator.validateImage(newFile);
+      if (!validation.isValid) {
+        throw new Error(validation.errors.join(', '));
       }
 
-      const data = await response.json();
+      // Add to upload queue
+      const result = await UploadQueue.addToQueue({
+        file: newFile,
+        category: selectedCategory,
+        options: {
+          format: 'webp',
+          quality: 80
+        }
+      });
+
       toast.success('Image uploaded successfully');
-      loadImages(); // Refresh the image list
+      
+      // Refresh category
+      const updatedCategories = [...categories];
+      const categoryIndex = updatedCategories.findIndex(cat => cat.name === selectedCategory);
+      if (categoryIndex !== -1) {
+        const images = await getImagesFromDirectory(updatedCategories[categoryIndex].path);
+        updatedCategories[categoryIndex] = {
+          ...updatedCategories[categoryIndex],
+          images
+        };
+        setCategories(updatedCategories);
+      }
     } catch (error) {
-      console.error('Upload error:', error);
+      ErrorTracker.trackError(
+        error as Error,
+        'ImageUpload',
+        { category: selectedCategory, fileName: renameDialog.file.name }
+      );
       toast.error(error instanceof Error ? error.message : 'Upload failed');
     } finally {
       setIsLoading(false);
+      setRenameDialog({ isOpen: false, file: null, originalName: '' });
     }
   };
 
@@ -284,32 +315,27 @@ export default function AdminDashboard() {
           </div>
 
           {/* Image Grid with fixed image handling */}
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {categories
-              .find((cat) => cat.name === selectedCategory)
-              ?.images.map((image) => (
-                <div
-                  key={image.id}
-                  className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="aspect-square relative">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-                      className="object-cover"
-                      priority={image.id <= 4}
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/images/placeholder.jpg';
-                        console.error('Image load error:', image.src);
-                      }}
-                    />
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-4">
-                      <p className="text-white text-sm px-4 text-center">{image.alt}</p>
-                      <div className="flex gap-2">
+          <ErrorBoundary>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {categories
+                .find((cat) => cat.name === selectedCategory)
+                ?.images.map((image) => (
+                  <div
+                    key={image.src}
+                    className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="aspect-square relative">
+                      <ImageLoader
+                        src={image.src}
+                        alt={image.alt}
+                        className="object-cover"
+                      />
+                      
+                      {/* Overlay */}
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-4">
+                        <p className="text-white text-sm px-4 text-center break-words">
+                          {image.alt}
+                        </p>
                         <button
                           onClick={() => handleDeleteImage(image.src)}
                           className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
@@ -318,11 +344,18 @@ export default function AdminDashboard() {
                           Delete
                         </button>
                       </div>
+
+                      {/* Debug info in development */}
+                      {process.env.NODE_ENV === 'development' && (
+                        <div className="absolute top-0 left-0 z-10 bg-black/50 text-white text-xs p-1 break-all">
+                          {image.src}
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              ))}
-          </div>
+                ))}
+            </div>
+          </ErrorBoundary>
         </div>
       </main>
 
@@ -337,6 +370,14 @@ export default function AdminDashboard() {
           </div>
         </div>
       )}
+
+      {/* Add RenameDialog */}
+      <RenameDialog
+        isOpen={renameDialog.isOpen}
+        originalName={renameDialog.originalName}
+        onClose={() => setRenameDialog({ isOpen: false, file: null, originalName: '' })}
+        onRename={handleRename}
+      />
     </div>
   );
 } 
