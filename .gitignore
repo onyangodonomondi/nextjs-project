@@ -55,3 +55,7 @@ next-env.d.ts
 
 # uploads
 /public/uploads
+
+# Ignore large images
+public/images/**/*.{jpg,jpeg,png,gif,webp}
+!public/images/thumbnails/
