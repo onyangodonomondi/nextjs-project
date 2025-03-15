@@ -17,6 +17,9 @@ const nextConfig = {
         hostname: 'source.unsplash.com',
       }
     ],
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   typescript: {
     // Ignore type checking errors in production
@@ -25,6 +28,14 @@ const nextConfig = {
   eslint: {
     // Ignore ESLint errors in production build
     ignoreDuringBuilds: true,
+  },
+  // Move outputFileTracingExcludes to top level (not under experimental)
+  outputFileTracingExcludes: {
+    '*': [
+      'node_modules/@swc/core-linux-x64-gnu',
+      'node_modules/@swc/core-linux-x64-musl',
+      'node_modules/@esbuild/linux-x64',
+    ],
   },
   // Remove experimental.appDir since App Router is now the default
   // Remove future.webpack5 since it's the default now
@@ -35,7 +46,17 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=3600, s-maxage=86400',
+            value: 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=43200',
+          },
+        ],
+      },
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            // Much longer cache for images
+            value: 'public, max-age=86400, s-maxage=31536000, stale-while-revalidate=86400',
           },
         ],
       },
@@ -62,6 +83,19 @@ const nextConfig = {
   sassOptions: {
     includePaths: ['./src'],
   },
+  // Add redirects for old image paths
+  async redirects() {
+    return [
+      {
+        source: '/images/logos/:path*',
+        destination: '/images/portfolio/logos/:path*',
+        permanent: true,
+      },
+    ]
+  },
+  
+  // Optimize output
+  compress: true,
 };
 
 module.exports = nextConfig; 

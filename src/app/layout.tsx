@@ -2,6 +2,13 @@ import { Metadata } from 'next';
 import './globals.css';
 import RootLayoutWrapper from '@/components/RootLayoutWrapper';
 import PreloadResources from '@/components/PreloadResources';
+import type { NextWebVitalsMetric } from 'next/app';
+
+declare global {
+  interface Window {
+    gtag?: (command: string, action: string, params: object) => void;
+  }
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mocky.co.ke'),
@@ -60,11 +67,45 @@ export default function RootLayout({
           href="https://unpkg.com/aos@next/dist/aos.css" 
         />
         <script src="https://unpkg.com/@phosphor-icons/web"></script>
+        <link rel="stylesheet" href="/styles/critical.css" />
+        <link rel="stylesheet" href="/styles/fonts.css" />
+        <link rel="preload" as="style" href="/styles/animations.css" />
         <PreloadResources />
+        <script 
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = '/styles/animations.css';
+                document.head.appendChild(link);
+              })();
+            `
+          }}
+        />
       </head>
       <body className="min-h-screen bg-gray-50">
         <RootLayoutWrapper>{children}</RootLayoutWrapper>
       </body>
     </html>
   );
+}
+
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  try {
+    console.log(metric);
+    
+    // You can send these metrics to your analytics platform
+    // Example for Google Analytics:
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', metric.name, {
+        value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+        event_category: 'Web Vitals',
+        event_label: metric.id,
+        non_interaction: true,
+      });
+    }
+  } catch (error) {
+    console.error('Error in reportWebVitals:', error);
+  }
 }

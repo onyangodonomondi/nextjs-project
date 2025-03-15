@@ -139,12 +139,13 @@ export default function Hero() {
               </div>
               
               <Image
-                src={imageSrc}
-                alt="Hero Image"
-                width={600}
-                height={400}
+                src="/images/hero-image.jpg"
+                alt="Mocky Digital Services"
                 priority
-                style={{ objectFit: 'contain' }}
+                quality={85}
+                sizes="100vw"
+                fill
+                className="object-cover object-center"
               />
             </div>
           </div>

@@ -4,6 +4,7 @@ import { LoadingSpinner } from '@/components/LoadingSpinner';
 import Navbar from '@/components/Navbar';
 import CallbackForm from '@/components/CallbackForm';
 import BasicStats from '@/components/stats/BasicStats';
+import { getImagePath } from '@/utils/paths';
 
 // Dynamic imports
 const Hero = dynamic(() => import('@/components/Hero'), {

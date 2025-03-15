@@ -2,36 +2,89 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+// Cache the logos in memory to avoid repeated filesystem operations
+let cachedLogos = null;
+let lastCacheTime = 0;
+const CACHE_TTL = 60 * 60 * 1000; // 1 hour in milliseconds
+
 // Function to get logos from the new directory structure
 async function getLogos() {
+  // Check if we have cached logos and if the cache is still valid
+  const now = Date.now();
+  if (cachedLogos && (now - lastCacheTime < CACHE_TTL)) {
+    console.log('Using cached logos');
+    return cachedLogos;
+  }
+
   try {
-    // The directory where logos are stored in the public folder
-    const logoDirectory = path.join(process.cwd(), 'public', 'images', 'portfolio', 'logos');
+    // Try the new path first
+    const newLogoDirectory = path.join(process.cwd(), 'public', 'images', 'portfolio', 'logos');
+    console.log(`Looking for logos in: ${newLogoDirectory}`);
     
-    // Check if directory exists
-    if (!fs.existsSync(logoDirectory)) {
-      console.error(`Directory not found: ${logoDirectory}`);
-      return [];
+    // Check if new directory exists
+    if (fs.existsSync(newLogoDirectory)) {
+      // Read files from the directory
+      const fileNames = fs.readdirSync(newLogoDirectory);
+      
+      // Filter for image files only
+      const imageFiles = fileNames.filter(file => 
+        /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file)
+      );
+      console.log(`Found ${imageFiles.length} image files`);
+      
+      // Create properly structured logo objects
+      const logos = imageFiles.map((fileName, index) => ({
+        id: index + 1,
+        title: fileName.replace(/\.(jpg|jpeg|png|gif|webp|svg)$/i, '').replace(/-/g, ' '),
+        src: `/images/portfolio/logos/${fileName}`,
+        alt: fileName.replace(/\.(jpg|jpeg|png|gif|webp|svg)$/i, '').replace(/-/g, ' '),
+        imageUrl: `/images/portfolio/logos/${fileName}`
+      }));
+      
+      // Cache the results
+      cachedLogos = logos;
+      lastCacheTime = now;
+      
+      return logos;
     }
     
-    // Read files from the directory
-    const fileNames = fs.readdirSync(logoDirectory);
+    // Return demo data if no real logos found
+    const demoLogos = [
+      {
+        id: 1,
+        title: 'Demo Logo 1',
+        src: '/images/portfolio/logo-types/wordmark.png',
+        alt: 'Demo Logo 1',
+        imageUrl: '/images/portfolio/logo-types/wordmark.png'
+      },
+      {
+        id: 2,
+        title: 'Demo Logo 2',
+        src: '/images/portfolio/logo-types/lettermark.png',
+        alt: 'Demo Logo 2',
+        imageUrl: '/images/portfolio/logo-types/lettermark.png'
+      },
+      {
+        id: 3,
+        title: 'Demo Logo 3',
+        src: '/images/portfolio/logo-types/symbol.png',
+        alt: 'Demo Logo 3',
+        imageUrl: '/images/portfolio/logo-types/symbol.png'
+      },
+      {
+        id: 4,
+        title: 'Demo Logo 4',
+        src: '/images/portfolio/logo-types/combination.png',
+        alt: 'Demo Logo 4',
+        imageUrl: '/images/portfolio/logo-types/combination.png'
+      }
+    ];
     
-    // Filter for image files only
-    const imageFiles = fileNames.filter(file => 
-      /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file)
-    );
+    // Cache the results
+    cachedLogos = demoLogos;
+    lastCacheTime = now;
     
-    // Create properly structured logo objects
-    const logos = imageFiles.map((fileName, index) => ({
-      id: index + 1,
-      title: fileName.replace(/\.(jpg|jpeg|png|gif|webp|svg)$/i, '').replace(/-/g, ' '),
-      src: `/images/portfolio/logos/${fileName}`,
-      alt: fileName.replace(/\.(jpg|jpeg|png|gif|webp|svg)$/i, '').replace(/-/g, ' '),
-      imageUrl: `/images/portfolio/logos/${fileName}`
-    }));
-    
-    return logos;
+    return demoLogos;
   } catch (error) {
     console.error('Error reading logo directory:', error);
     return [];
@@ -39,28 +92,21 @@ async function getLogos() {
 }
 
 export async function GET() {
-  // For static builds, use fallback data if needed
-  if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_API_URL) {
-    // Fallback data for static builds
-    const fallbackLogos = [
-      {
-        id: 1,
-        title: 'Sample Logo 1',
-        src: '/images/portfolio/logos/sample-logo-1.jpg',
-        alt: 'Sample Logo 1',
-        imageUrl: '/images/portfolio/logos/sample-logo-1.jpg'
+  try {
+    console.log('Getting logos');
+    const logos = await getLogos();
+    
+    console.log(`Returning ${logos.length} logos`);
+    return NextResponse.json(logos, {
+      headers: {
+        'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=43200',
       },
-      {
-        id: 2,
-        title: 'Sample Logo 2',
-        src: '/images/portfolio/logos/sample-logo-2.jpg',
-        alt: 'Sample Logo 2',
-        imageUrl: '/images/portfolio/logos/sample-logo-2.jpg'
-      }
-    ];
-    return NextResponse.json(fallbackLogos);
+    });
+  } catch (error) {
+    console.error('Error in API route:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch logos', details: error instanceof Error ? error.message : String(error) },
+      { status: 500 }
+    );
   }
-
-  const logos = await getLogos();
-  return NextResponse.json(logos);
 } 
