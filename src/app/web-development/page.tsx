@@ -1,13 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import PageHero from '@/components/PageHero';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { cardClasses, headingClasses } from '@/utils/classNames';
 
-// First, let's define better types for our technologies
+// Types for our technologies section
 type TechStack = {
   id: string;
   category: string;
@@ -23,6 +22,7 @@ type TechStack = {
   textColor: string;
 };
 
+// Technologies data
 const technologies: TechStack[] = [
   {
     id: 'frontend',
@@ -162,929 +162,56 @@ const technologies: TechStack[] = [
   }
 ];
 
-// Add these types and data
-type WebsiteType = {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.FC;
-  features: string[];
-  color: {
-    light: string;
-    dark: string;
-    text: string;
-    border: string;
-  };
-};
-
-// Add these modern icon components
-const ModernIcons = {
-  Corporate: () => (
-    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m4 0v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1v5m4 0h-4"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="stroke-current"
-      />
-    </svg>
-  ),
-  Ecommerce: () => (
-    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="stroke-current"
-      />
-    </svg>
-  ),
-  Portfolio: () => (
-    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="stroke-current"
-      />
-    </svg>
-  ),
-  Healthcare: () => (
-    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M9 12h6m-3-3v6m3-12H9a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V5a2 2 0 00-2-2z"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="stroke-current"
-      />
-    </svg>
-  ),
-  Educational: () => (
-    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="stroke-current"
-      />
-    </svg>
-  ),
-  Legal: () => (
-    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M3 6l9-4 9 4v12l-9 4-9-4V6zm9 12v-8m-8-2l8 4 8-4"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="stroke-current"
-      />
-    </svg>
-  ),
-};
-
-// Update the websiteTypes array to use the new icons
-const websiteTypes: WebsiteType[] = [
-  {
-    id: 'corporate',
-    title: 'Corporate Websites',
-    description: 'Professional websites for businesses that establish credibility and showcase services.',
-    icon: ModernIcons.Corporate,
-    features: [
-      'Company Profile',
-      'Service Showcase',
-      'Team Profiles',
-      'Contact Integration',
-      'Blog Integration',
-      'Analytics Dashboard'
-    ],
-    color: {
-      light: 'bg-blue-50',
-      dark: 'bg-blue-500',
-      text: 'text-blue-600',
-      border: 'border-blue-200'
-    }
-  },
-  {
-    id: 'ecommerce',
-    title: 'E-commerce Websites',
-    description: 'Online stores with secure payment gateways and inventory management.',
-    icon: ModernIcons.Ecommerce,
-    features: [
-      'Product Catalog',
-      'Shopping Cart',
-      'Payment Integration',
-      'Order Management',
-      'Inventory System',
-      'Customer Accounts'
-    ],
-    color: {
-      light: 'bg-purple-50',
-      dark: 'bg-purple-500',
-      text: 'text-purple-600',
-      border: 'border-purple-200'
-    }
-  },
-  {
-    id: 'portfolio',
-    title: 'Portfolio Websites',
-    description: 'Creative platforms to showcase your work and attract potential clients.',
-    icon: ModernIcons.Portfolio,
-    features: [
-      'Project Gallery',
-      'Case Studies',
-      'Client Testimonials',
-      'Contact Forms',
-      'Social Media Integration',
-      'SEO Optimization'
-    ],
-    color: {
-      light: 'bg-orange-50',
-      dark: 'bg-orange-500',
-      text: 'text-orange-600',
-      border: 'border-orange-200'
-    }
-  },
-  {
-    id: 'healthcare',
-    title: 'Healthcare Websites',
-    description: 'User-friendly websites for medical practices and healthcare providers.',
-    icon: ModernIcons.Healthcare,
-    features: [
-      'Appointment Booking',
-      'Patient Portal',
-      'Service Information',
-      'Doctor Profiles',
-      'HIPAA Compliance',
-      'Emergency Contact'
-    ],
-    color: {
-      light: 'bg-emerald-50',
-      dark: 'bg-emerald-500',
-      text: 'text-emerald-600',
-      border: 'border-emerald-200'
-    }
-  },
-  {
-    id: 'educational',
-    title: 'Educational Websites',
-    description: 'Interactive platforms for schools, colleges, and educational institutions.',
-    icon: ModernIcons.Educational,
-    features: [
-      'Course Catalog',
-      'Student Portal',
-      'Learning Management',
-      'Event Calendar',
-      'Resource Library',
-      'Online Registration'
-    ],
-    color: {
-      light: 'bg-cyan-50',
-      dark: 'bg-cyan-500',
-      text: 'text-cyan-600',
-      border: 'border-cyan-200'
-    }
-  },
-  {
-    id: 'legal',
-    title: 'Legal Websites',
-    description: 'Professional websites for law firms and legal consultants.',
-    icon: ModernIcons.Legal,
-    features: [
-      'Practice Areas',
-      'Case Results',
-      'Attorney Profiles',
-      'Client Portal',
-      'Legal Resources',
-      'Consultation Booking'
-    ],
-    color: {
-      light: 'bg-amber-50',
-      dark: 'bg-amber-500',
-      text: 'text-amber-600',
-      border: 'border-amber-200'
-    }
-  }
-];
-
-const techStack = {
-  frontend: {
-    title: 'Frontend Technologies',
-    items: [
-      { name: 'React/Next.js', icon: 'fab fa-react', description: 'Fast, modern user interfaces' },
-      { name: 'TypeScript', icon: 'fas fa-code', description: 'Type-safe development' },
-      { name: 'Tailwind CSS', icon: 'fas fa-paint-brush', description: 'Beautiful, responsive designs' }
-    ]
-  },
-  backend: {
-    title: 'Backend Technologies',
-    items: [
-      { name: 'Node.js', icon: 'fab fa-node-js', description: 'Scalable server solutions' },
-      { name: 'Python', icon: 'fab fa-python', description: 'Data processing & APIs' },
-      { name: 'PHP/Laravel', icon: 'fab fa-php', description: 'Robust web applications' }
-    ]
-  }
-};
-
-const projectTimelines = {
-  basic: {
-    type: 'Basic Website',
-    duration: '2-3 weeks',
-    phases: [
-      { name: 'Planning & Design', days: 5 },
-      { name: 'Development', days: 7 },
-      { name: 'Testing & Revisions', days: 3 }
-    ]
-  },
-  ecommerce: {
-    type: 'E-commerce Website',
-    duration: '4-6 weeks',
-    phases: [
-      { name: 'Planning & Design', days: 10 },
-      { name: 'Development', days: 15 },
-      { name: 'Testing & Integration', days: 7 }
-    ]
-  }
-};
-
-const serviceFeatures = [
-  {
-    name: 'Responsive Design',
-    basic: '✓',
-    professional: '✓',
-    enterprise: '✓'
-  },
-  {
-    name: 'Custom Domain',
-    basic: '✓',
-    professional: '✓',
-    enterprise: '✓'
-  },
-  {
-    name: 'SSL Certificate',
-    basic: 'Basic',
-    professional: 'Advanced',
-    enterprise: 'Wildcard'
-  },
-  {
-    name: 'Storage Space',
-    basic: '10GB',
-    professional: '50GB',
-    enterprise: 'Unlimited'
-  },
-  {
-    name: 'Bandwidth',
-    basic: '100GB',
-    professional: '500GB',
-    enterprise: 'Unlimited'
-  },
-  {
-    name: 'Email Accounts',
-    basic: '5',
-    professional: '20',
-    enterprise: 'Unlimited'
-  },
-  {
-    name: 'Database',
-    basic: '1',
-    professional: '5',
-    enterprise: 'Unlimited'
-  },
-  {
-    name: 'Backup Frequency',
-    basic: 'Weekly',
-    professional: 'Daily',
-    enterprise: 'Real-time'
-  },
-  {
-    name: 'SEO Tools',
-    basic: 'Basic',
-    professional: 'Advanced',
-    enterprise: 'Premium'
-  },
-  {
-    name: 'Support',
-    basic: 'Email',
-    professional: 'Priority',
-    enterprise: '24/7 Dedicated'
-  }
-];
-
-const faqs = [
-  {
-    question: "How long does it take to build a website?",
-    answer: "Timeline varies based on complexity. A basic website typically takes 2-3 weeks, while e-commerce sites may take 4-6 weeks or more."
-  },
-  {
-    question: "What is your web development process?",
-    answer: "Our process includes discovery, planning, design, development, testing, and launch phases. We maintain clear communication throughout to ensure your vision is realized."
-  },
-  {
-    question: "Do you provide website maintenance services?",
-    answer: "Yes, we offer various maintenance packages that include regular updates, security monitoring, backups, and technical support."
-  },
-  {
-    question: "Can you help with website hosting?",
-    answer: "Yes, we provide reliable hosting solutions with different plans to suit your needs, including shared hosting, VPS, and dedicated servers."
-  },
-  {
-    question: "Do you offer e-commerce solutions?",
-    answer: "Yes, we build custom e-commerce websites using platforms like WooCommerce and Shopify, complete with payment gateway integration and inventory management."
-  },
-  {
-    question: "What about mobile responsiveness?",
-    answer: "All our websites are built with a mobile-first approach, ensuring they look and function perfectly on all devices and screen sizes."
-  },
-  {
-    question: "Do you provide SEO services?",
-    answer: "Yes, we offer comprehensive SEO services including on-page optimization, keyword research, content strategy, and technical SEO implementation."
-  },
-  {
-    question: "What technologies do you use?",
-    answer: "We use modern technologies including React, Next.js, Node.js, PHP/Laravel, and WordPress, choosing the best stack for your specific needs."
-  },
-  {
-    question: "Can you help with domain registration?",
-    answer: "Yes, we can help you select and register the perfect domain name for your website, including various TLDs (.com, .co.ke, .org, etc.)."
-  },
-  {
-    question: "What about website security?",
-    answer: "We implement robust security measures including SSL certificates, regular security audits, malware scanning, and backup solutions."
-  }
-];
-
-// Add these color definitions for the phases
-const phaseColors = {
-  'Discovery & Planning': {
-    bg: 'bg-blue-500',
-    text: 'text-blue-600',
-    light: 'bg-blue-50',
-    border: 'border-blue-200'
-  },
-  'Design': {
-    bg: 'bg-purple-500',
-    text: 'text-purple-600',
-    light: 'bg-purple-50',
-    border: 'border-purple-200'
-  },
-  'Development': {
-    bg: 'bg-orange-500',
-    text: 'text-orange-600',
-    light: 'bg-orange-50',
-    border: 'border-orange-200'
-  },
-  'Testing': {
-    bg: 'bg-green-500',
-    text: 'text-green-600',
-    light: 'bg-green-50',
-    border: 'border-green-200'
-  },
-  'Deployment': {
-    bg: 'bg-red-500',
-    text: 'text-red-600',
-    light: 'bg-red-50',
-    border: 'border-red-200'
-  }
-};
-
-// Define the timeline types
-type TimelinePhase = {
-  name: string;
-  duration: string;
-  tasks: string[];
-  icon: string;
-};
-
-const developmentTimeline = {
-  phases: [
-    {
-      name: 'Discovery & Planning',
-      duration: '1-2 weeks',
-      tasks: [
-        'Requirements gathering',
-        'Project scope definition',
-        'Technology stack selection',
-        'Timeline planning'
-      ],
-      icon: 'fas fa-search-plus'
-    },
-    {
-      name: 'Design',
-      duration: '1-2 weeks',
-      tasks: [
-        'Wireframe creation',
-        'UI/UX design',
-        'Design review',
-        'Client feedback'
-      ],
-      icon: 'fas fa-pencil-ruler'
-    },
-    {
-      name: 'Development',
-      duration: '2-4 weeks',
-      tasks: [
-        'Frontend development',
-        'Backend integration',
-        'Database setup',
-        'Feature implementation'
-      ],
-      icon: 'fas fa-code'
-    },
-    {
-      name: 'Testing',
-      duration: '1 week',
-      tasks: [
-        'Quality assurance',
-        'Cross-browser testing',
-        'Performance optimization',
-        'Security testing'
-      ],
-      icon: 'fas fa-vial'
-    },
-    {
-      name: 'Deployment',
-      duration: '2-3 days',
-      tasks: [
-        'Server setup',
-        'Domain configuration',
-        'SSL installation',
-        'Go-live preparation'
-      ],
-      icon: 'fas fa-rocket'
-    }
-  ] as TimelinePhase[]
-};
-
-const processSteps = [
-  {
-    title: 'Discovery',
-    description: 'We start by understanding your business goals, target audience, and project requirements.',
-    icon: 'fas fa-search',
-  },
-  {
-    title: 'Planning',
-    description: 'Creating a detailed project roadmap, wireframes, and technical specifications.',
-    icon: 'fas fa-sitemap',
-  },
-  {
-    title: 'Design',
-    description: 'Crafting beautiful, user-friendly interfaces that align with your brand.',
-    icon: 'fas fa-paint-brush',
-  },
-  {
-    title: 'Development',
-    description: 'Building your website using modern, scalable technologies.',
-    icon: 'fas fa-code',
-  },
-  {
-    title: 'Testing',
-    description: 'Rigorous testing across devices and browsers to ensure quality.',
-    icon: 'fas fa-vial',
-  },
-  {
-    title: 'Launch',
-    description: 'Deploying your website and providing ongoing support.',
-    icon: 'fas fa-rocket',
-  },
-];
-
 export default function WebDevelopment() {
-  const [showFeatures, setShowFeatures] = useState(false);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Add scroll event listener to update active dot
-  useEffect(() => {
-    const slider = document.getElementById('websiteSlider');
-    if (slider) {
-      const handleScroll = () => {
-        const index = Math.round(slider.scrollLeft / (350 + 24)); // card width + gap
-        setActiveIndex(index);
-      };
-      
-      slider.addEventListener('scroll', handleScroll);
-      return () => slider.removeEventListener('scroll', handleScroll);
-    }
-  }, []);
-
   return (
-    <main className="pt-24 bg-gray-50">
+    <div className="pt-24 bg-gray-50">
       <PageHero 
         title="Web Development Services"
         subtitle="Custom web solutions that drive growth and deliver exceptional user experiences."
         bgImage="/images/web-dev-hero.jpg"
       />
 
-      {/* Contact Form Section */}
-      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container max-w-7xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-8"
-          >
-            <h2 className="text-3xl font-bold text-gray-900">Get Started</h2>
-            <p className="mt-2 text-gray-600">Tell us about your project</p>
-          </motion.div>
-
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-            <div className="p-4 sm:p-6 md:p-8">
-              <form>
-                {/* Contact Details Section */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                    <input
-                      id="fullName"
-                      type="text"
-                      className="w-full p-3 rounded-xl border border-gray-200 
-                        focus:outline-none focus:ring-2 focus:ring-primary/20
-                        bg-gray-50/50 hover:bg-gray-50 transition-colors"
-                      placeholder="John Doe"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">Email Address</label>
-                    <input
-                      id="email"
-                      type="email"
-                      className="w-full p-3 rounded-xl border border-gray-200 
-                        focus:outline-none focus:ring-2 focus:ring-primary/20
-                        bg-gray-50/50 hover:bg-gray-50 transition-colors"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-                    <input
-                      id="phone"
-                      type="tel"
-                      className="w-full p-3 rounded-xl border border-gray-200 
-                        focus:outline-none focus:ring-2 focus:ring-primary/20
-                        bg-gray-50/50 hover:bg-gray-50 transition-colors"
-                      placeholder="+254 700 000000"
-                    />
-                  </div>
-                </div>
-
-                {/* Project Details Section */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">Project Type</label>
-                    <select
-                      id="projectType"
-                      className="w-full p-3 rounded-xl border border-gray-200 
-                        focus:outline-none focus:ring-2 focus:ring-primary/20 
-                        appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
-                        cursor-pointer"
-                      defaultValue=""
-                    >
-                      <option value="" disabled>Select project type</option>
-                      <option value="website">Website Development</option>
-                      <option value="ecommerce">E-commerce Platform</option>
-                      <option value="webapp">Web Application</option>
-                      <option value="portal">Customer Portal</option>
-                      <option value="cms">Content Management System</option>
-                      <option value="custom">Custom Solution</option>
-                    </select>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">Timeline</label>
-                    <select
-                      id="timeline"
-                      className="w-full p-3 rounded-xl border border-gray-200 
-                        focus:outline-none focus:ring-2 focus:ring-primary/20 
-                        appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
-                        cursor-pointer"
-                    >
-                      <option value="" disabled selected>Select timeline</option>
-                      <option value="urgent">Urgent (1-2 weeks)</option>
-                      <option value="normal">Normal (2-4 weeks)</option>
-                      <option value="relaxed">Relaxed (4-8 weeks)</option>
-                      <option value="flexible">Flexible</option>
-                    </select>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">Budget Range (KES)</label>
-                    <select
-                      id="budget"
-                      className="w-full p-3 rounded-xl border border-gray-200 
-                        focus:outline-none focus:ring-2 focus:ring-primary/20 
-                        appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
-                        cursor-pointer"
-                    >
-                      <option value="" disabled selected>Select budget</option>
-                      <option value="30k-50k">30K - 50K</option>
-                      <option value="50k-100k">50K - 100K</option>
-                      <option value="100k-200k">100K - 200K</option>
-                      <option value="200k-500k">200K - 500K</option>
-                      <option value="500k+">500K+</option>
-                    </select>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">Priority Level</label>
-                    <select
-                      id="priority"
-                      className="w-full p-3 rounded-xl border border-gray-200 
-                        focus:outline-none focus:ring-2 focus:ring-primary/20 
-                        appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
-                        cursor-pointer"
-                    >
-                      <option value="" disabled selected>Select priority</option>
-                      <option value="high">High</option>
-                      <option value="medium">Medium</option>
-                      <option value="low">Low</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Project Description */}
-                <div className="mb-6 sm:mb-8 space-y-1">
-                  <label className="block text-sm font-medium text-gray-700">Project Description</label>
-                  <textarea
-                    id="description"
-                    className="w-full p-3 rounded-xl border border-gray-200 
-                      focus:outline-none focus:ring-2 focus:ring-primary/20 
-                      bg-gray-50/50 hover:bg-gray-50 transition-colors resize-none"
-                    rows={3}
-                    placeholder="Tell us about your project goals, features required, and any specific requirements..."
-                  ></textarea>
-                </div>
-
-                {/* Form Actions */}
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                  <div className="text-sm text-gray-500 order-2 sm:order-1">
-                    <i className="fas fa-shield-alt mr-2"></i>
-                    Your information is secure and encrypted
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-xl 
-                      font-medium hover:bg-primary-dark transition-all shadow-md 
-                      flex items-center justify-center gap-2 order-1 sm:order-2"
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      
-                      // Get form values
-                      const name = (document.getElementById('fullName') as HTMLInputElement)?.value;
-                      const email = (document.getElementById('email') as HTMLInputElement)?.value;
-                      const phone = (document.getElementById('phone') as HTMLInputElement)?.value;
-                      const projectType = (document.getElementById('projectType') as HTMLSelectElement)?.value;
-                      const timeline = (document.getElementById('timeline') as HTMLSelectElement)?.value;
-                      const budget = (document.getElementById('budget') as HTMLSelectElement)?.value;
-                      const priority = (document.getElementById('priority') as HTMLSelectElement)?.value;
-                      const description = (document.getElementById('description') as HTMLTextAreaElement)?.value;
-
-                      // Validate required fields
-                      if (!name || !email || !phone || !projectType || !budget || !description) {
-                        alert('Please fill in all required fields');
-                        return;
-                      }
-
-                      // Format WhatsApp message
-                      const message = `*New Project Request*\n\n` +
-                        `*Contact Details*\n` +
-                        `Name: ${name}\n` +
-                        `Email: ${email}\n` +
-                        `Phone: ${phone}\n\n` +
-                        `*Project Details*\n` +
-                        `Type: ${projectType}\n` +
-                        `Timeline: ${timeline}\n` +
-                        `Budget: ${budget}\n` +
-                        `Priority: ${priority}\n\n` +
-                        `*Project Description*\n${description}`;
-
-                      // Open WhatsApp with formatted message
-                      window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
-                    }}
-                  >
-                    Submit Request
-                  </motion.button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Types of Websites Section */}
-      <section className="py-20 overflow-hidden">
-        <div className="container max-w-7xl mx-auto px-4">
+      {/* Service Overview Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">Types of Websites We Create</h2>
-            <p className="mt-2 text-gray-600">Specialized web solutions for every industry</p>
+            <h2 className="text-3xl font-bold text-gray-900">Professional Web Development</h2>
+            <p className="mt-2 text-gray-600">Creating digital experiences that drive business growth</p>
           </div>
 
-          <div className="relative">
-            {/* Slider Container */}
-            <div 
-              className="overflow-x-auto hide-scrollbar"
-              id="websiteSlider"
-            >
-              <div className="flex gap-6 pb-8">
-                {/* Website Cards */}
-                {websiteTypes.map((type, index) => (
-                  <div
-                        key={type.id} 
-                        className={`bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg 
-                          transition-all duration-300 min-w-[350px] border border-gray-100
-                          hover:border-primary/20 group`}
-                    >
-                      <h3 className={`text-xl font-semibold text-gray-900 mb-4 
-                        group-hover:text-primary transition-colors`}>
-                        {type.title}
-                      </h3>
-                    <p className="text-gray-600 mb-6">{type.description}</p>
-                      <ul className="space-y-3 text-gray-600">
-                        {type.features.map((feature) => (
-                          <li key={feature} className="flex items-center gap-2">
-                            <span className={`w-1.5 h-1.5 rounded-full bg-primary/30 
-                              group-hover:bg-primary transition-colors`}></span>
-                            {feature}
-                      </li>
-                    ))}
-                  </ul>
-                ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-primary text-2xl mb-4">
+                <i className="fas fa-laptop-code"></i>
               </div>
+              <h3 className="text-xl font-semibold mb-3">Custom Web Development</h3>
+              <p className="text-gray-600">Tailored websites and web applications designed specifically for your business needs.</p>
             </div>
 
-            {/* Navigation Controls */}
-            <div className="flex items-center justify-center gap-8 mt-6">
-              {/* Left Arrow */}
-              <button
-                onClick={() => {
-                  const slider = document.getElementById('websiteSlider');
-                  if (slider) {
-                    const newIndex = activeIndex === 0 ? websiteTypes.length - 1 : activeIndex - 1;
-                    const scrollAmount = newIndex * (350 + 24);
-                    slider.scrollTo({
-                      left: scrollAmount,
-                      behavior: 'smooth'
-                    });
-                    setActiveIndex(newIndex);
-                  }
-                }}
-                aria-label="Previous"
-                className={`p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
-                  shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200`}
-              >
-                <i className="fas fa-chevron-left"></i>
-              </button>
-
-              {/* Scroll Dots */}
-              <div className="flex justify-center items-center gap-3">
-                {websiteTypes.map((_, index) => (
-                  <button
-                    key={index}
-                    className={`transition-all duration-300 rounded-full
-                      ${index === activeIndex 
-                        ? 'w-8 h-3 bg-primary shadow-md' 
-                        : 'w-3 h-3 bg-gray-200 hover:bg-primary/40'
-                      }`}
-                    onClick={() => {
-                      const slider = document.getElementById('websiteSlider');
-                      if (slider) {
-                        const scrollAmount = index * (350 + 24);
-                        slider.scrollTo({
-                          left: scrollAmount,
-                          behavior: 'smooth'
-                        });
-                        setActiveIndex(index);
-                      }
-                    }}
-                    aria-label={`View ${websiteTypes[index].title}`}
-                  />
-                ))}
+            <div className="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-primary text-2xl mb-4">
+                <i className="fas fa-mobile-alt"></i>
               </div>
-
-              {/* Right Arrow */}
-              <button
-                onClick={() => {
-                  const slider = document.getElementById('websiteSlider');
-                  if (slider) {
-                    const newIndex = activeIndex === websiteTypes.length - 1 ? 0 : activeIndex + 1;
-                    const scrollAmount = newIndex * (350 + 24);
-                    slider.scrollTo({
-                      left: scrollAmount,
-                      behavior: 'smooth'
-                    });
-                    setActiveIndex(newIndex);
-                  }
-                }}
-                aria-label="Next"
-                className={`p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
-                  shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200`}
-              >
-                <i className="fas fa-chevron-right"></i>
-              </button>
+              <h3 className="text-xl font-semibold mb-3">Responsive Design</h3>
+              <p className="text-gray-600">Websites that look and function perfectly across all devices and screen sizes.</p>
             </div>
 
-            {/* Custom Scrollbar Styling */}
-            <style jsx global>{`
-              .hide-scrollbar {
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-                scroll-snap-type: x mandatory;
-              }
-              .hide-scrollbar::-webkit-scrollbar {
-                display: none;
-              }
-            `}</style>
-          </div>
-        </div>
-      </section>
-
-      {/* Development Process Section */}
-      <section className="py-20 bg-white">
-        <div className="container max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900">Our Development Process</h2>
-            <p className="mt-2 text-gray-600">A systematic approach to delivering exceptional results</p>
-          </div>
-
-          {/* Timeline Container */}
-          <div className="relative max-w-5xl mx-auto">
-            {/* Horizontal Line - Hidden on mobile */}
-            <div className="hidden md:block absolute top-[25px] left-0 w-full h-[2px]">
-              <div className="h-full bg-gradient-to-r from-blue-400 via-purple-500 to-red-400"></div>
-            </div>
-
-            {/* Vertical Line - Shown only on mobile */}
-            <div className="md:hidden absolute left-[25px] top-0 h-full w-[2px]">
-              <div className="h-full bg-gradient-to-b from-blue-400 via-purple-500 to-red-400"></div>
-            </div>
-
-            {/* Timeline Steps */}
-            <div className="relative flex flex-col md:flex-row md:justify-between gap-8 md:gap-0">
-              {/* Step 1 */}
-              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                <div className="w-[50px] h-[50px] rounded-full border-2 border-blue-400 bg-white 
-                  flex items-center justify-center text-blue-400 text-xl font-semibold z-10">
-                  1
-                </div>
-                <div className="md:text-center">
-                  <h3 className="text-[#ff6b00] font-semibold">Discovery & Planning</h3>
-                </div>
+            <div className="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-primary text-2xl mb-4">
+                <i className="fas fa-search"></i>
               </div>
-
-              {/* Step 2 */}
-              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-400 bg-white 
-                  flex items-center justify-center text-purple-400 text-xl font-semibold z-10">
-                  2
-                </div>
-                <div className="md:text-center">
-                  <h3 className="text-[#ff6b00] font-semibold">Design</h3>
-                </div>
-              </div>
-
-              {/* Step 3 */}
-              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                <div className="w-[50px] h-[50px] rounded-full border-2 border-blue-400 bg-white 
-                  flex items-center justify-center text-blue-400 text-xl font-semibold z-10">
-                  3
-                </div>
-                <div className="md:text-center">
-                  <h3 className="text-[#ff6b00] font-semibold">Development</h3>
-                </div>
-              </div>
-
-              {/* Step 4 */}
-              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                <div className="w-[50px] h-[50px] rounded-full border-2 border-pink-400 bg-white 
-                  flex items-center justify-center text-pink-400 text-xl font-semibold z-10">
-                  4
-                </div>
-                <div className="md:text-center">
-                  <h3 className="text-[#ff6b00] font-semibold">Testing</h3>
-                </div>
-              </div>
-
-              {/* Step 5 */}
-              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                <div className="w-[50px] h-[50px] rounded-full border-2 border-red-400 bg-white 
-                  flex items-center justify-center text-red-400 text-xl font-semibold z-10">
-                  5
-                </div>
-                <div className="md:text-center">
-                  <h3 className="text-[#ff6b00] font-semibold">Deployment</h3>
-                </div>
-              </div>
+              <h3 className="text-xl font-semibold mb-3">SEO Optimization</h3>
+              <p className="text-gray-600">Built-in search engine optimization to help your website rank higher.</p>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Technologies We Use Section */}
       <section className="py-20 bg-white">
-        <div className="container">
+        <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1146,188 +273,393 @@ export default function WebDevelopment() {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="text-gradient">Web Development Portfolio</h2>
-            <p>Discover our latest web development projects and see how we can transform your digital presence.</p>
+      {/* Website Types Section */}
+      <section className="py-20 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Types of Websites We Create</h2>
+            <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
+              We specialize in developing a wide range of websites tailored to different business needs and objectives
+            </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                image: "/web/Mac-1024x683.jpg",
-                title: "Security Company Website",
-                description: "Custom Website for a security Company",
-                link: "https://top23security.com/"
+                title: "Corporate Websites",
+                icon: "fas fa-building",
+                description: "Professional websites that establish credibility and showcase your brand's unique value proposition to potential clients.",
+                features: ["Brand Storytelling", "Team Profiles", "Service Showcases", "Contact Information"]
               },
               {
-                image: "/web/Macbook-1-1024x683.jpg",
-                title: "Corporate Website",
-                description: "Modern business website with dynamic features",
-                link: "https://lsmsolutionsltd.com/"
+                title: "E-commerce Websites",
+                icon: "fas fa-shopping-cart",
+                description: "Fully-functional online stores with secure payment gateways, inventory management, and customer account features.",
+                features: ["Product Catalog", "Secure Checkout", "Customer Accounts", "Order Tracking"]
               },
               {
-                image: "/web/Macbook-1024x683.jpg",
-                title: "StartUp Company Website",
-                description: "Custom Website for a StartUp Company",
-                link: "https://nafrichemdistributors.co.ke/"
+                title: "Portfolio Websites",
+                icon: "fas fa-images",
+                description: "Visually stunning showcases for creative professionals looking to display their work and attract new clients.",
+                features: ["Project Galleries", "Case Studies", "Testimonials", "Inquiry Forms"]
               },
               {
-                image: "/web/Macbook-Pro-1024x683.jpg",
-                title: "Tourism Company Website",
-                description: "Custom Website for a Tourism Company",
-                link: "https://drivestayexplore.com/"
+                title: "Landing Pages",
+                icon: "fas fa-bullseye",
+                description: "Conversion-focused pages designed to drive specific actions like sign-ups, downloads, or purchases.",
+                features: ["Clear CTAs", "Lead Capture", "A/B Testing", "Conversion Tracking"]
               },
               {
-                image: "/web/Macbook2-1024x683.jpg",
-                title: "E-commerce Website",
-                description: "Custom Website for an E-commerce Company",
-                link: "https://excaliburdealerslimited.com/"
+                title: "Blogs & News Sites",
+                icon: "fas fa-newspaper",
+                description: "Content-rich platforms for sharing articles, news, and engaging with your audience through regular updates.",
+                features: ["Content Categories", "Search Functionality", "Social Sharing", "Comment Systems"]
               },
               {
-                image: "/web/Macbook3-1024x683.jpg",
-                title: "Crypto Trading Company Website",
-                description: "Custom Website for a Crypto Trading Company",
-                link: "https://piggycryptoke.com/"
-              },
-              {
-                image: "/web/Macbook4-1-1024x683.jpg",
-                title: "Law Firm Website",
-                description: "Custom Website for a Law Firm",
-                link: "https://wasongalaw.co.ke/"
-              },
-              {
-                image: "/web/Macbook6-1024x683.jpg",
-                title: "College Website",
-                description: "Custom Website for a College",
-                link: "https://knowledgespringinstitute.ac.ke/"
-              },
-              {
-                image: "/web/Macbook7-1024x683.jpg",
-                title: "E-commerce Website",
-                description: "Custom Website for an E-commerce Company",
-                link: "https://charloflexshippers.co.ke/"
-              },
-              {
-                image: "/web/Macbook4-1024x683.jpg",
-                title: "Corporate Website",
-                description: "Custom Website for a Corporate Company",
-                link: "https://icl.aero/"
-              },
-              {
-                image: "/web/pure-1024x683.jpg",
-                title: "NGO Website",
-                description: "Custom Website for an NGO",
-                link: "https://pure-gift.org/"
-              },
-              {
-                image: "/web/Macbook12-1024x683.jpg",
-                title: "Corporate Website",
-                description: "Custom Website for a Corporate Company",
-                link: "https://reucherafricakenyaltd.co.ke/"
+                title: "Web Applications",
+                icon: "fas fa-cogs",
+                description: "Interactive, feature-rich applications that offer specific functionalities and solve user problems.",
+                features: ["User Authentication", "Real-time Updates", "Data Visualization", "Custom Functionality"]
               }
-            ].map((project, index) => (
-              <div key={project.link} className="portfolio-card group" data-aos="fade-up" data-aos-delay={index % 3 * 100}>
-                <div className="relative w-full h-64 rounded-xl overflow-hidden mb-4">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-4">
-                  <h4 className="text-xl font-semibold mb-2">{project.title}</h4>
-                  <p className="text-gray-600 mb-4">{project.description}</p>
-                  <div>
-                    <a
-                      href={project.link}
-                      className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Visit Website <i className="fas fa-external-link-alt"></i>
-                    </a>
+            ].map((item, index) => (
+              <div 
+                key={item.title}
+                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group"
+              >
+                <div className="p-6">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                      <i className={`${item.icon} text-xl`}></i>
+                    </div>
+                    <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <p className="text-gray-600 mb-5">{item.description}</p>
+                  <div className="pt-4 border-t border-gray-100">
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">Key Features:</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {item.features.map((feature) => (
+                        <div key={feature} className="flex items-center gap-2">
+                          <i className="fas fa-check text-xs text-green-500"></i>
+                          <span className="text-sm text-gray-600">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Frequently Asked Questions
-            </h2>
-            <p className="mt-4 text-gray-600">
-              Everything you need to know about our web development services
+          <div className="mt-12 text-center">
+            <p className="text-gray-700 mb-4">
+              Need a custom solution that doesn't fit these categories?
             </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`bg-white rounded-xl overflow-hidden transition-all duration-300
-                  ${expandedFaq === index ? 'shadow-lg ring-2 ring-primary/10' : 'shadow-sm hover:shadow-md'}`}
-              >
-                <button
-                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                  className="w-full text-left p-6 focus:outline-none"
-                >
-                  <div className="flex justify-between items-start gap-4">
-                    <div className="flex gap-4 items-start">
-                      <span className={`p-2 rounded-lg ${
-                        expandedFaq === index 
-                          ? 'bg-primary/10 text-primary' 
-                          : 'bg-gray-100 text-gray-500'
-                      }`}>
-                        <i className="fas fa-question text-lg"></i>
-                      </span>
-                      <h3 className="text-lg font-semibold text-gray-900 leading-tight">
-                        {faq.question}
-                      </h3>
-                    </div>
-                    <span className={`transition-transform ${
-                      expandedFaq === index ? 'rotate-180' : ''
-                    }`}>
-                      <i className="fas fa-chevron-down text-gray-400"></i>
-                    </span>
-                  </div>
-                </button>
-
-                <motion.div
-                  initial={false}
-                  animate={{ 
-                    height: expandedFaq === index ? 'auto' : 0,
-                    opacity: expandedFaq === index ? 1 : 0
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
-                >
-                  <div className="p-6 pt-0 text-gray-600 border-t border-gray-100">
-                    {faq.answer}
-                  </div>
-                </motion.div>
-              </motion.div>
-            ))}
+            <Link href="/contact" className="text-primary hover:text-primary-dark font-medium">
+              Contact us for a custom quote <i className="fas fa-arrow-right ml-1"></i>
+            </Link>
           </div>
         </div>
       </section>
-    </main>
+
+      {/* Portfolio Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900">Web Development Portfolio</h2>
+            <p className="mt-2 text-gray-600">Discover our latest web development projects</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                image: "/images/web/Mac-1024x683.jpg",
+                title: "Security Company Website",
+                description: "Custom Website for a security Company",
+                link: "https://top23security.com/"
+              },
+              {
+                image: "/images/web/Macbook-1-1024x683.jpg",
+                title: "Corporate Website",
+                description: "Modern business website with dynamic features",
+                link: "https://lsmsolutionsltd.com/"
+              },
+              {
+                image: "/images/web/Macbook-1024x683.jpg",
+                title: "StartUp Company Website",
+                description: "Custom Website for a StartUp Company",
+                link: "https://nafrichemdistributors.co.ke/"
+              },
+              {
+                image: "/images/web/Macbook-Pro-1024x683.jpg",
+                title: "Tourism Company Website",
+                description: "Custom Website for a Tourism Company",
+                link: "https://drivestayexplore.com/"
+              },
+              {
+                image: "/images/web/Macbook2-1024x683.jpg",
+                title: "E-commerce Website",
+                description: "Custom Website for an E-commerce Company",
+                link: "https://excaliburdealerslimited.com/"
+              },
+              {
+                image: "/images/web/Macbook3-1024x683.jpg",
+                title: "Crypto Trading Company Website",
+                description: "Custom Website for a Crypto Trading Company",
+                link: "https://piggycryptoke.com/"
+              }
+            ].map((project, index) => (
+              <div key={project.link} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group">
+                <div className="relative w-full h-64 overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">{project.title}</h3>
+                  <p className="text-gray-600 mb-4">{project.description}</p>
+                  <a
+                    href={project.link}
+                    className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit Website <i className="fas fa-external-link-alt"></i>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-12 text-center">
+            <Link href="/portfolio" className="px-8 py-3 bg-[#0A1929] text-white rounded-full hover:bg-[#0A1929]/90 transition-colors inline-block">
+              View All Projects
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Development Process Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Our Development Process</h2>
+            <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
+              A systematic approach to delivering high-quality web solutions that meet your business objectives
+            </p>
+          </div>
+
+          <div className="relative">
+            {/* Process Timeline Line */}
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 transform -translate-x-1/2 z-0"></div>
+            
+            <div className="space-y-12 md:space-y-0 relative z-10">
+              {[
+                {
+                  step: 1,
+                  title: "Discovery & Planning",
+                  description: "We begin by understanding your business, target audience, and objectives through in-depth consultations.",
+                  details: [
+                    "Requirements gathering",
+                    "User research",
+                    "Competitive analysis",
+                    "Project scoping",
+                    "Timeline planning"
+                  ],
+                  icon: "fas fa-lightbulb"
+                },
+                {
+                  step: 2,
+                  title: "Design & Prototyping",
+                  description: "Our team creates wireframes and visual designs that align with your brand and provide optimal user experience.",
+                  details: [
+                    "Wireframing",
+                    "UI/UX design",
+                    "Responsive layouts",
+                    "Interactive prototypes",
+                    "Client feedback integration"
+                  ],
+                  icon: "fas fa-pencil-ruler"
+                },
+                {
+                  step: 3,
+                  title: "Development",
+                  description: "We build your website using the latest technologies while following best practices for performance and security.",
+                  details: [
+                    "Frontend coding",
+                    "Backend development",
+                    "Database integration",
+                    "API implementation",
+                    "Content management setup"
+                  ],
+                  icon: "fas fa-code"
+                },
+                {
+                  step: 4,
+                  title: "Testing & Quality Assurance",
+                  description: "Thorough testing across devices and browsers to ensure your website functions flawlessly.",
+                  details: [
+                    "Functionality testing",
+                    "Cross-browser compatibility",
+                    "Mobile responsiveness",
+                    "Performance optimization",
+                    "Security testing"
+                  ],
+                  icon: "fas fa-vial"
+                },
+                {
+                  step: 5,
+                  title: "Deployment & Launch",
+                  description: "We handle the technical aspects of launching your website and ensure everything runs smoothly.",
+                  details: [
+                    "Server configuration",
+                    "DNS setup",
+                    "SSL implementation",
+                    "Performance monitoring",
+                    "Launch support"
+                  ],
+                  icon: "fas fa-rocket"
+                },
+                {
+                  step: 6,
+                  title: "Ongoing Support & Optimization",
+                  description: "We provide continued support and strategic updates to help your website grow with your business.",
+                  details: [
+                    "Regular maintenance",
+                    "Performance monitoring",
+                    "Security updates",
+                    "Analytics reporting",
+                    "Strategic enhancements"
+                  ],
+                  icon: "fas fa-sync-alt"
+                }
+              ].map((process, index) => (
+                <div key={process.step} className="relative md:grid md:grid-cols-2 md:gap-8 md:items-center mb-12 md:mb-20">
+                  <div className={`md:text-right md:pr-10 ${index % 2 !== 0 ? 'md:col-start-2' : ''}`}>
+                    {/* Step Circle for medium screens and up */}
+                    <div className="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-primary text-white items-center justify-center text-xl font-bold shadow-lg z-20">
+                      {process.step}
+                    </div>
+                    
+                    {/* Content */}
+                    <div className={`bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 relative ${index % 2 !== 0 ? '' : 'md:mr-10'}`}>
+                      {/* Step Circle for mobile */}
+                      <div className="md:hidden flex items-center mb-4">
+                        <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-lg font-bold shadow-md mr-3">
+                          {process.step}
+                        </div>
+                        <div className={`w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary`}>
+                          <i className={`${process.icon}`}></i>
+                        </div>
+                      </div>
+                      
+                      <h3 className="text-xl font-semibold mb-3 flex items-center">
+                        {/* Icon for medium screens and up */}
+                        <div className={`hidden md:flex w-10 h-10 ${index % 2 !== 0 ? 'ml-3 order-2' : 'mr-3'} rounded-full bg-primary/10 items-center justify-center text-primary`}>
+                          <i className={`${process.icon}`}></i>
+                        </div>
+                        <span>{process.title}</span>
+                      </h3>
+                      
+                      <p className="text-gray-600 mb-4">{process.description}</p>
+                      
+                      <div className="mt-4 space-y-2">
+                        {process.details.map((detail, i) => (
+                          <div key={i} className="flex items-start gap-2">
+                            <i className="fas fa-check-circle text-green-500 mt-1"></i>
+                            <span className="text-gray-700">{detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Empty column for alternating layout */}
+                  {index % 2 !== 0 && <div className="hidden md:block"></div>}
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="mt-16 text-center">
+            <Link href="/contact" className="px-8 py-3 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors inline-block">
+              Start Your Project
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
+              Common questions about our web development services and process
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            {[
+              {
+                question: "How long does it take to build a website?",
+                answer: "The timeline for website development varies based on complexity and requirements. A simple informational website might take 2-4 weeks, while more complex e-commerce sites or web applications can take 2-3 months or more. During our initial consultation, we'll provide a more accurate timeline based on your specific needs."
+              },
+              {
+                question: "How much does a website cost?",
+                answer: "Website costs vary widely depending on design complexity, functionality requirements, and content volume. Basic websites start around $3,000, while e-commerce sites and custom web applications typically range from $8,000 to $25,000+. We provide detailed quotes after understanding your specific requirements."
+              },
+              {
+                question: "Will my website be mobile-friendly?",
+                answer: "Absolutely! All websites we develop are fully responsive and optimized for all devices, including smartphones, tablets, and desktop computers. We thoroughly test on multiple screen sizes to ensure a consistent, user-friendly experience."
+              },
+              {
+                question: "Do you provide website maintenance services?",
+                answer: "Yes, we offer ongoing maintenance packages to keep your website secure, updated, and performing optimally. Our maintenance services include security updates, performance monitoring, content updates, technical support, and regular backups."
+              },
+              {
+                question: "Will my website be search engine friendly?",
+                answer: "Yes, all our websites are built with SEO best practices in mind. We implement proper HTML structure, mobile optimization, schema markup, fast loading speeds, and user-friendly navigation. We also offer additional SEO services for more comprehensive search engine marketing."
+              },
+              {
+                question: "Do you provide content for the website?",
+                answer: "While we primarily focus on design and development, we can assist with content creation through our network of professional copywriters and content strategists for an additional fee. We can also provide guidance if you prefer to create the content yourself."
+              }
+            ].map((faq, index) => (
+              <div key={index} className="mb-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{faq.question}</h3>
+                  <p className="text-gray-700">{faq.answer}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-gray-700 mb-4">Have more questions? We're here to help!</p>
+            <Link href="/contact" className="text-primary hover:text-primary-dark font-medium">
+              Contact our team <i className="fas fa-arrow-right ml-1"></i>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-16 bg-primary">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold text-white mb-6">Ready to start your project?</h2>
+          <p className="text-white/80 max-w-2xl mx-auto mb-8">
+            Let's discuss how we can help bring your vision to life with our web development expertise.
+          </p>
+          <Link href="/contact" className="inline-block px-8 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+            Get in Touch
+          </Link>
+        </div>
+      </section>
+    </div>
   );
 } 
