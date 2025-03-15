@@ -1,6 +1,6 @@
 import sharp from 'sharp';
 import { mkdir, writeFile } from 'fs/promises';
-import { join } from 'path';
+import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
 interface ImageProcessingOptions {
@@ -28,53 +28,38 @@ export class ImageService {
     'Logos': 'logos'
   };
 
-  static async processAndSaveImage(
-    file: File,
-    category: string,
-    options: Partial<ImageProcessingOptions> = {}
-  ) {
+  static async processAndSaveImage(file: File, category: string) {
     try {
-      const processOptions = { ...this.DEFAULT_OPTIONS, ...options };
-      const categoryPath = this.categoryPaths[category];
+      // Map categories to directories
+      const categoryPaths: Record<string, string> = {
+        'branding': '/images/branding',
+        'logos': '/images/logos',
+        'fliers': '/images/portfolio/fliers',
+        'websites': '/images/portfolio/websites'
+      };
 
-      if (!categoryPath) {
-        throw new Error('Invalid category');
-      }
+      const basePath = categoryPaths[category] || '/images/uploads';
+      const uploadDir = path.join(process.cwd(), 'public', basePath);
 
-      const uploadPath = join(process.cwd(), this.UPLOAD_BASE_PATH, categoryPath);
-      await mkdir(uploadPath, { recursive: true });
+      // Ensure directory exists
+      await mkdir(uploadDir, { recursive: true });
 
-      const buffer = Buffer.from(await file.arrayBuffer());
-      
-      // Use the provided filename without extension
-      const filename = file.name.split('.')[0];
-      
-      // Generate multiple formats and sizes
-      const [optimizedImage, thumbnail] = await Promise.all([
-        this.optimizeImage(buffer, {
-          ...processOptions,
-          width: processOptions.width,
-          height: processOptions.height,
-        }),
-        this.optimizeImage(buffer, {
-          ...processOptions,
-          width: 400,
-          height: 400,
-        })
-      ]);
+      // Clean filename and keep original name
+      const filename = file.name.toLowerCase().replace(/[^a-z0-9.-]/g, '-');
+      const fullPath = path.join(uploadDir, filename);
 
-      const [imagePath, thumbnailPath] = await Promise.all([
-        this.saveImage(optimizedImage, uploadPath, filename, processOptions.format),
-        this.saveImage(thumbnail, uploadPath, `thumb-${filename}`, processOptions.format)
-      ]);
+      // Save file
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      await writeFile(fullPath, buffer);
 
+      // Return web-accessible path
       return {
-        path: imagePath.split('public')[1],
-        thumbnailPath: thumbnailPath.split('public')[1],
-        format: processOptions.format
+        path: path.join(basePath, filename).replace(/\\/g, '/'),
+        filename
       };
     } catch (error) {
-      console.error('Image processing error:', error);
+      console.error('Error saving image:', error);
       throw error;
     }
   }
@@ -106,11 +91,11 @@ export class ImageService {
 
   private static async saveImage(
     buffer: Buffer,
-    path: string,
+    uploadPath: string,
     filename: string,
     format: string = 'jpeg'
   ): Promise<string> {
-    const filepath = join(path, `${filename}.${format}`);
+    const filepath = path.join(uploadPath, `${filename}.${format}`);
     await writeFile(filepath, buffer);
     return filepath;
   }

@@ -13,20 +13,20 @@ import { getTestimonials } from '@/utils/getTestimonials';
 import CallbackForm from '@/components/CallbackForm';
 import SocialFeeds from '@/components/SocialFeeds';
 
-// Add category to the images when getting them
+// Use server-side fetching directly
 export default async function Home() {
-  // Get images directly from the file system during build
-  const logos = await Promise.resolve(getImagesFromFS('/images/logos'))
-    .then(images => images.map((img: ImageItem) => ({ ...img, category: 'logo' })));
+  // Get initial data during server-side rendering
+  const initialLogos = getImagesFromFS('/images/logos')
+    .map((img: ImageItem) => ({ ...img, category: 'logo' }));
   
-  const graphics = await Promise.resolve(getImagesFromFS('/images/branding'))
-    .then(images => images.map((img: ImageItem) => ({ ...img, category: 'graphics' })));
+  const initialGraphics = getImagesFromFS('/images/branding')
+    .map((img: ImageItem) => ({ ...img, category: 'graphics' }));
   
-  const fliers = await Promise.resolve(getImagesFromFS('/images/portfolio/fliers'))
-    .then(images => images.map((img: ImageItem) => ({ ...img, category: 'flier' })));
+  const initialFliers = getImagesFromFS('/images/portfolio/fliers')
+    .map((img: ImageItem) => ({ ...img, category: 'flier' }));
   
-  const websites = await Promise.resolve(getImagesFromFS('/images/portfolio/websites'))
-    .then(images => images.map((img: ImageItem) => ({ ...img, category: 'website' })));
+  const initialWebsites = getImagesFromFS('/images/portfolio/websites')
+    .map((img: ImageItem) => ({ ...img, category: 'website' }));
 
   const testimonials = await getTestimonials();
 
@@ -41,10 +41,10 @@ export default async function Home() {
         <Stats />
         <WhyChooseUs />
         <RecentWork 
-          logos={logos} 
-          graphics={graphics} 
-          fliers={fliers} 
-          websites={websites}
+          initialLogos={initialLogos} 
+          initialGraphics={initialGraphics} 
+          initialFliers={initialFliers} 
+          initialWebsites={initialWebsites}
         />
         <Testimonials testimonials={testimonials} />
         <SocialFeeds />

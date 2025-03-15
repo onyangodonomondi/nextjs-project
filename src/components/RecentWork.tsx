@@ -4,15 +4,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { websiteProjects } from './WebsiteProjects';
-
-interface ImageItem {
-  id: number;
-  src: string;
-  alt: string;
-  category?: string;
-  title?: string;
-  description?: string;
-}
+import type { ImageItem } from '@/utils/getImages';
+import { getImagesFromDirectory } from '@/utils/getImages';
 
 interface WebsiteProject {
   id: number;
@@ -24,10 +17,10 @@ interface WebsiteProject {
 }
 
 interface Props {
-  logos: ImageItem[];
-  graphics: ImageItem[];
-  fliers: ImageItem[];
-  websites: ImageItem[];
+  initialLogos?: ImageItem[];
+  initialGraphics?: ImageItem[];
+  initialFliers?: ImageItem[];
+  initialWebsites?: ImageItem[];
 }
 
 interface ImageCardProps {
@@ -42,7 +35,16 @@ function getRandomItems<T>(array: T[], count: number): T[] {
   return shuffled.slice(0, count);
 }
 
-export default function RecentWork({ logos, graphics, fliers, websites }: Props) {
+export default function RecentWork({
+  initialLogos = [],
+  initialGraphics = [],
+  initialFliers = [],
+  initialWebsites = []
+}: Props) {
+  const [logos, setLogos] = useState(initialLogos);
+  const [graphics, setGraphics] = useState(initialGraphics);
+  const [fliers, setFliers] = useState(initialFliers);
+  const [websites, setWebsites] = useState(initialWebsites);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +56,32 @@ export default function RecentWork({ logos, graphics, fliers, websites }: Props)
     logos: 4,
     websites: 4
   });
+
+  const fetchImages = async () => {
+    const [newLogos, newGraphics, newFliers, newWebsites] = await Promise.all([
+      getImagesFromDirectory('/images/logos').then(images => 
+        images.map(img => ({ ...img, category: 'logo' }))
+      ),
+      getImagesFromDirectory('/images/branding').then(images => 
+        images.map(img => ({ ...img, category: 'graphics' }))
+      ),
+      getImagesFromDirectory('/images/portfolio/fliers').then(images => 
+        images.map(img => ({ ...img, category: 'flier' }))
+      ),
+      getImagesFromDirectory('/images/portfolio/websites').then(images => 
+        images.map(img => ({ ...img, category: 'website' }))
+      )
+    ]);
+
+    setLogos(newLogos);
+    setGraphics(newGraphics);
+    setFliers(newFliers);
+    setWebsites(newWebsites);
+  };
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
 
   // Get random items for each category
   const randomGraphics = getRandomItems(graphics, visibleItems.graphics);
@@ -152,8 +180,10 @@ export default function RecentWork({ logos, graphics, fliers, websites }: Props)
       {/* Hover overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white p-4">
         <div className="text-center">
-          <h4 className="font-bold">{item.title || 'View Details'}</h4>
-          {item.description && <p className="text-sm mt-2">{item.description}</p>}
+          <h4 className="font-bold">{item.alt}</h4>
+          {item.category && (
+            <p className="text-sm mt-2 text-gray-300">{item.category}</p>
+          )}
         </div>
       </div>
 

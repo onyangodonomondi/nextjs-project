@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getImagesFromFS } from '@/utils/server/fileSystem';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -18,7 +21,11 @@ export async function GET(request: Request) {
       src: img.src.startsWith('/') ? img.src : `/${img.src}`
     }));
 
-    return NextResponse.json(processedImages);
+    return NextResponse.json(processedImages, {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0'
+      }
+    });
   } catch (error) {
     console.error('Error getting images:', error);
     return NextResponse.json(

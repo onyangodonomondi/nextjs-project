@@ -10,10 +10,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: '#0A2647', // Deep navy blue
-          light: 'rgba(10, 38, 71, 0.1)',
-        },
+        primary: 'var(--primary)',
+        'primary-dark': 'var(--primary-dark)',
         secondary: {
           DEFAULT: '#144272', // Rich navy blue
           light: 'rgba(20, 66, 114, 0.1)',
