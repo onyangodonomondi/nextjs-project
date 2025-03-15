@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import PageHero from '@/components/PageHero';
-import { useVirtualizer } from '@tanstack/react-virtual';
 import dynamic from 'next/dynamic';
 
 interface ImageItem {
@@ -101,46 +100,31 @@ export default function LogosGallery({ logos }: Props) {
     reference: ''
   });
 
-  // Initialize AOS only on the client side to prevent hydration errors
-  useEffect(() => {
-    // Only import and initialize AOS on the client side
-    if (typeof window !== 'undefined') {
-      // Check if AOS is being used
-      const AOS = (window as any).AOS;
-      if (AOS) {
-        AOS.init({
-          once: true,
-          disable: 'phone',
-          duration: 700,
-          easing: 'ease-out-cubic',
-        });
-      }
-    }
-  }, []);
-
   // Add better logging to see what's coming from the API
   useEffect(() => {
-    console.log("Logos data received:", logos);
+    console.log("Logos data received:", logos.length);
   }, [logos]);
 
-  // Create a stable state for the logo data with proper typing
-  const [stableLogos, setStableLogos] = useState<ImageItem[]>([]);
-  const [isImagesLoaded, setIsImagesLoaded] = useState(false);
-  // Add loading state for pagination to prevent flickering
-  const [isChangingPage, setIsChangingPage] = useState(false);
+  // State for managing displayed logos
+  const [allLogos, setAllLogos] = useState<ImageItem[]>([]);
+  const [displayedLogos, setDisplayedLogos] = useState<ImageItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [visibleRows, setVisibleRows] = useState(3); // Start with 3 rows (12 logos)
 
-  // Stabilize the logos data to prevent flickering
+  // Initialize logos data
   useEffect(() => {
     if (logos && logos.length > 0) {
-      console.log("Setting stable logos:", logos.length);
-      setStableLogos(logos);
-      // Set a timeout to ensure the UI has time to stabilize before rendering images
-      setTimeout(() => setIsImagesLoaded(true), 100);
-    } else if (stableLogos.length === 0) {
-      // If we don't have logos but also don't have stable logos yet,
+      console.log("Setting all logos:", logos.length);
+      setAllLogos(logos);
+      
+      // Show initial logos (12 - first 3 rows)
+      setDisplayedLogos(logos.slice(0, 12));
+      setIsLoading(false);
+    } else if (allLogos.length === 0) {
+      // If we don't have logos but also don't have all logos yet,
       // set some placeholder logos
       console.log("Using placeholder logos");
-      setStableLogos([
+      const placeholders = [
         {
           id: 1,
           title: "Logo Example 1",
@@ -164,12 +148,37 @@ export default function LogosGallery({ logos }: Props) {
           title: "Logo Example 4",
           src: "/images/portfolio/logo-types/combination.png",
           alt: "Logo Example 4",
-        },
-      ]);
-      // Set a timeout to ensure the UI has time to stabilize before rendering images
-      setTimeout(() => setIsImagesLoaded(true), 100);
+        }
+      ];
+      
+      // Repeat placeholders to fill 12 slots
+      const extendedPlaceholders = [...placeholders, ...placeholders, ...placeholders];
+      setAllLogos(extendedPlaceholders);
+      setDisplayedLogos(extendedPlaceholders.slice(0, 12));
+      setIsLoading(false);
     }
   }, [logos]);
+
+  // Handle "Load More" button click
+  const handleLoadMore = useCallback(() => {
+    setIsLoading(true);
+    
+    setTimeout(() => {
+      // Calculate next batch of logos to display
+      const nextRowCount = visibleRows + 1;
+      const nextLogosCount = nextRowCount * 4; // 4 logos per row
+      
+      setVisibleRows(nextRowCount);
+      setDisplayedLogos(allLogos.slice(0, nextLogosCount));
+      setIsLoading(false);
+    }, 500); // Add a small delay for loading state to be visible
+  }, [allLogos, visibleRows]);
+
+  // Handle image click to open modal
+  const handleImageClick = useCallback((imageSrc: string | undefined | null) => {
+    if (!imageSrc) return;
+    setSelectedImage(imageSrc);
+  }, []);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -187,115 +196,6 @@ export default function LogosGallery({ logos }: Props) {
     window.open(`https://wa.me/254741590670?text=${message}`, '_blank');
   };
 
-  // 1. Add pagination to avoid loading all 54 images at once
-  const [currentPage, setCurrentPage] = useState(1);
-  const imagesPerPage = 12;
-  const totalPages = Math.ceil((stableLogos?.length || 0) / imagesPerPage);
-
-  // Improved page changing function with loading state
-  const changePage = useCallback((newPage: number) => {
-    if (newPage === currentPage) return;
-    setIsChangingPage(true);
-    setIsImagesLoaded(false);
-    
-    // Use setTimeout to ensure state updates don't cause layout thrashing
-    setTimeout(() => {
-      setCurrentPage(newPage);
-      // Give time for the new page to render before showing images
-      setTimeout(() => {
-        setIsImagesLoaded(true);
-        setIsChangingPage(false);
-      }, 100);
-    }, 10);
-  }, [currentPage]);
-
-  // Get current logos for pagination
-  const currentLogos = useMemo(() => {
-    return stableLogos.slice(
-      (currentPage - 1) * imagesPerPage,
-      currentPage * imagesPerPage
-    );
-  }, [stableLogos, currentPage, imagesPerPage]);
-
-  // Create a reference to the parent container
-  const parentRef = useRef(null);
-
-  // Calculate items per row based on screen size
-  const getItemsPerRow = useCallback(() => {
-    if (typeof window === 'undefined') return 4; // Default for SSR
-    
-    const width = window.innerWidth;
-    if (width < 640) return 2; // Mobile: 2 items per row
-    if (width < 1024) return 3; // Tablet: 3 items per row
-    if (width < 1280) return 4; // Small desktop: 4 items per row
-    return 5; // Large desktop: 5 items per row
-  }, []);
-
-  // Calculate the number of items per row
-  const [itemsPerRow, setItemsPerRow] = useState(getItemsPerRow());
-
-  // Update items per row on window resize
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
-    const handleResize = () => {
-      setItemsPerRow(getItemsPerRow());
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [getItemsPerRow]);
-
-  // Calculate rows for virtualization
-  const rows = useMemo(() => {
-    if (!stableLogos || !Array.isArray(stableLogos)) {
-      console.warn('stableLogos is not an array:', stableLogos);
-      return [];
-    }
-    
-    const rowCount = Math.ceil(stableLogos.length / itemsPerRow);
-    const rowData = Array(rowCount).fill(0).map((_, rowIndex) => {
-      const startIndex = rowIndex * itemsPerRow;
-      const endIndex = Math.min(startIndex + itemsPerRow, stableLogos.length);
-      return stableLogos.slice(startIndex, endIndex);
-    });
-    return rowData;
-  }, [stableLogos, itemsPerRow]);
-
-  // Add memoized size measurement to prevent recalculations causing flicker
-  const estimateSize = useCallback(() => 240, []);
-
-  // Set up the virtualizer
-  const rowVirtualizer = useVirtualizer({
-    count: rows?.length || 0,
-    getScrollElement: () => parentRef.current,
-    estimateSize,
-    overscan: 5, // Increase overscan to reduce flickering on scroll
-    scrollToFn: (offset, options = {}) => {
-      // Add a safer scrollTo function with guards
-      try {
-        if (parentRef.current) {
-          (parentRef.current as Element).scrollTo({
-            top: offset,
-            behavior: options.behavior || 'auto'
-          });
-        }
-      } catch (e) {
-        console.error('Error in scrollToFn:', e);
-      }
-    }
-  });
-
-  // Handle image click with smooth transitions
-  const handleImageClick = useCallback((imageSrc: string | undefined | null) => {
-    if (!imageSrc) return;
-    
-    // Slightly delay modal opening to avoid layout shifts
-    setTimeout(() => {
-      setSelectedImage(imageSrc);
-    }, 50);
-  }, []);
-
   return (
     <main className="pt-24 bg-gradient-to-b from-gray-50 to-white">
       <PageHero 
@@ -303,7 +203,7 @@ export default function LogosGallery({ logos }: Props) {
         description="Explore our collection of unique and memorable logo designs."
       />
 
-      {/* Logo Types Section - Redesigned as a list without images */}
+      {/* Logo Types Section */}
       <section className="py-12 border-b border-gray-100">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-8">
@@ -313,19 +213,7 @@ export default function LogosGallery({ logos }: Props) {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-            {logoTypes.map((type) => (
-              <div 
-                key={type.title}
-                className="px-4 py-2 rounded-full bg-white shadow-sm hover:shadow-md transition-shadow border border-gray-100 cursor-pointer"
-                onClick={() => setFormData({...formData, logoType: type.title})}
-              >
-                <span className="font-medium text-primary">{type.title}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {logoTypes.map((type) => (
               <div key={type.title} className="bg-white p-6 rounded-lg shadow-sm hover:shadow transition-shadow">
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">{type.title}</h3>
@@ -337,7 +225,7 @@ export default function LogosGallery({ logos }: Props) {
         </div>
       </section>
 
-      {/* Portfolio Section - Improved UI */}
+      {/* Redesigned Portfolio Gallery Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
@@ -348,143 +236,69 @@ export default function LogosGallery({ logos }: Props) {
             </p>
           </div>
 
-          <div 
-            ref={parentRef} 
-            className="h-[800px] overflow-auto rounded-xl bg-gray-50 p-4"
-            style={{ 
-              contain: 'strict',
-              scrollbarWidth: 'thin',
-              scrollbarColor: '#CBD5E0 #F7FAFC',
-              willChange: 'transform', // Hint to browser to optimize rendering
-              backfaceVisibility: 'hidden', // Prevent flickering in some browsers
-            }}
-          >
-            <div
-              style={{
-                height: `${rowVirtualizer.getTotalSize()}px`,
-                width: '100%',
-                position: 'relative',
-                willChange: 'contents', // Optimize rendering of dynamic content
-                contain: 'size layout', // Improve rendering performance
-              }}
-            >
-              {rowVirtualizer?.getVirtualItems()?.map(virtualRow => (
-                <div
-                  key={virtualRow.index}
-                  className="absolute top-0 left-0 w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6"
-                  style={{
-                    height: `${virtualRow.size}px`,
-                    transform: `translateY(${virtualRow.start}px)`,
-                    willChange: 'transform', // Optimize transforms
-                    containIntrinsicSize: `auto ${virtualRow.size}px`, // Stable size hint for browser
-                    contain: 'layout', // Improve rendering performance
-                  }}
-                >
-                  {rows[virtualRow.index]?.map((item, colIndex) => (
-                    <div
-                      key={`${virtualRow.index}-${colIndex}`}
-                      className="group relative aspect-square bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
-                      onClick={() => handleImageClick(item.src || item.imageUrl || null)}
-                      style={{ minHeight: '200px' }} // Add fixed minimum height to prevent layout shifts
-                    >
-                      {(item.src || item.imageUrl) ? (
-                        <>
-                          {isImagesLoaded && (
-                            <Image
-                              src={updateLogoPath(item.src || item.imageUrl)}
-                              alt={item.alt || item.title || 'Logo'}
-                              fill
-                              loading="lazy"
-                              placeholder="blur"
-                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEhAI6dtiLOgAAAABJRU5ErkJggg=="
-                              className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
-                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                              quality={75}
-                              onError={(e) => {
-                                console.log("Image error:", item.src || item.imageUrl);
-                                const target = e.target as HTMLImageElement;
-                                target.src = '/images/portfolio/logo-types/wordmark.png';
-                              }}
-                            />
-                          )}
-                          {!isImagesLoaded && (
-                            <div className="absolute inset-0 flex items-center justify-center bg-gray-50 animate-pulse">
-                              <div className="w-12 h-12 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
-                            </div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                            <div className="p-3 text-white">
-                              <p className="font-medium text-sm truncate">{item.title || item.alt || 'View Logo'}</p>
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                          <span className="text-gray-400">No image</span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+          {/* New Gallery Grid - Consistently 4 images per row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {displayedLogos.map((logo, index) => (
+              <div
+                key={`logo-${logo.id || index}`}
+                className="group relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 cursor-pointer"
+                onClick={() => handleImageClick(logo.src || logo.imageUrl || null)}
+              >
+                {/* Background gradient for smooth loading */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-200"></div>
+                
+                <Image
+                  src={updateLogoPath(logo.src || logo.imageUrl)}
+                  alt={logo.alt || logo.title || 'Logo Design'}
+                  fill
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                  loading={index < 8 ? "eager" : "lazy"}
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEhAI6dtiLOgAAAABJRU5ErkJggg=="
+                />
+                
+                {/* Overlay with gradient for better text visibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                  <h3 className="text-white text-lg font-medium">
+                    {logo.title || logo.alt || 'Logo Design'}
+                  </h3>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
 
-          {/* Pagination Controls - Improved UI */}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-8">
-              <button 
-                onClick={() => changePage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1 || isChangingPage}
-                className="px-4 py-2 rounded-md bg-white border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
+          {/* Load More Button */}
+          {allLogos.length > displayedLogos.length && (
+            <div className="text-center mt-12">
+              <button
+                onClick={handleLoadMore}
+                disabled={isLoading}
+                className="px-6 py-3 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed inline-flex items-center gap-2"
               >
-                Previous
-              </button>
-              
-              <div className="flex gap-1">
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  // Show first page, last page, current page, and pages around current
-                  let pageToShow;
-                  if (totalPages <= 5) {
-                    pageToShow = i + 1;
-                  } else if (currentPage <= 3) {
-                    pageToShow = i + 1;
-                  } else if (currentPage >= totalPages - 2) {
-                    pageToShow = totalPages - 4 + i;
-                  } else {
-                    pageToShow = currentPage - 2 + i;
-                  }
-                  
-                  return (
-                    <button
-                      key={pageToShow}
-                      onClick={() => changePage(pageToShow)}
-                      disabled={isChangingPage}
-                      className={`w-10 h-10 rounded-md flex items-center justify-center ${
-                        currentPage === pageToShow 
-                          ? 'bg-primary text-white shadow-md' 
-                          : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
-                      }`}
-                    >
-                      {pageToShow}
-                    </button>
-                  );
-                })}
-              </div>
-              
-              <button 
-                onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages || isChangingPage}
-                className="px-4 py-2 rounded-md bg-white border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
-              >
-                Next
+                {isLoading ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Loading More...
+                  </>
+                ) : (
+                  <>
+                    Load More Logos
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </>
+                )}
               </button>
             </div>
           )}
         </div>
       </section>
 
-      {/* Call to Action Section - New */}
+      {/* Call to Action Section */}
       <section className="py-16 bg-gradient-to-r from-primary-dark to-primary text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
@@ -502,7 +316,7 @@ export default function LogosGallery({ logos }: Props) {
         </div>
       </section>
 
-      {/* Request Form Button - Redesigned */}
+      {/* Request Form Button */}
       <div className="fixed bottom-8 right-8 z-40">
         <button
           onClick={() => setShowRequestForm(true)}
@@ -515,7 +329,7 @@ export default function LogosGallery({ logos }: Props) {
         </button>
       </div>
 
-      {/* Request Form Modal - Improved UI */}
+      {/* Request Form Modal */}
       {showRequestForm && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm"

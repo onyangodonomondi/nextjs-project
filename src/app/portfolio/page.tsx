@@ -248,8 +248,8 @@ export default async function PortfolioPage() {
                 View Services
               </Link>
             </div>
-          </div>
-        </div>
+      </div>
+    </div>
       </section>
     </main>
   );
