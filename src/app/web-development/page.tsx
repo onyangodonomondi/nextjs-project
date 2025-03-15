@@ -443,221 +443,119 @@ export default function WebDevelopment() {
           </div>
         </section>
 
-      {/* Development Process Section */}
+      {/* Development Process Section - Redesigned with compact cards in a single row */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Our Development Process</h2>
             <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-              A systematic approach to delivering high-quality web solutions that meet your business objectives
-              </p>
-            </motion.div>
+              A systematic approach to delivering high-quality web solutions
+            </p>
+          </motion.div>
 
-          <div className="relative">
-            {/* Process Timeline Line - Enhanced with gradient and animation */}
-            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-primary/30 via-primary to-primary/30 transform -translate-x-1/2 z-0 rounded-full">
-              {/* Animated dot traveling down the timeline */}
-                <motion.div
-                className="absolute w-3 h-3 bg-primary rounded-full left-1/2 transform -translate-x-1/2"
-                initial={{ top: "0%" }}
-                animate={{ top: "100%" }}
+          {/* Compact Process Cards in a single row */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4">
+            {[
+              {
+                step: 1,
+                title: "Discovery",
+                description: "Understanding business goals and requirements",
+                icon: "fas fa-lightbulb",
+                color: "from-amber-400 to-amber-300"
+              },
+              {
+                step: 2,
+                title: "Design",
+                description: "Creating wireframes and visual designs",
+                icon: "fas fa-pencil-ruler",
+                color: "from-blue-400 to-blue-300"
+              },
+              {
+                step: 3,
+                title: "Development",
+                description: "Building with modern technologies",
+                icon: "fas fa-code",
+                color: "from-emerald-400 to-emerald-300"
+              },
+              {
+                step: 4,
+                title: "Testing",
+                description: "Ensuring quality across devices",
+                icon: "fas fa-vial",
+                color: "from-violet-400 to-violet-300"
+              },
+              {
+                step: 5,
+                title: "Deployment",
+                description: "Launching with proper configuration",
+                icon: "fas fa-rocket",
+                color: "from-red-400 to-red-300"
+              },
+              {
+                step: 6,
+                title: "Support",
+                description: "Ongoing maintenance and updates",
+                icon: "fas fa-sync-alt",
+                color: "from-primary to-primary/80"
+              }
+            ].map((process, index) => (
+              <motion.div 
+                key={process.step} 
+                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 relative h-full"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ 
-                  duration: 10, 
-                  repeat: Infinity, 
-                  ease: "linear",
-                  repeatType: "reverse"
+                  duration: 0.5, 
+                  delay: index * 0.1,
                 }}
-              />
-            </div>
-            
-            <div className="space-y-12 md:space-y-0 relative z-10">
-              {[
-                {
-                  step: 1,
-                  title: "Discovery & Planning",
-                  description: "We begin by understanding your business, target audience, and objectives through in-depth consultations.",
-                  details: [
-                    "Requirements gathering",
-                    "User research",
-                    "Competitive analysis",
-                    "Project scoping",
-                    "Timeline planning"
-                  ],
-                  icon: "fas fa-lightbulb",
-                  color: "from-amber-400 to-amber-300"
-                },
-                {
-                  step: 2,
-                  title: "Design & Prototyping",
-                  description: "Our team creates wireframes and visual designs that align with your brand and provide optimal user experience.",
-                  details: [
-                    "Wireframing",
-                    "UI/UX design",
-                    "Responsive layouts",
-                    "Interactive prototypes",
-                    "Client feedback integration"
-                  ],
-                  icon: "fas fa-pencil-ruler",
-                  color: "from-blue-400 to-blue-300"
-                },
-                {
-                  step: 3,
-                  title: "Development",
-                  description: "We build your website using the latest technologies while following best practices for performance and security.",
-                  details: [
-                    "Frontend coding",
-                    "Backend development",
-                    "Database integration",
-                    "API implementation",
-                    "Content management setup"
-                  ],
-                  icon: "fas fa-code",
-                  color: "from-emerald-400 to-emerald-300"
-                },
-                {
-                  step: 4,
-                  title: "Testing & Quality Assurance",
-                  description: "Thorough testing across devices and browsers to ensure your website functions flawlessly.",
-                  details: [
-                    "Functionality testing",
-                    "Cross-browser compatibility",
-                    "Mobile responsiveness",
-                    "Performance optimization",
-                    "Security testing"
-                  ],
-                  icon: "fas fa-vial",
-                  color: "from-violet-400 to-violet-300"
-                },
-                {
-                  step: 5,
-                  title: "Deployment & Launch",
-                  description: "We handle the technical aspects of launching your website and ensure everything runs smoothly.",
-                  details: [
-                    "Server configuration",
-                    "DNS setup",
-                    "SSL implementation",
-                    "Performance monitoring",
-                    "Launch support"
-                  ],
-                  icon: "fas fa-rocket",
-                  color: "from-red-400 to-red-300"
-                },
-                {
-                  step: 6,
-                  title: "Ongoing Support & Optimization",
-                  description: "We provide continued support and strategic updates to help your website grow with your business.",
-                  details: [
-                    "Regular maintenance",
-                    "Performance monitoring",
-                    "Security updates",
-                    "Analytics reporting",
-                    "Strategic enhancements"
-                  ],
-                  icon: "fas fa-sync-alt",
-                  color: "from-primary to-primary/80"
-                }
-              ].map((process, index) => (
-                <motion.div 
-                  key={process.step} 
-                  className="relative md:grid md:grid-cols-2 md:gap-8 md:items-center mb-12 md:mb-24"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: index * 0.1,
-                    ease: "easeOut" 
-                  }}
-                  viewport={{ once: true, margin: "-100px" }}
-                >
-                  <div className={`md:text-right md:pr-10 ${index % 2 !== 0 ? 'md:col-start-2' : ''}`}>
-                    {/* Step Circle for medium screens and up - Enhanced with gradient */}
-                    <div className="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-gradient-to-br from-white to-gray-100 text-primary items-center justify-center text-xl font-bold shadow-lg z-20 border-4 border-white">
-                      <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${process.color} flex items-center justify-center`}>
-                        <span className="text-white font-bold text-xl">{process.step}</span>
-                      </div>
-                    </div>
-                    
-                    {/* Content Card - Enhanced with better shadow and hover effect */}
-                    <motion.div 
-                      className={`bg-white rounded-xl p-8 shadow-md hover:shadow-xl transition-all duration-500 relative ${index % 2 !== 0 ? '' : 'md:mr-10'} border border-gray-100`}
-                      whileHover={{ scale: 1.02, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
-                    >
-                      {/* Step Circle with number for mobile */}
-                      <div className="md:hidden flex items-center mb-4">
-                        <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${process.color} flex items-center justify-center text-white text-lg font-bold shadow-md mr-3`}>
-                          {process.step}
-                        </div>
-                        <div className={`w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary`}>
-                          <i className={`${process.icon}`}></i>
-                        </div>
-                      </div>
-                      
-                      {/* Title with Icon - Enhanced with better spacing and icon styling */}
-                      <h3 className="text-xl font-semibold mb-4 flex items-center">
-                        {/* Icon for medium screens and up */}
-                        <div className={`hidden md:flex w-12 h-12 ${index % 2 !== 0 ? 'ml-4 order-2' : 'mr-4'} rounded-full bg-gradient-to-br ${process.color} items-center justify-center shadow-md`}>
-                          <i className={`${process.icon} text-white text-lg`}></i>
-                        </div>
-                        <span className="text-gray-800">{process.title}</span>
-                      </h3>
-                      
-                      {/* Description with better typography */}
-                      <p className="text-gray-600 mb-5 leading-relaxed">{process.description}</p>
-                      
-                      {/* Details with enhanced styling */}
-                      <div className="mt-6 space-y-3 bg-gray-50 p-4 rounded-lg">
-                        <h4 className="font-medium text-gray-700 mb-2 text-sm uppercase tracking-wider">Deliverables:</h4>
-                        {process.details.map((detail, i) => (
-                          <div key={i} className="flex items-start gap-3">
-                            <i className={`fas fa-check-circle text-gradient-to-r ${process.color} mt-1`}></i>
-                            <span className="text-gray-700">{detail}</span>
-                          </div>
-                        ))}
-                      </div>
-                      
-                      {/* Adding a connector line for better visualization on mobile */}
-                      {index < 5 && (
-                        <div className="md:hidden absolute bottom-0 left-6 w-0.5 h-12 bg-gradient-to-b from-gray-200 to-transparent"></div>
-                      )}
-                    </motion.div>
+                viewport={{ once: true, margin: "-100px" }}
+                whileHover={{ y: -5 }}
+              >
+                {/* Card Header with Number */}
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center border-2 border-white z-10">
+                  <div className={`w-full h-full rounded-full bg-gradient-to-br ${process.color} flex items-center justify-center`}>
+                    <span className="text-white font-bold text-xs">{process.step}</span>
                   </div>
-                  
-                  {/* Empty column for alternating layout */}
-                  {index % 2 !== 0 && <div className="hidden md:block"></div>}
-
-                  {/* Add connecting arrows between steps */}
-                  {index < 5 && (
-                    <div className="hidden md:block absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-1/2 z-10">
-                      <div className="w-6 h-12 flex justify-center">
-                        <div className="w-0.5 h-full bg-primary"></div>
-                      </div>
-                      <div className="w-6 h-6 bg-primary rotate-45 transform -translate-y-3 translate-x-0"></div>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
+                </div>
+                
+                {/* Card Content */}
+                <div className="pt-6 px-3 pb-4 text-center">
+                  <div className="mb-2 flex justify-center">
+                    <i className={`${process.icon} ${process.color.includes('primary') ? 'text-primary' : `text-${process.color.split('-')[1]}-400`} text-lg`}></i>
+                  </div>
+                  <h3 className="text-sm font-semibold mb-1">{process.title}</h3>
+                  <p className="text-gray-600 text-xs">{process.description}</p>
+                </div>
+                
+                {/* Connection Arrow */}
+                {index < 5 && (
+                  <div className="hidden md:block absolute -right-2 top-1/2 transform -translate-y-1/2 z-10 text-gray-300">
+                    <i className="fas fa-chevron-right"></i>
+                  </div>
+                )}
+              </motion.div>
+            ))}
           </div>
           
           <motion.div 
-            className="mt-16 text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+            className="mt-12 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-                  viewport={{ once: true }}
+            viewport={{ once: true }}
           >
-            <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-              Ready to start your web development journey? Our transparent and effective process ensures your vision becomes reality on time and within budget.
+            <p className="text-gray-600 max-w-2xl mx-auto mb-6">
+              Our transparent and effective process ensures your vision becomes reality on time and within budget.
             </p>
             <Link 
               href="/contact" 
-              className="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white rounded-full hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2 font-medium"
+              className="px-6 py-3 bg-gradient-to-r from-primary to-primary-dark text-white rounded-full hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2 font-medium"
             >
               Start Your Project <i className="fas fa-arrow-right ml-1"></i>
             </Link>
@@ -665,7 +563,7 @@ export default function WebDevelopment() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section - Redesigned with horizontal cards */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -681,7 +579,8 @@ export default function WebDevelopment() {
             </p>
           </motion.div>
 
-          <div className="max-w-4xl mx-auto">
+          {/* Horizontal FAQ Cards */}
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
             {[
               {
                 question: "How long does it take to build a website?",
@@ -694,7 +593,32 @@ export default function WebDevelopment() {
                 answer: "Website costs vary widely depending on design complexity, functionality requirements, and content volume. Basic websites start around $3,000, while e-commerce sites and custom web applications typically range from $8,000 to $25,000+. We provide detailed quotes after understanding your specific requirements.",
                 icon: "fas fa-dollar-sign",
                 color: "from-green-400 to-green-300"
-              },
+              }
+            ].map((faq, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 h-full"
+              >
+                <div className="p-6 flex h-full">
+                  <div className={`flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br ${faq.color} flex items-center justify-center shadow-md mt-1 mr-4`}>
+                    <i className={`${faq.icon} text-white`}></i>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{faq.question}</h3>
+                    <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Second Row of FAQ Cards */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
               {
                 question: "Will my website be mobile-friendly?",
                 answer: "Absolutely! All websites we develop are fully responsive and optimized for all devices, including smartphones, tablets, and desktop computers. We thoroughly test on multiple screen sizes to ensure a consistent, user-friendly experience.",
@@ -706,7 +630,32 @@ export default function WebDevelopment() {
                 answer: "Yes, we offer ongoing maintenance packages to keep your website secure, updated, and performing optimally. Our maintenance services include security updates, performance monitoring, content updates, technical support, and regular backups.",
                 icon: "fas fa-tools",
                 color: "from-violet-400 to-violet-300"
-              },
+              }
+            ].map((faq, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 h-full"
+              >
+                <div className="p-6 flex h-full">
+                  <div className={`flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br ${faq.color} flex items-center justify-center shadow-md mt-1 mr-4`}>
+                    <i className={`${faq.icon} text-white`}></i>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{faq.question}</h3>
+                    <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Third Row of FAQ Cards */}
+          <div className="grid md:grid-cols-2 gap-6 mt-6">
+            {[
               {
                 question: "Will my website be search engine friendly?",
                 answer: "Yes, all our websites are built with SEO best practices in mind. We implement proper HTML structure, mobile optimization, schema markup, fast loading speeds, and user-friendly navigation. We also offer additional SEO services for more comprehensive search engine marketing.",
@@ -721,41 +670,27 @@ export default function WebDevelopment() {
               }
             ].map((faq, index) => (
               <motion.div 
-                key={index} 
-                className="mb-6"
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 + 0.4 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 h-full"
               >
-                <motion.div 
-                  className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
-                  whileHover={{ scale: 1.01 }}
-                >
-                  <div className="p-6 md:p-8">
-                    <div className="flex items-start gap-4">
-                      <div className={`hidden md:flex flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br ${faq.color} items-center justify-center shadow-md`}>
-                        <i className={`${faq.icon} text-white`}></i>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-                          <div className={`md:hidden flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br ${faq.color} items-center justify-center shadow-md mr-3 flex`}>
-                            <i className={`${faq.icon} text-white text-sm`}></i>
-                          </div>
-                          {faq.question}
-                        </h3>
-                        <div className="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg">
-                          {faq.answer}
-                      </div>
-                    </div>
-                    </div>
+                <div className="p-6 flex h-full">
+                  <div className={`flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br ${faq.color} flex items-center justify-center shadow-md mt-1 mr-4`}>
+                    <i className={`${faq.icon} text-white`}></i>
                   </div>
-                </motion.div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">{faq.question}</h3>
+                    <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
 
-                  <motion.div
+          <motion.div 
             className="mt-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -783,8 +718,8 @@ export default function WebDevelopment() {
                   <i className="fab fa-whatsapp"></i> WhatsApp
                 </a>
               </div>
-                    </div>
-                  </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
