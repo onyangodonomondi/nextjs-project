@@ -376,6 +376,136 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Why Us Section */}
+        <section className="py-24 bg-white" id="why-us">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-[#FF5400]">
+                Why Choose Us
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                We combine creativity, strategy, and technical expertise to deliver exceptional results
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+              {/* Advantage 1 */}
+              <div className="bg-gray-50 p-8 rounded-xl text-center hover:shadow-lg transition-shadow relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FF5400] to-[#FF7A00]"></div>
+                <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-md text-[#FF5400]">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800">Fast Turnaround</h3>
+                <p className="text-gray-600">
+                  We deliver high-quality results on time, ensuring your business stays ahead of the competition.
+                </p>
+                <div className="mt-6 text-3xl font-bold text-[#FF5400]">95%</div>
+                <div className="text-sm text-gray-500">On-time delivery rate</div>
+              </div>
+
+              {/* Advantage 2 */}
+              <div className="bg-gray-50 p-8 rounded-xl text-center hover:shadow-lg transition-shadow relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FF7A00] to-[#FFA500]"></div>
+                <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-md text-[#FF7A00]">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800">Dedicated Team</h3>
+                <p className="text-gray-600">
+                  Our team of experts is committed to the success of your project from inception to completion.
+                </p>
+                <div className="mt-6 text-3xl font-bold text-[#FF7A00]">12+</div>
+                <div className="text-sm text-gray-500">Industry specialists</div>
+              </div>
+
+              {/* Advantage 3 */}
+              <div className="bg-gray-50 p-8 rounded-xl text-center hover:shadow-lg transition-shadow relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFA500] to-[#FFD700]"></div>
+                <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-md text-[#FFA500]">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800">Quality Assurance</h3>
+                <p className="text-gray-600">
+                  We maintain rigorous quality standards to ensure flawless execution of every project.
+                </p>
+                <div className="mt-6 text-3xl font-bold text-[#FFA500]">100%</div>
+                <div className="text-sm text-gray-500">Satisfaction guarantee</div>
+              </div>
+
+              {/* Advantage 4 */}
+              <div className="bg-gray-50 p-8 rounded-xl text-center hover:shadow-lg transition-shadow relative overflow-hidden group">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFD700] to-[#4299E1]"></div>
+                <div className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-md text-[#4299E1]">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-gray-800">Innovative Solutions</h3>
+                <p className="text-gray-600">
+                  We leverage the latest technologies and creative approaches to solve complex challenges.
+                </p>
+                <div className="mt-6 text-3xl font-bold text-[#4299E1]">250+</div>
+                <div className="text-sm text-gray-500">Projects completed</div>
+              </div>
+            </div>
+
+            {/* Testimonial Section */}
+            <div className="bg-gray-50 rounded-2xl p-8 md:p-12 mt-16">
+              <div className="flex flex-col md:flex-row items-center">
+                <div className="md:w-1/3 mb-8 md:mb-0">
+                  <div className="relative w-24 h-24 mx-auto mb-4 md:mb-6">
+                    <Image 
+                      src="/images/testimonials/client.jpg" 
+                      alt="Client Testimonial"
+                      width={96}
+                      height={96}
+                      className="rounded-full object-cover w-full h-full"
+                    />
+                    <div className="absolute -bottom-2 -right-2 bg-[#FF5400] text-white w-8 h-8 rounded-full flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6.5 10c-.223 0-.437.034-.65.065.069-.232.14-.468.254-.68.114-.308.292-.575.469-.844.148-.291.409-.488.601-.737.201-.242.475-.403.692-.604.213-.21.492-.315.714-.463.232-.133.434-.28.65-.35.208-.086.39-.16.539-.222.302-.125.474-.197.474-.197L9.758 4.03c0 0-.218.052-.597.144C8.97 4.222 8.737 4.278 8.472 4.345c-.271.05-.56.187-.882.312C7.272 4.799 6.904 4.895 6.562 5.123c-.344.218-.741.4-1.091.692C5.132 6.116 4.723 6.377 4.421 6.76c-.33.358-.656.734-.909 1.162C3.219 8.33 3.02 8.778 2.81 9.221c-.19.443-.343.896-.468 1.336-.237.882-.343 1.72-.384 2.437-.034.718-.014 1.315.028 1.747.015.204.043.402.063.539.017.109.025.168.025.168l.026-.006C2.535 17.474 4.338 19 6.5 19c2.485 0 4.5-2.015 4.5-4.5S8.985 10 6.5 10zM17.5 10c-.223 0-.437.034-.65.065.069-.232.14-.468.254-.68.114-.308.292-.575.469-.844.148-.291.409-.488.601-.737.201-.242.475-.403.692-.604.213-.21.492-.315.714-.463.232-.133.434-.28.65-.35.208-.086.39-.16.539-.222.302-.125.474-.197.474-.197L20.758 4.03c0 0-.218.052-.597.144-.191.048-.424.104-.689.171-.271.05-.56.187-.882.312-.317.143-.686.238-1.028.467-.344.218-.741.4-1.091.692-.339.301-.748.562-1.05.944-.33.358-.656.734-.909 1.162C14.219 8.33 14.02 8.778 13.81 9.221c-.19.443-.343.896-.468 1.336-.237.882-.343 1.72-.384 2.437-.034.718-.014 1.315.028 1.747.015.204.043.402.063.539.017.109.025.168.025.168l.026-.006C13.535 17.474 15.338 19 17.5 19c2.485 0 4.5-2.015 4.5-4.5S19.985 10 17.5 10z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <h4 className="font-bold text-gray-800">Sarah Johnson</h4>
+                    <p className="text-sm text-gray-500">CEO, TechStart Solutions</p>
+                  </div>
+                </div>
+                <div className="md:w-2/3 md:pl-12">
+                  <blockquote className="text-gray-700 text-lg md:text-xl italic leading-relaxed">
+                    "Working with Mocky Digital transformed our online presence completely. Their team not only delivered a stunning website but also provided strategic insights that helped grow our business. I highly recommend their services to anyone looking for quality, creativity, and results."
+                  </blockquote>
+                  <div className="flex items-center justify-center md:justify-start mt-6">
+                    <div className="flex text-yellow-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Work Showcase Section */}
         <section className="py-24 bg-white" id="work">
           <div className="container mx-auto px-6">
