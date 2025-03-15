@@ -259,8 +259,125 @@ export default function Home() {
           </div>
         </section>
 
+        {/* How We Work Section */}
+        <section className="py-24 bg-gray-50" id="process">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-[#FF5400]">
+                How We Work
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Our proven process ensures we deliver exceptional results for every project
+              </p>
+            </div>
+
+            {/* Replace the vertical timeline with a horizontal process flow */}
+            <div className="relative">
+              {/* Horizontal line connecting all steps */}
+              <div className="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-[#FF5400] to-blue-500 transform -translate-y-1/2 z-0"></div>
+              
+              {/* Steps in horizontal layout */}
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4 relative z-10">
+                {/* Step 1 */}
+                <div className="flex flex-col items-center">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-[#FF5400] to-[#FF7A00] flex items-center justify-center text-white text-2xl font-bold shadow-lg z-20 mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md text-center h-full flex flex-col">
+                    <h3 className="text-xl font-bold mb-3 text-gray-800">01. Discovery</h3>
+                    <p className="text-gray-600 text-sm flex-grow">
+                      We begin by understanding your goals, audience, and unique challenges.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 2 */}
+                <div className="flex flex-col items-center">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-[#FF7A00] to-[#FFA500] flex items-center justify-center text-white text-2xl font-bold shadow-lg z-20 mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md text-center h-full flex flex-col">
+                    <h3 className="text-xl font-bold mb-3 text-gray-800">02. Planning</h3>
+                    <p className="text-gray-600 text-sm flex-grow">
+                      We craft a detailed roadmap outlining timelines and key milestones.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 3 */}
+                <div className="flex flex-col items-center">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-[#FFA500] to-[#FFD700] flex items-center justify-center text-white text-2xl font-bold shadow-lg z-20 mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                      <line x1="8" y1="2" x2="8" y2="18"></line>
+                      <line x1="16" y1="6" x2="16" y2="22"></line>
+                    </svg>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md text-center h-full flex flex-col">
+                    <h3 className="text-xl font-bold mb-3 text-gray-800">03. Design</h3>
+                    <p className="text-gray-600 text-sm flex-grow">
+                      Our creative team brings concepts to life through iterative design.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 4 */}
+                <div className="flex flex-col items-center">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-[#FFD700] to-[#4299E1] flex items-center justify-center text-white text-2xl font-bold shadow-lg z-20 mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    </svg>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md text-center h-full flex flex-col">
+                    <h3 className="text-xl font-bold mb-3 text-gray-800">04. Refine</h3>
+                    <p className="text-gray-600 text-sm flex-grow">
+                      We rigorously test and refine our work to meet high quality standards.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 5 */}
+                <div className="flex flex-col items-center">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-[#4299E1] to-[#0070F3] flex items-center justify-center text-white text-2xl font-bold shadow-lg z-20 mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                  </div>
+                  <div className="bg-white p-6 rounded-xl shadow-md text-center h-full flex flex-col">
+                    <h3 className="text-xl font-bold mb-3 text-gray-800">05. Launch</h3>
+                    <p className="text-gray-600 text-sm flex-grow">
+                      We expertly deploy your project and provide ongoing support.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-16 text-center">
+              <Link 
+                href="/process" 
+                className="inline-block px-8 py-4 bg-[#FF5400] hover:bg-[#FF5400]/90 text-white font-medium rounded-full transition-colors"
+              >
+                Learn More About Our Process
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* Work Showcase Section */}
-        <section className="py-24 bg-gray-50" id="work">
+        <section className="py-24 bg-white" id="work">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
               <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-600 rounded-full text-sm font-medium mb-4">PORTFOLIO</span>
