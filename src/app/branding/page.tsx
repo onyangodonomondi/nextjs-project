@@ -1,4 +1,3 @@
-import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 
 export const metadata = {

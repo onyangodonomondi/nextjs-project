@@ -1,6 +1,5 @@
 'use client';
 
-import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 
 const capabilities = [
@@ -118,7 +117,7 @@ const capabilities = [
 export default function Capabilities() {
   return (
     <>
-      <Navbar />
+      
       <main className="pt-20">
         {/* Hero Section */}
         <section className="py-16 md:py-24 bg-gradient-to-br from-[#0A2647] via-[#144272] to-[#205295] relative overflow-hidden">

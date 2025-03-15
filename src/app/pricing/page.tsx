@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 
 const pricingPlans = {
@@ -203,7 +202,7 @@ export default function Pricing() {
 
   return (
     <>
-      <Navbar />
+      
       <main className="pt-24">
         <PageHero 
           title="Price List"

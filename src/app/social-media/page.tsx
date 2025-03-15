@@ -1,6 +1,5 @@
 'use client';
 
-import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 
 const platforms = [
@@ -124,7 +123,7 @@ ${message || 'N/A'}
 
   return (
     <>
-      <Navbar />
+      
       <main className="pt-24">
         <PageHero 
           title="Social Media Marketing"

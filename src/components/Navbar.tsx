@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -16,33 +16,47 @@ const navLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const headerRef = useRef(null);
   
-  // Optimize scroll listener with useCallback and better throttling
-  const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > 10);
-  }, []);
-  
+  // Handle scroll events ONLY after component is mounted
   useEffect(() => {
-    // Initial check on mount
-    handleScroll();
+    setMounted(true);
     
-    // Use passive event listener for better performance
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      
+      // Apply styles directly to the DOM element after hydration
+      if (headerRef.current) {
+        const header = headerRef.current as HTMLElement;
+        if (isScrolled) {
+          header.style.padding = '0.5rem 0';
+          header.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+          header.classList.add('navbar-scrolled');
+        } else {
+          header.style.padding = '1.5rem 0';
+          header.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+          header.classList.remove('navbar-scrolled');
+        }
+      }
+    };
+    
+    // Only add the scroll listener after component is mounted
     window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check (important: only run after mounting)
+    setTimeout(handleScroll, 0);
+    
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+  }, []);
 
-  // Style classes - precomputed to avoid recalculation
-  const headerClasses = `fixed top-0 left-0 right-0 z-50 transition-all ${
-    scrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
-  }`;
-  
-  const linkClasses = scrolled 
-    ? 'text-gray-800 hover:text-primary' 
-    : 'text-white hover:text-primary-light';
-
+  // CRITICAL: Use the EXACT same static className on both server and client - no computed values
   return (
-    <header className={headerClasses}>
+    <header 
+      ref={headerRef}
+      className="fixed top-0 left-0 right-0 z-50 bg-white shadow py-6"
+      style={{ transition: 'padding 0.3s ease, box-shadow 0.3s ease' }}
+    >
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
@@ -54,7 +68,9 @@ export default function Navbar() {
               height={40}
               className="mr-3"
             />
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Mocky Digital</span>
+            <span className="self-center text-xl font-semibold whitespace-nowrap text-gray-900">
+              Mocky Digital
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -64,42 +80,36 @@ export default function Navbar() {
                 key={link.href} 
                 href={link.href}
                 prefetch={false}
-                className={`font-medium transition ${linkClasses}`}
+                className="font-medium text-gray-800 hover:text-accent transition-colors"
               >
                 {link.label}
               </Link>
             ))}
             <Link 
               href="/contact" 
-              className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded transition"
+              className="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded transition-colors"
               prefetch={false}
             >
               Get Quote
             </Link>
           </nav>
 
-          {/* Mobile Menu Button - simplified */}
+          {/* Mobile Menu Button - Simple version without conditional classes */}
           <button 
-            className="lg:hidden z-10 p-2" 
-            onClick={() => setIsOpen(!isOpen)}
+            className="lg:hidden z-10 p-2 focus:outline-none"
+            onClick={() => mounted && setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
-            <div className={`w-6 h-0.5 transition ${
-              isOpen ? 'rotate-45 translate-y-2 bg-white' : scrolled ? 'bg-gray-800' : 'bg-white'
-            }`} />
-            <div className={`w-6 h-0.5 my-1.5 transition ${
-              isOpen ? 'opacity-0' : scrolled ? 'bg-gray-800' : 'bg-white'
-            }`} />
-            <div className={`w-6 h-0.5 transition ${
-              isOpen ? '-rotate-45 -translate-y-2 bg-white' : scrolled ? 'bg-gray-800' : 'bg-white'
-            }`} />
+            <div className="w-6 h-0.5 bg-gray-800" />
+            <div className="w-6 h-0.5 bg-gray-800 my-1.5" />
+            <div className="w-6 h-0.5 bg-gray-800" />
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Overlay - simplified */}
-      {isOpen && (
-        <div className="fixed inset-0 bg-black/90 z-40 lg:hidden">
+      {/* Mobile Navigation Overlay - Only render on client side after hydration */}
+      {mounted && isOpen ? (
+        <div className="fixed inset-0 bg-white z-40 lg:hidden">
           <div className="flex items-center justify-center h-full">
             <nav className="flex flex-col items-center space-y-6">
               {navLinks.map((link) => (
@@ -107,7 +117,7 @@ export default function Navbar() {
                   key={link.href} 
                   href={link.href}
                   prefetch={false}
-                  className="text-white text-xl font-medium hover:text-primary transition"
+                  className="text-gray-800 text-xl font-medium hover:text-accent transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.label}
@@ -115,7 +125,7 @@ export default function Navbar() {
               ))}
               <Link 
                 href="/contact" 
-                className="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-full text-lg font-medium transition mt-4"
+                className="bg-accent hover:bg-accent/90 text-white px-6 py-3 rounded-full text-lg font-medium transition-colors mt-4"
                 onClick={() => setIsOpen(false)}
                 prefetch={false}
               >
@@ -124,7 +134,7 @@ export default function Navbar() {
             </nav>
           </div>
         </div>
-      )}
+      ) : null}
     </header>
   );
 } 

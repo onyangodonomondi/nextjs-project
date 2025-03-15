@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 
 interface VPSPlan {
   name: string;
@@ -111,7 +110,7 @@ export default function VPSSolutions() {
 
   return (
     <>
-      <Navbar />
+      
       <main className="pt-20 bg-gray-50">
         <div className="container mx-auto px-4 py-16">
           <motion.div

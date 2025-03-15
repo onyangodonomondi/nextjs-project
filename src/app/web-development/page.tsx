@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
@@ -674,232 +673,230 @@ export default function WebDevelopment() {
   }, []);
 
   return (
-    <>
-      <Navbar />
-      <main className="pt-24 bg-gray-50">
-        <PageHero 
-          title="Web Development Services"
-          subtitle="Custom web solutions that drive growth and deliver exceptional user experiences."
-          bgImage="/images/web-dev-hero.jpg"
-        />
+    <main className="pt-24 bg-gray-50">
+      <PageHero 
+        title="Web Development Services"
+        subtitle="Custom web solutions that drive growth and deliver exceptional user experiences."
+        bgImage="/images/web-dev-hero.jpg"
+      />
 
-        {/* Contact Form Section */}
-        <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
-          <div className="container max-w-7xl mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-8"
-            >
-              <h2 className="text-3xl font-bold text-gray-900">Get Started</h2>
-              <p className="mt-2 text-gray-600">Tell us about your project</p>
-            </motion.div>
+      {/* Contact Form Section */}
+      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container max-w-7xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-8"
+          >
+            <h2 className="text-3xl font-bold text-gray-900">Get Started</h2>
+            <p className="mt-2 text-gray-600">Tell us about your project</p>
+          </motion.div>
 
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-              <div className="p-4 sm:p-6 md:p-8">
-                <form>
-                  {/* Contact Details Section */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-                    <div className="space-y-1">
-                      <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                      <input
-                        id="fullName"
-                        type="text"
-                        className="w-full p-3 rounded-xl border border-gray-200 
-                          focus:outline-none focus:ring-2 focus:ring-primary/20
-                          bg-gray-50/50 hover:bg-gray-50 transition-colors"
-                        placeholder="John Doe"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="block text-sm font-medium text-gray-700">Email Address</label>
-                      <input
-                        id="email"
-                        type="email"
-                        className="w-full p-3 rounded-xl border border-gray-200 
-                          focus:outline-none focus:ring-2 focus:ring-primary/20
-                          bg-gray-50/50 hover:bg-gray-50 transition-colors"
-                        placeholder="john@example.com"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-                      <input
-                        id="phone"
-                        type="tel"
-                        className="w-full p-3 rounded-xl border border-gray-200 
-                          focus:outline-none focus:ring-2 focus:ring-primary/20
-                          bg-gray-50/50 hover:bg-gray-50 transition-colors"
-                        placeholder="+254 700 000000"
-                      />
-                    </div>
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+            <div className="p-4 sm:p-6 md:p-8">
+              <form>
+                {/* Contact Details Section */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input
+                      id="fullName"
+                      type="text"
+                      className="w-full p-3 rounded-xl border border-gray-200 
+                        focus:outline-none focus:ring-2 focus:ring-primary/20
+                        bg-gray-50/50 hover:bg-gray-50 transition-colors"
+                      placeholder="John Doe"
+                    />
                   </div>
-
-                  {/* Project Details Section */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-                    <div className="space-y-1">
-                      <label className="block text-sm font-medium text-gray-700">Project Type</label>
-                      <select
-                        id="projectType"
-                        className="w-full p-3 rounded-xl border border-gray-200 
-                          focus:outline-none focus:ring-2 focus:ring-primary/20 
-                          appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
-                          cursor-pointer"
-                        defaultValue=""
-                      >
-                        <option value="" disabled>Select project type</option>
-                        <option value="website">Website Development</option>
-                        <option value="ecommerce">E-commerce Platform</option>
-                        <option value="webapp">Web Application</option>
-                        <option value="portal">Customer Portal</option>
-                        <option value="cms">Content Management System</option>
-                        <option value="custom">Custom Solution</option>
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <label className="block text-sm font-medium text-gray-700">Timeline</label>
-                      <select
-                        id="timeline"
-                        className="w-full p-3 rounded-xl border border-gray-200 
-                          focus:outline-none focus:ring-2 focus:ring-primary/20 
-                          appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
-                          cursor-pointer"
-                      >
-                        <option value="" disabled selected>Select timeline</option>
-                        <option value="urgent">Urgent (1-2 weeks)</option>
-                        <option value="normal">Normal (2-4 weeks)</option>
-                        <option value="relaxed">Relaxed (4-8 weeks)</option>
-                        <option value="flexible">Flexible</option>
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <label className="block text-sm font-medium text-gray-700">Budget Range (KES)</label>
-                      <select
-                        id="budget"
-                        className="w-full p-3 rounded-xl border border-gray-200 
-                          focus:outline-none focus:ring-2 focus:ring-primary/20 
-                          appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
-                          cursor-pointer"
-                      >
-                        <option value="" disabled selected>Select budget</option>
-                        <option value="30k-50k">30K - 50K</option>
-                        <option value="50k-100k">50K - 100K</option>
-                        <option value="100k-200k">100K - 200K</option>
-                        <option value="200k-500k">200K - 500K</option>
-                        <option value="500k+">500K+</option>
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <label className="block text-sm font-medium text-gray-700">Priority Level</label>
-                      <select
-                        id="priority"
-                        className="w-full p-3 rounded-xl border border-gray-200 
-                          focus:outline-none focus:ring-2 focus:ring-primary/20 
-                          appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
-                          cursor-pointer"
-                      >
-                        <option value="" disabled selected>Select priority</option>
-                        <option value="high">High</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
-                      </select>
-                    </div>
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input
+                      id="email"
+                      type="email"
+                      className="w-full p-3 rounded-xl border border-gray-200 
+                        focus:outline-none focus:ring-2 focus:ring-primary/20
+                        bg-gray-50/50 hover:bg-gray-50 transition-colors"
+                      placeholder="john@example.com"
+                    />
                   </div>
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input
+                      id="phone"
+                      type="tel"
+                      className="w-full p-3 rounded-xl border border-gray-200 
+                        focus:outline-none focus:ring-2 focus:ring-primary/20
+                        bg-gray-50/50 hover:bg-gray-50 transition-colors"
+                      placeholder="+254 700 000000"
+                    />
+                  </div>
+                </div>
 
-                  {/* Project Description */}
-                  <div className="mb-6 sm:mb-8 space-y-1">
-                    <label className="block text-sm font-medium text-gray-700">Project Description</label>
-                    <textarea
-                      id="description"
+                {/* Project Details Section */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Project Type</label>
+                    <select
+                      id="projectType"
                       className="w-full p-3 rounded-xl border border-gray-200 
                         focus:outline-none focus:ring-2 focus:ring-primary/20 
-                        bg-gray-50/50 hover:bg-gray-50 transition-colors resize-none"
-                      rows={3}
-                      placeholder="Tell us about your project goals, features required, and any specific requirements..."
-                    ></textarea>
-                  </div>
-
-                  {/* Form Actions */}
-                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <div className="text-sm text-gray-500 order-2 sm:order-1">
-                      <i className="fas fa-shield-alt mr-2"></i>
-                      Your information is secure and encrypted
-                    </div>
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-xl 
-                        font-medium hover:bg-primary-dark transition-all shadow-md 
-                        flex items-center justify-center gap-2 order-1 sm:order-2"
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        
-                        // Get form values
-                        const name = (document.getElementById('fullName') as HTMLInputElement)?.value;
-                        const email = (document.getElementById('email') as HTMLInputElement)?.value;
-                        const phone = (document.getElementById('phone') as HTMLInputElement)?.value;
-                        const projectType = (document.getElementById('projectType') as HTMLSelectElement)?.value;
-                        const timeline = (document.getElementById('timeline') as HTMLSelectElement)?.value;
-                        const budget = (document.getElementById('budget') as HTMLSelectElement)?.value;
-                        const priority = (document.getElementById('priority') as HTMLSelectElement)?.value;
-                        const description = (document.getElementById('description') as HTMLTextAreaElement)?.value;
-
-                        // Validate required fields
-                        if (!name || !email || !phone || !projectType || !budget || !description) {
-                          alert('Please fill in all required fields');
-                          return;
-                        }
-
-                        // Format WhatsApp message
-                        const message = `*New Project Request*\n\n` +
-                          `*Contact Details*\n` +
-                          `Name: ${name}\n` +
-                          `Email: ${email}\n` +
-                          `Phone: ${phone}\n\n` +
-                          `*Project Details*\n` +
-                          `Type: ${projectType}\n` +
-                          `Timeline: ${timeline}\n` +
-                          `Budget: ${budget}\n` +
-                          `Priority: ${priority}\n\n` +
-                          `*Project Description*\n${description}`;
-
-                        // Open WhatsApp with formatted message
-                        window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
-                      }}
+                        appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
+                        cursor-pointer"
+                      defaultValue=""
                     >
-                      Submit Request
-                    </motion.button>
+                      <option value="" disabled>Select project type</option>
+                      <option value="website">Website Development</option>
+                      <option value="ecommerce">E-commerce Platform</option>
+                      <option value="webapp">Web Application</option>
+                      <option value="portal">Customer Portal</option>
+                      <option value="cms">Content Management System</option>
+                      <option value="custom">Custom Solution</option>
+                    </select>
                   </div>
-                </form>
-              </div>
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Timeline</label>
+                    <select
+                      id="timeline"
+                      className="w-full p-3 rounded-xl border border-gray-200 
+                        focus:outline-none focus:ring-2 focus:ring-primary/20 
+                        appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
+                        cursor-pointer"
+                    >
+                      <option value="" disabled selected>Select timeline</option>
+                      <option value="urgent">Urgent (1-2 weeks)</option>
+                      <option value="normal">Normal (2-4 weeks)</option>
+                      <option value="relaxed">Relaxed (4-8 weeks)</option>
+                      <option value="flexible">Flexible</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Budget Range (KES)</label>
+                    <select
+                      id="budget"
+                      className="w-full p-3 rounded-xl border border-gray-200 
+                        focus:outline-none focus:ring-2 focus:ring-primary/20 
+                        appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
+                        cursor-pointer"
+                    >
+                      <option value="" disabled selected>Select budget</option>
+                      <option value="30k-50k">30K - 50K</option>
+                      <option value="50k-100k">50K - 100K</option>
+                      <option value="100k-200k">100K - 200K</option>
+                      <option value="200k-500k">200K - 500K</option>
+                      <option value="500k+">500K+</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Priority Level</label>
+                    <select
+                      id="priority"
+                      className="w-full p-3 rounded-xl border border-gray-200 
+                        focus:outline-none focus:ring-2 focus:ring-primary/20 
+                        appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
+                        cursor-pointer"
+                    >
+                      <option value="" disabled selected>Select priority</option>
+                      <option value="high">High</option>
+                      <option value="medium">Medium</option>
+                      <option value="low">Low</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Project Description */}
+                <div className="mb-6 sm:mb-8 space-y-1">
+                  <label className="block text-sm font-medium text-gray-700">Project Description</label>
+                  <textarea
+                    id="description"
+                    className="w-full p-3 rounded-xl border border-gray-200 
+                      focus:outline-none focus:ring-2 focus:ring-primary/20 
+                      bg-gray-50/50 hover:bg-gray-50 transition-colors resize-none"
+                    rows={3}
+                    placeholder="Tell us about your project goals, features required, and any specific requirements..."
+                  ></textarea>
+                </div>
+
+                {/* Form Actions */}
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                  <div className="text-sm text-gray-500 order-2 sm:order-1">
+                    <i className="fas fa-shield-alt mr-2"></i>
+                    Your information is secure and encrypted
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-xl 
+                      font-medium hover:bg-primary-dark transition-all shadow-md 
+                      flex items-center justify-center gap-2 order-1 sm:order-2"
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      
+                      // Get form values
+                      const name = (document.getElementById('fullName') as HTMLInputElement)?.value;
+                      const email = (document.getElementById('email') as HTMLInputElement)?.value;
+                      const phone = (document.getElementById('phone') as HTMLInputElement)?.value;
+                      const projectType = (document.getElementById('projectType') as HTMLSelectElement)?.value;
+                      const timeline = (document.getElementById('timeline') as HTMLSelectElement)?.value;
+                      const budget = (document.getElementById('budget') as HTMLSelectElement)?.value;
+                      const priority = (document.getElementById('priority') as HTMLSelectElement)?.value;
+                      const description = (document.getElementById('description') as HTMLTextAreaElement)?.value;
+
+                      // Validate required fields
+                      if (!name || !email || !phone || !projectType || !budget || !description) {
+                        alert('Please fill in all required fields');
+                        return;
+                      }
+
+                      // Format WhatsApp message
+                      const message = `*New Project Request*\n\n` +
+                        `*Contact Details*\n` +
+                        `Name: ${name}\n` +
+                        `Email: ${email}\n` +
+                        `Phone: ${phone}\n\n` +
+                        `*Project Details*\n` +
+                        `Type: ${projectType}\n` +
+                        `Timeline: ${timeline}\n` +
+                        `Budget: ${budget}\n` +
+                        `Priority: ${priority}\n\n` +
+                        `*Project Description*\n${description}`;
+
+                      // Open WhatsApp with formatted message
+                      window.open(`https://wa.me/254741590670?text=${encodeURIComponent(message)}`, '_blank');
+                    }}
+                  >
+                    Submit Request
+                  </motion.button>
+                </div>
+              </form>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Types of Websites Section */}
-        <section className="py-20 overflow-hidden">
-          <div className="container max-w-7xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900">Types of Websites We Create</h2>
-              <p className="mt-2 text-gray-600">Specialized web solutions for every industry</p>
-            </div>
+      {/* Types of Websites Section */}
+      <section className="py-20 overflow-hidden">
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900">Types of Websites We Create</h2>
+            <p className="mt-2 text-gray-600">Specialized web solutions for every industry</p>
+          </div>
 
-            <div className="relative">
-              {/* Slider Container */}
-              <div 
-                className="overflow-x-auto hide-scrollbar"
-                id="websiteSlider"
-              >
-                <div className="flex gap-6 pb-8">
-                  {/* Website Cards */}
-              {websiteTypes.map((type, index) => (
-                <div
-                      key={type.id} 
-                      className={`bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg 
-                        transition-all duration-300 min-w-[350px] border border-gray-100
-                        hover:border-primary/20 group`}
+          <div className="relative">
+            {/* Slider Container */}
+            <div 
+              className="overflow-x-auto hide-scrollbar"
+              id="websiteSlider"
+            >
+              <div className="flex gap-6 pb-8">
+                {/* Website Cards */}
+                {websiteTypes.map((type, index) => (
+                  <div
+                        key={type.id} 
+                        className={`bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg 
+                          transition-all duration-300 min-w-[350px] border border-gray-100
+                          hover:border-primary/20 group`}
                     >
                       <h3 className={`text-xl font-semibold text-gray-900 mb-4 
                         group-hover:text-primary transition-colors`}>
@@ -915,424 +912,422 @@ export default function WebDevelopment() {
                       </li>
                     ))}
                   </ul>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation Controls */}
+            <div className="flex items-center justify-center gap-8 mt-6">
+              {/* Left Arrow */}
+              <button
+                onClick={() => {
+                  const slider = document.getElementById('websiteSlider');
+                  if (slider) {
+                    const newIndex = activeIndex === 0 ? websiteTypes.length - 1 : activeIndex - 1;
+                    const scrollAmount = newIndex * (350 + 24);
+                    slider.scrollTo({
+                      left: scrollAmount,
+                      behavior: 'smooth'
+                    });
+                    setActiveIndex(newIndex);
+                  }
+                }}
+                aria-label="Previous"
+                className={`p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
+                  shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200`}
+              >
+                <i className="fas fa-chevron-left"></i>
+              </button>
+
+              {/* Scroll Dots */}
+              <div className="flex justify-center items-center gap-3">
+                {websiteTypes.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`transition-all duration-300 rounded-full
+                      ${index === activeIndex 
+                        ? 'w-8 h-3 bg-primary shadow-md' 
+                        : 'w-3 h-3 bg-gray-200 hover:bg-primary/40'
+                      }`}
+                    onClick={() => {
+                      const slider = document.getElementById('websiteSlider');
+                      if (slider) {
+                        const scrollAmount = index * (350 + 24);
+                        slider.scrollTo({
+                          left: scrollAmount,
+                          behavior: 'smooth'
+                        });
+                        setActiveIndex(index);
+                      }
+                    }}
+                    aria-label={`View ${websiteTypes[index].title}`}
+                  />
+                ))}
+              </div>
+
+              {/* Right Arrow */}
+              <button
+                onClick={() => {
+                  const slider = document.getElementById('websiteSlider');
+                  if (slider) {
+                    const newIndex = activeIndex === websiteTypes.length - 1 ? 0 : activeIndex + 1;
+                    const scrollAmount = newIndex * (350 + 24);
+                    slider.scrollTo({
+                      left: scrollAmount,
+                      behavior: 'smooth'
+                    });
+                    setActiveIndex(newIndex);
+                  }
+                }}
+                aria-label="Next"
+                className={`p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
+                  shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200`}
+              >
+                <i className="fas fa-chevron-right"></i>
+              </button>
+            </div>
+
+            {/* Custom Scrollbar Styling */}
+            <style jsx global>{`
+              .hide-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+                scroll-snap-type: x mandatory;
+              }
+              .hide-scrollbar::-webkit-scrollbar {
+                display: none;
+              }
+            `}</style>
+          </div>
+        </div>
+      </section>
+
+      {/* Development Process Section */}
+      <section className="py-20 bg-white">
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900">Our Development Process</h2>
+            <p className="mt-2 text-gray-600">A systematic approach to delivering exceptional results</p>
+          </div>
+
+          {/* Timeline Container */}
+          <div className="relative max-w-5xl mx-auto">
+            {/* Horizontal Line - Hidden on mobile */}
+            <div className="hidden md:block absolute top-[25px] left-0 w-full h-[2px]">
+              <div className="h-full bg-gradient-to-r from-blue-400 via-purple-500 to-red-400"></div>
+            </div>
+
+            {/* Vertical Line - Shown only on mobile */}
+            <div className="md:hidden absolute left-[25px] top-0 h-full w-[2px]">
+              <div className="h-full bg-gradient-to-b from-blue-400 via-purple-500 to-red-400"></div>
+            </div>
+
+            {/* Timeline Steps */}
+            <div className="relative flex flex-col md:flex-row md:justify-between gap-8 md:gap-0">
+              {/* Step 1 */}
+              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                <div className="w-[50px] h-[50px] rounded-full border-2 border-blue-400 bg-white 
+                  flex items-center justify-center text-blue-400 text-xl font-semibold z-10">
+                  1
                 </div>
-              ))}
+                <div className="md:text-center">
+                  <h3 className="text-[#ff6b00] font-semibold">Discovery & Planning</h3>
                 </div>
               </div>
 
-              {/* Navigation Controls */}
-              <div className="flex items-center justify-center gap-8 mt-6">
-                {/* Left Arrow */}
-                <button
-                  onClick={() => {
-                    const slider = document.getElementById('websiteSlider');
-                    if (slider) {
-                      const newIndex = activeIndex === 0 ? websiteTypes.length - 1 : activeIndex - 1;
-                      const scrollAmount = newIndex * (350 + 24);
-                      slider.scrollTo({
-                        left: scrollAmount,
-                        behavior: 'smooth'
-                      });
-                      setActiveIndex(newIndex);
-                    }
-                  }}
-                  aria-label="Previous"
-                  className={`p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
-                    shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200`}
-                >
-                  <i className="fas fa-chevron-left"></i>
-                </button>
+              {/* Step 2 */}
+              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-400 bg-white 
+                  flex items-center justify-center text-purple-400 text-xl font-semibold z-10">
+                  2
+                </div>
+                <div className="md:text-center">
+                  <h3 className="text-[#ff6b00] font-semibold">Design</h3>
+                </div>
+              </div>
 
-                {/* Scroll Dots */}
-                <div className="flex justify-center items-center gap-3">
-                  {websiteTypes.map((_, index) => (
-                    <button
-                      key={index}
-                      className={`transition-all duration-300 rounded-full
-                        ${index === activeIndex 
-                          ? 'w-8 h-3 bg-primary shadow-md' 
-                          : 'w-3 h-3 bg-gray-200 hover:bg-primary/40'
-                        }`}
-                      onClick={() => {
-                        const slider = document.getElementById('websiteSlider');
-                        if (slider) {
-                          const scrollAmount = index * (350 + 24);
-                          slider.scrollTo({
-                            left: scrollAmount,
-                            behavior: 'smooth'
-                          });
-                          setActiveIndex(index);
-                        }
-                      }}
-                      aria-label={`View ${websiteTypes[index].title}`}
-                    />
+              {/* Step 3 */}
+              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                <div className="w-[50px] h-[50px] rounded-full border-2 border-blue-400 bg-white 
+                  flex items-center justify-center text-blue-400 text-xl font-semibold z-10">
+                  3
+                </div>
+                <div className="md:text-center">
+                  <h3 className="text-[#ff6b00] font-semibold">Development</h3>
+                </div>
+              </div>
+
+              {/* Step 4 */}
+              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                <div className="w-[50px] h-[50px] rounded-full border-2 border-pink-400 bg-white 
+                  flex items-center justify-center text-pink-400 text-xl font-semibold z-10">
+                  4
+                </div>
+                <div className="md:text-center">
+                  <h3 className="text-[#ff6b00] font-semibold">Testing</h3>
+                </div>
+              </div>
+
+              {/* Step 5 */}
+              <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
+                <div className="w-[50px] h-[50px] rounded-full border-2 border-red-400 bg-white 
+                  flex items-center justify-center text-red-400 text-xl font-semibold z-10">
+                  5
+                </div>
+                <div className="md:text-center">
+                  <h3 className="text-[#ff6b00] font-semibold">Deployment</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-white">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Technologies We Use</h2>
+            <p className="mt-4 text-gray-600">Modern tools for modern web solutions</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {technologies.map((tech, index) => (
+              <motion.div
+                key={tech.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={`rounded-2xl p-6 ${tech.bgColor} hover:shadow-lg transition-all duration-300`}
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className={`w-12 h-12 rounded-xl ${tech.textColor} bg-white shadow-sm flex items-center justify-center`}>
+                    <i className={`${tech.icon} text-2xl`}></i>
+                  </div>
+                  <div>
+                    <h3 className={`text-xl font-semibold ${tech.textColor}`}>{tech.category}</h3>
+                    <p className="text-sm text-gray-600">{tech.description}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {tech.items.map((item) => (
+                    <motion.div
+                      key={item.name}
+                      className="flex items-center justify-between p-3 bg-white rounded-lg hover:shadow-sm transition-all"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <i className={`${item.icon} ${tech.textColor}`}></i>
+                        <span className="font-medium">{item.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          item.level === 'Expert' ? 'bg-green-100 text-green-700' :
+                          item.level === 'Advanced' ? 'bg-blue-100 text-blue-700' :
+                          'bg-gray-100 text-gray-700'
+                        }`}>
+                          {item.level}
+                        </span>
+                        <span className="text-xs text-gray-500">{item.experience}</span>
+                      </div>
+                    </motion.div>
                   ))}
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                {/* Right Arrow */}
+      <section className="py-20 bg-white">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="text-gradient">Web Development Portfolio</h2>
+            <p>Discover our latest web development projects and see how we can transform your digital presence.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                image: "/web/Mac-1024x683.jpg",
+                title: "Security Company Website",
+                description: "Custom Website for a security Company",
+                link: "https://top23security.com/"
+              },
+              {
+                image: "/web/Macbook-1-1024x683.jpg",
+                title: "Corporate Website",
+                description: "Modern business website with dynamic features",
+                link: "https://lsmsolutionsltd.com/"
+              },
+              {
+                image: "/web/Macbook-1024x683.jpg",
+                title: "StartUp Company Website",
+                description: "Custom Website for a StartUp Company",
+                link: "https://nafrichemdistributors.co.ke/"
+              },
+              {
+                image: "/web/Macbook-Pro-1024x683.jpg",
+                title: "Tourism Company Website",
+                description: "Custom Website for a Tourism Company",
+                link: "https://drivestayexplore.com/"
+              },
+              {
+                image: "/web/Macbook2-1024x683.jpg",
+                title: "E-commerce Website",
+                description: "Custom Website for an E-commerce Company",
+                link: "https://excaliburdealerslimited.com/"
+              },
+              {
+                image: "/web/Macbook3-1024x683.jpg",
+                title: "Crypto Trading Company Website",
+                description: "Custom Website for a Crypto Trading Company",
+                link: "https://piggycryptoke.com/"
+              },
+              {
+                image: "/web/Macbook4-1-1024x683.jpg",
+                title: "Law Firm Website",
+                description: "Custom Website for a Law Firm",
+                link: "https://wasongalaw.co.ke/"
+              },
+              {
+                image: "/web/Macbook6-1024x683.jpg",
+                title: "College Website",
+                description: "Custom Website for a College",
+                link: "https://knowledgespringinstitute.ac.ke/"
+              },
+              {
+                image: "/web/Macbook7-1024x683.jpg",
+                title: "E-commerce Website",
+                description: "Custom Website for an E-commerce Company",
+                link: "https://charloflexshippers.co.ke/"
+              },
+              {
+                image: "/web/Macbook4-1024x683.jpg",
+                title: "Corporate Website",
+                description: "Custom Website for a Corporate Company",
+                link: "https://icl.aero/"
+              },
+              {
+                image: "/web/pure-1024x683.jpg",
+                title: "NGO Website",
+                description: "Custom Website for an NGO",
+                link: "https://pure-gift.org/"
+              },
+              {
+                image: "/web/Macbook12-1024x683.jpg",
+                title: "Corporate Website",
+                description: "Custom Website for a Corporate Company",
+                link: "https://reucherafricakenyaltd.co.ke/"
+              }
+            ].map((project, index) => (
+              <div key={project.link} className="portfolio-card group" data-aos="fade-up" data-aos-delay={index % 3 * 100}>
+                <div className="relative w-full h-64 rounded-xl overflow-hidden mb-4">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div className="p-4">
+                  <h4 className="text-xl font-semibold mb-2">{project.title}</h4>
+                  <p className="text-gray-600 mb-4">{project.description}</p>
+                  <div>
+                    <a
+                      href={project.link}
+                      className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Visit Website <i className="fas fa-external-link-alt"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Frequently Asked Questions
+            </h2>
+            <p className="mt-4 text-gray-600">
+              Everything you need to know about our web development services
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className={`bg-white rounded-xl overflow-hidden transition-all duration-300
+                  ${expandedFaq === index ? 'shadow-lg ring-2 ring-primary/10' : 'shadow-sm hover:shadow-md'}`}
+              >
                 <button
-                  onClick={() => {
-                    const slider = document.getElementById('websiteSlider');
-                    if (slider) {
-                      const newIndex = activeIndex === websiteTypes.length - 1 ? 0 : activeIndex + 1;
-                      const scrollAmount = newIndex * (350 + 24);
-                      slider.scrollTo({
-                        left: scrollAmount,
-                        behavior: 'smooth'
-                      });
-                      setActiveIndex(newIndex);
-                    }
-                  }}
-                  aria-label="Next"
-                  className={`p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
-                    shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200`}
+                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                  className="w-full text-left p-6 focus:outline-none"
                 >
-                  <i className="fas fa-chevron-right"></i>
-                </button>
-              </div>
-
-              {/* Custom Scrollbar Styling */}
-              <style jsx global>{`
-                .hide-scrollbar {
-                  -ms-overflow-style: none;
-                  scrollbar-width: none;
-                  scroll-snap-type: x mandatory;
-                }
-                .hide-scrollbar::-webkit-scrollbar {
-                  display: none;
-                }
-              `}</style>
-            </div>
-          </div>
-        </section>
-
-        {/* Development Process Section */}
-        <section className="py-20 bg-white">
-          <div className="container max-w-7xl mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900">Our Development Process</h2>
-              <p className="mt-2 text-gray-600">A systematic approach to delivering exceptional results</p>
-            </div>
-
-            {/* Timeline Container */}
-            <div className="relative max-w-5xl mx-auto">
-              {/* Horizontal Line - Hidden on mobile */}
-              <div className="hidden md:block absolute top-[25px] left-0 w-full h-[2px]">
-                <div className="h-full bg-gradient-to-r from-blue-400 via-purple-500 to-red-400"></div>
-              </div>
-
-              {/* Vertical Line - Shown only on mobile */}
-              <div className="md:hidden absolute left-[25px] top-0 h-full w-[2px]">
-                <div className="h-full bg-gradient-to-b from-blue-400 via-purple-500 to-red-400"></div>
-              </div>
-
-              {/* Timeline Steps */}
-              <div className="relative flex flex-col md:flex-row md:justify-between gap-8 md:gap-0">
-                {/* Step 1 */}
-                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                  <div className="w-[50px] h-[50px] rounded-full border-2 border-blue-400 bg-white 
-                    flex items-center justify-center text-blue-400 text-xl font-semibold z-10">
-                    1
-                  </div>
-                  <div className="md:text-center">
-                    <h3 className="text-[#ff6b00] font-semibold">Discovery & Planning</h3>
-                  </div>
-                </div>
-
-                {/* Step 2 */}
-                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                  <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-400 bg-white 
-                    flex items-center justify-center text-purple-400 text-xl font-semibold z-10">
-                    2
-                  </div>
-                  <div className="md:text-center">
-                    <h3 className="text-[#ff6b00] font-semibold">Design</h3>
-                  </div>
-                </div>
-
-                {/* Step 3 */}
-                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                  <div className="w-[50px] h-[50px] rounded-full border-2 border-blue-400 bg-white 
-                    flex items-center justify-center text-blue-400 text-xl font-semibold z-10">
-                    3
-                  </div>
-                  <div className="md:text-center">
-                    <h3 className="text-[#ff6b00] font-semibold">Development</h3>
-                  </div>
-                </div>
-
-                {/* Step 4 */}
-                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                  <div className="w-[50px] h-[50px] rounded-full border-2 border-pink-400 bg-white 
-                    flex items-center justify-center text-pink-400 text-xl font-semibold z-10">
-                    4
-                  </div>
-                  <div className="md:text-center">
-                    <h3 className="text-[#ff6b00] font-semibold">Testing</h3>
-                  </div>
-                </div>
-
-                {/* Step 5 */}
-                <div className="flex md:flex-col items-start md:items-center gap-6 md:gap-2 md:flex-1">
-                  <div className="w-[50px] h-[50px] rounded-full border-2 border-red-400 bg-white 
-                    flex items-center justify-center text-red-400 text-xl font-semibold z-10">
-                    5
-                  </div>
-                  <div className="md:text-center">
-                    <h3 className="text-[#ff6b00] font-semibold">Deployment</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 bg-white">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Technologies We Use</h2>
-              <p className="mt-4 text-gray-600">Modern tools for modern web solutions</p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {technologies.map((tech, index) => (
-                <motion.div
-                  key={tech.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className={`rounded-2xl p-6 ${tech.bgColor} hover:shadow-lg transition-all duration-300`}
-                >
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className={`w-12 h-12 rounded-xl ${tech.textColor} bg-white shadow-sm flex items-center justify-center`}>
-                      <i className={`${tech.icon} text-2xl`}></i>
-                    </div>
-                    <div>
-                      <h3 className={`text-xl font-semibold ${tech.textColor}`}>{tech.category}</h3>
-                      <p className="text-sm text-gray-600">{tech.description}</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    {tech.items.map((item) => (
-                      <motion.div
-                        key={item.name}
-                        className="flex items-center justify-between p-3 bg-white rounded-lg hover:shadow-sm transition-all"
-                        whileHover={{ scale: 1.02 }}
-                      >
-                        <div className="flex items-center gap-3">
-                          <i className={`${item.icon} ${tech.textColor}`}></i>
-                          <span className="font-medium">{item.name}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className={`text-xs px-2 py-1 rounded-full ${
-                            item.level === 'Expert' ? 'bg-green-100 text-green-700' :
-                            item.level === 'Advanced' ? 'bg-blue-100 text-blue-700' :
-                            'bg-gray-100 text-gray-700'
-                          }`}>
-                            {item.level}
-                          </span>
-                          <span className="text-xs text-gray-500">{item.experience}</span>
-                        </div>
-                      </motion.div>
-                    ))}
-                </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 bg-white">
-          <div className="container">
-            <div className="section-header">
-              <h2 className="text-gradient">Web Development Portfolio</h2>
-              <p>Discover our latest web development projects and see how we can transform your digital presence.</p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  image: "/web/Mac-1024x683.jpg",
-                  title: "Security Company Website",
-                  description: "Custom Website for a security Company",
-                  link: "https://top23security.com/"
-                },
-                {
-                  image: "/web/Macbook-1-1024x683.jpg",
-                  title: "Corporate Website",
-                  description: "Modern business website with dynamic features",
-                  link: "https://lsmsolutionsltd.com/"
-                },
-                {
-                  image: "/web/Macbook-1024x683.jpg",
-                  title: "StartUp Company Website",
-                  description: "Custom Website for a StartUp Company",
-                  link: "https://nafrichemdistributors.co.ke/"
-                },
-                {
-                  image: "/web/Macbook-Pro-1024x683.jpg",
-                  title: "Tourism Company Website",
-                  description: "Custom Website for a Tourism Company",
-                  link: "https://drivestayexplore.com/"
-                },
-                {
-                  image: "/web/Macbook2-1024x683.jpg",
-                  title: "E-commerce Website",
-                  description: "Custom Website for an E-commerce Company",
-                  link: "https://excaliburdealerslimited.com/"
-                },
-                {
-                  image: "/web/Macbook3-1024x683.jpg",
-                  title: "Crypto Trading Company Website",
-                  description: "Custom Website for a Crypto Trading Company",
-                  link: "https://piggycryptoke.com/"
-                },
-                {
-                  image: "/web/Macbook4-1-1024x683.jpg",
-                  title: "Law Firm Website",
-                  description: "Custom Website for a Law Firm",
-                  link: "https://wasongalaw.co.ke/"
-                },
-                {
-                  image: "/web/Macbook6-1024x683.jpg",
-                  title: "College Website",
-                  description: "Custom Website for a College",
-                  link: "https://knowledgespringinstitute.ac.ke/"
-                },
-                {
-                  image: "/web/Macbook7-1024x683.jpg",
-                  title: "E-commerce Website",
-                  description: "Custom Website for an E-commerce Company",
-                  link: "https://charloflexshippers.co.ke/"
-                },
-                {
-                  image: "/web/Macbook4-1024x683.jpg",
-                  title: "Corporate Website",
-                  description: "Custom Website for a Corporate Company",
-                  link: "https://icl.aero/"
-                },
-                {
-                  image: "/web/pure-1024x683.jpg",
-                  title: "NGO Website",
-                  description: "Custom Website for an NGO",
-                  link: "https://pure-gift.org/"
-                },
-                {
-                  image: "/web/Macbook12-1024x683.jpg",
-                  title: "Corporate Website",
-                  description: "Custom Website for a Corporate Company",
-                  link: "https://reucherafricakenyaltd.co.ke/"
-                }
-              ].map((project, index) => (
-                <div key={project.link} className="portfolio-card group" data-aos="fade-up" data-aos-delay={index % 3 * 100}>
-                  <div className="relative w-full h-64 rounded-xl overflow-hidden mb-4">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h4 className="text-xl font-semibold mb-2">{project.title}</h4>
-                    <p className="text-gray-600 mb-4">{project.description}</p>
-                    <div>
-                      <a
-                        href={project.link}
-                        className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Visit Website <i className="fas fa-external-link-alt"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20 bg-gradient-to-b from-white to-gray-50">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                Frequently Asked Questions
-              </h2>
-              <p className="mt-4 text-gray-600">
-                Everything you need to know about our web development services
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {faqs.map((faq, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className={`bg-white rounded-xl overflow-hidden transition-all duration-300
-                    ${expandedFaq === index ? 'shadow-lg ring-2 ring-primary/10' : 'shadow-sm hover:shadow-md'}`}
-                >
-                  <button
-                    onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                    className="w-full text-left p-6 focus:outline-none"
-                  >
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="flex gap-4 items-start">
-                        <span className={`p-2 rounded-lg ${
-                          expandedFaq === index 
-                            ? 'bg-primary/10 text-primary' 
-                            : 'bg-gray-100 text-gray-500'
-                        }`}>
-                          <i className="fas fa-question text-lg"></i>
-                        </span>
-                        <h3 className="text-lg font-semibold text-gray-900 leading-tight">
-                          {faq.question}
-                        </h3>
-                      </div>
-                      <span className={`transition-transform ${
-                        expandedFaq === index ? 'rotate-180' : ''
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex gap-4 items-start">
+                      <span className={`p-2 rounded-lg ${
+                        expandedFaq === index 
+                          ? 'bg-primary/10 text-primary' 
+                          : 'bg-gray-100 text-gray-500'
                       }`}>
-                        <i className="fas fa-chevron-down text-gray-400"></i>
+                        <i className="fas fa-question text-lg"></i>
                       </span>
+                      <h3 className="text-lg font-semibold text-gray-900 leading-tight">
+                        {faq.question}
+                      </h3>
                     </div>
-                  </button>
+                    <span className={`transition-transform ${
+                      expandedFaq === index ? 'rotate-180' : ''
+                    }`}>
+                      <i className="fas fa-chevron-down text-gray-400"></i>
+                    </span>
+                  </div>
+                </button>
 
-                  <motion.div
-                    initial={false}
-                    animate={{ 
-                      height: expandedFaq === index ? 'auto' : 0,
-                      opacity: expandedFaq === index ? 1 : 0
-                    }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="p-6 pt-0 text-gray-600 border-t border-gray-100">
-                      {faq.answer}
-                    </div>
-                  </motion.div>
+                <motion.div
+                  initial={false}
+                  animate={{ 
+                    height: expandedFaq === index ? 'auto' : 0,
+                    opacity: expandedFaq === index ? 1 : 0
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="p-6 pt-0 text-gray-600 border-t border-gray-100">
+                    {faq.answer}
+                  </div>
                 </motion.div>
-              ))}
-            </div>
+              </motion.div>
+            ))}
           </div>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+    </main>
   );
 } 

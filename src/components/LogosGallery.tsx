@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
-import Navbar from '@/components/Navbar';
 import PageHero from '@/components/PageHero';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import dynamic from 'next/dynamic';
@@ -298,350 +297,347 @@ export default function LogosGallery({ logos }: Props) {
   }, []);
 
   return (
-    <>
-      <Navbar />
-      <main className="pt-24 bg-gradient-to-b from-gray-50 to-white">
-        <PageHero 
-          title="Logo Design Portfolio"
-          description="Explore our collection of unique and memorable logo designs."
-        />
+    <main className="pt-24 bg-gradient-to-b from-gray-50 to-white">
+      <PageHero 
+        title="Logo Design Portfolio"
+        description="Explore our collection of unique and memorable logo designs."
+      />
 
-        {/* Logo Types Section - Redesigned as a list without images */}
-        <section className="py-12 border-b border-gray-100">
-          <div className="container max-w-6xl mx-auto px-4">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-3 text-gray-800">Logo Types We Specialize In</h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Choose from a variety of logo styles to perfectly represent your brand's identity
-              </p>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-              {logoTypes.map((type) => (
-                <div 
-                  key={type.title}
-                  className="px-4 py-2 rounded-full bg-white shadow-sm hover:shadow-md transition-shadow border border-gray-100 cursor-pointer"
-                  onClick={() => setFormData({...formData, logoType: type.title})}
-                >
-                  <span className="font-medium text-primary">{type.title}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 grid md:grid-cols-3 gap-6">
-              {logoTypes.map((type) => (
-                <div key={type.title} className="bg-white p-6 rounded-lg shadow-sm hover:shadow transition-shadow">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">{type.title}</h3>
-                  <p className="text-gray-600 mb-2">{type.description}</p>
-                  <p className="text-sm text-gray-500 italic">{type.examples}</p>
-                </div>
-              ))}
-            </div>
+      {/* Logo Types Section - Redesigned as a list without images */}
+      <section className="py-12 border-b border-gray-100">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-3 text-gray-800">Logo Types We Specialize In</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Choose from a variety of logo styles to perfectly represent your brand's identity
+            </p>
           </div>
-        </section>
 
-        {/* Portfolio Section - Improved UI */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-10">
-              <span className="inline-block px-3 py-1 bg-primary-light text-primary text-sm font-medium rounded-full mb-3">SHOWCASE</span>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Our Logo Designs</h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Browse through our collection of professionally crafted logos that have helped businesses establish strong brand identities
-              </p>
-            </div>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+            {logoTypes.map((type) => (
+              <div 
+                key={type.title}
+                className="px-4 py-2 rounded-full bg-white shadow-sm hover:shadow-md transition-shadow border border-gray-100 cursor-pointer"
+                onClick={() => setFormData({...formData, logoType: type.title})}
+              >
+                <span className="font-medium text-primary">{type.title}</span>
+              </div>
+            ))}
+          </div>
 
-            <div 
-              ref={parentRef} 
-              className="h-[800px] overflow-auto rounded-xl bg-gray-50 p-4"
-              style={{ 
-                contain: 'strict',
-                scrollbarWidth: 'thin',
-                scrollbarColor: '#CBD5E0 #F7FAFC',
-                willChange: 'transform', // Hint to browser to optimize rendering
-                backfaceVisibility: 'hidden', // Prevent flickering in some browsers
+          <div className="mt-8 grid md:grid-cols-3 gap-6">
+            {logoTypes.map((type) => (
+              <div key={type.title} className="bg-white p-6 rounded-lg shadow-sm hover:shadow transition-shadow">
+                <h3 className="text-xl font-semibold mb-2 text-gray-800">{type.title}</h3>
+                <p className="text-gray-600 mb-2">{type.description}</p>
+                <p className="text-sm text-gray-500 italic">{type.examples}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio Section - Improved UI */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <span className="inline-block px-3 py-1 bg-primary-light text-primary text-sm font-medium rounded-full mb-3">SHOWCASE</span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Our Logo Designs</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Browse through our collection of professionally crafted logos that have helped businesses establish strong brand identities
+            </p>
+          </div>
+
+          <div 
+            ref={parentRef} 
+            className="h-[800px] overflow-auto rounded-xl bg-gray-50 p-4"
+            style={{ 
+              contain: 'strict',
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#CBD5E0 #F7FAFC',
+              willChange: 'transform', // Hint to browser to optimize rendering
+              backfaceVisibility: 'hidden', // Prevent flickering in some browsers
+            }}
+          >
+            <div
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`,
+                width: '100%',
+                position: 'relative',
+                willChange: 'contents', // Optimize rendering of dynamic content
+                contain: 'size layout', // Improve rendering performance
               }}
             >
-              <div
-                style={{
-                  height: `${rowVirtualizer.getTotalSize()}px`,
-                  width: '100%',
-                  position: 'relative',
-                  willChange: 'contents', // Optimize rendering of dynamic content
-                  contain: 'size layout', // Improve rendering performance
-                }}
-              >
-                {rowVirtualizer?.getVirtualItems()?.map(virtualRow => (
-                  <div
-                    key={virtualRow.index}
-                    className="absolute top-0 left-0 w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6"
-                    style={{
-                      height: `${virtualRow.size}px`,
-                      transform: `translateY(${virtualRow.start}px)`,
-                      willChange: 'transform', // Optimize transforms
-                      containIntrinsicSize: `auto ${virtualRow.size}px`, // Stable size hint for browser
-                      contain: 'layout', // Improve rendering performance
-                    }}
-                  >
-                    {rows[virtualRow.index]?.map((item, colIndex) => (
-                      <div
-                        key={`${virtualRow.index}-${colIndex}`}
-                        className="group relative aspect-square bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
-                        onClick={() => handleImageClick(item.src || item.imageUrl || null)}
-                        style={{ minHeight: '200px' }} // Add fixed minimum height to prevent layout shifts
-                      >
-                        {(item.src || item.imageUrl) ? (
-                          <>
-                            {isImagesLoaded && (
-                              <Image
-                                src={updateLogoPath(item.src || item.imageUrl)}
-                                alt={item.alt || item.title || 'Logo'}
-                                fill
-                                loading="lazy"
-                                placeholder="blur"
-                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEhAI6dtiLOgAAAABJRU5ErkJggg=="
-                                className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
-                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                                quality={75}
-                                onError={(e) => {
-                                  console.log("Image error:", item.src || item.imageUrl);
-                                  const target = e.target as HTMLImageElement;
-                                  target.src = '/images/portfolio/logo-types/wordmark.png';
-                                }}
-                              />
-                            )}
-                            {!isImagesLoaded && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-gray-50 animate-pulse">
-                                <div className="w-12 h-12 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
-                              </div>
-                            )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                              <div className="p-3 text-white">
-                                <p className="font-medium text-sm truncate">{item.title || item.alt || 'View Logo'}</p>
-                              </div>
+              {rowVirtualizer?.getVirtualItems()?.map(virtualRow => (
+                <div
+                  key={virtualRow.index}
+                  className="absolute top-0 left-0 w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6"
+                  style={{
+                    height: `${virtualRow.size}px`,
+                    transform: `translateY(${virtualRow.start}px)`,
+                    willChange: 'transform', // Optimize transforms
+                    containIntrinsicSize: `auto ${virtualRow.size}px`, // Stable size hint for browser
+                    contain: 'layout', // Improve rendering performance
+                  }}
+                >
+                  {rows[virtualRow.index]?.map((item, colIndex) => (
+                    <div
+                      key={`${virtualRow.index}-${colIndex}`}
+                      className="group relative aspect-square bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+                      onClick={() => handleImageClick(item.src || item.imageUrl || null)}
+                      style={{ minHeight: '200px' }} // Add fixed minimum height to prevent layout shifts
+                    >
+                      {(item.src || item.imageUrl) ? (
+                        <>
+                          {isImagesLoaded && (
+                            <Image
+                              src={updateLogoPath(item.src || item.imageUrl)}
+                              alt={item.alt || item.title || 'Logo'}
+                              fill
+                              loading="lazy"
+                              placeholder="blur"
+                              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEhAI6dtiLOgAAAABJRU5ErkJggg=="
+                              className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+                              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                              quality={75}
+                              onError={(e) => {
+                                console.log("Image error:", item.src || item.imageUrl);
+                                const target = e.target as HTMLImageElement;
+                                target.src = '/images/portfolio/logo-types/wordmark.png';
+                              }}
+                            />
+                          )}
+                          {!isImagesLoaded && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-gray-50 animate-pulse">
+                              <div className="w-12 h-12 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
                             </div>
-                          </>
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                            <span className="text-gray-400">No image</span>
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                            <div className="p-3 text-white">
+                              <p className="font-medium text-sm truncate">{item.title || item.alt || 'View Logo'}</p>
+                            </div>
                           </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Pagination Controls - Improved UI */}
-            {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 mt-8">
-                <button 
-                  onClick={() => changePage(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1 || isChangingPage}
-                  className="px-4 py-2 rounded-md bg-white border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
-                >
-                  Previous
-                </button>
-                
-                <div className="flex gap-1">
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    // Show first page, last page, current page, and pages around current
-                    let pageToShow;
-                    if (totalPages <= 5) {
-                      pageToShow = i + 1;
-                    } else if (currentPage <= 3) {
-                      pageToShow = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      pageToShow = totalPages - 4 + i;
-                    } else {
-                      pageToShow = currentPage - 2 + i;
-                    }
-                    
-                    return (
-                      <button
-                        key={pageToShow}
-                        onClick={() => changePage(pageToShow)}
-                        disabled={isChangingPage}
-                        className={`w-10 h-10 rounded-md flex items-center justify-center ${
-                          currentPage === pageToShow 
-                            ? 'bg-primary text-white shadow-md' 
-                            : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
-                        }`}
-                      >
-                        {pageToShow}
-                      </button>
-                    );
-                  })}
+                        </>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                          <span className="text-gray-400">No image</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-                
-                <button 
-                  onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
-                  disabled={currentPage === totalPages || isChangingPage}
-                  className="px-4 py-2 rounded-md bg-white border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
-                >
-                  Next
-                </button>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
-        </section>
 
-        {/* Call to Action Section - New */}
-        <section className="py-16 bg-gradient-to-r from-primary-dark to-primary text-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to create your brand identity?</h2>
-              <p className="text-xl mb-8 opacity-90">
-                Partner with us to design a logo that captures your brand's essence and resonates with your audience.
-              </p>
-              <button
-                onClick={() => setShowRequestForm(true)}
-                className="px-8 py-4 rounded-full bg-white text-primary font-medium hover:bg-gray-100 transition-colors shadow-lg"
+          {/* Pagination Controls - Improved UI */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 mt-8">
+              <button 
+                onClick={() => changePage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1 || isChangingPage}
+                className="px-4 py-2 rounded-md bg-white border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
               >
-                Request Your Custom Logo
+                Previous
+              </button>
+              
+              <div className="flex gap-1">
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  // Show first page, last page, current page, and pages around current
+                  let pageToShow;
+                  if (totalPages <= 5) {
+                    pageToShow = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageToShow = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageToShow = totalPages - 4 + i;
+                  } else {
+                    pageToShow = currentPage - 2 + i;
+                  }
+                  
+                  return (
+                    <button
+                      key={pageToShow}
+                      onClick={() => changePage(pageToShow)}
+                      disabled={isChangingPage}
+                      className={`w-10 h-10 rounded-md flex items-center justify-center ${
+                        currentPage === pageToShow 
+                          ? 'bg-primary text-white shadow-md' 
+                          : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                      }`}
+                    >
+                      {pageToShow}
+                    </button>
+                  );
+                })}
+              </div>
+              
+              <button 
+                onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages || isChangingPage}
+                className="px-4 py-2 rounded-md bg-white border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
+              >
+                Next
               </button>
             </div>
-          </div>
-        </section>
-
-        {/* Request Form Button - Redesigned */}
-        <div className="fixed bottom-8 right-8 z-40">
-          <button
-            onClick={() => setShowRequestForm(true)}
-            className="bg-primary text-white px-6 py-4 rounded-full shadow-lg hover:bg-primary-dark transition-colors flex items-center gap-2 group"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-            Request Logo Design
-          </button>
+          )}
         </div>
+      </section>
 
-        {/* Request Form Modal - Improved UI */}
-        {showRequestForm && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
-            onClick={() => setShowRequestForm(false)}
-          >
-            <div 
-              className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-              onClick={e => e.stopPropagation()}
+      {/* Call to Action Section - New */}
+      <section className="py-16 bg-gradient-to-r from-primary-dark to-primary text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to create your brand identity?</h2>
+            <p className="text-xl mb-8 opacity-90">
+              Partner with us to design a logo that captures your brand's essence and resonates with your audience.
+            </p>
+            <button
+              onClick={() => setShowRequestForm(true)}
+              className="px-8 py-4 rounded-full bg-white text-primary font-medium hover:bg-gray-100 transition-colors shadow-lg"
             >
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-gray-800">Request Logo Design</h3>
-                <button 
-                  onClick={() => setShowRequestForm(false)}
-                  className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              Request Your Custom Logo
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Request Form Button - Redesigned */}
+      <div className="fixed bottom-8 right-8 z-40">
+        <button
+          onClick={() => setShowRequestForm(true)}
+          className="bg-primary text-white px-6 py-4 rounded-full shadow-lg hover:bg-primary-dark transition-colors flex items-center gap-2 group"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          Request Logo Design
+        </button>
+      </div>
+
+      {/* Request Form Modal - Improved UI */}
+      {showRequestForm && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+          onClick={() => setShowRequestForm(false)}
+        >
+          <div 
+            className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold text-gray-800">Request Logo Design</h3>
+              <button 
+                onClick={() => setShowRequestForm(false)}
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <form onSubmit={handleFormSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Your Name</label>
+                <input
+                  type="text"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                  value={formData.name}
+                  onChange={e => setFormData({...formData, name: e.target.value})}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Email</label>
+                <input
+                  type="email"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                  value={formData.email}
+                  onChange={e => setFormData({...formData, email: e.target.value})}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Company Name</label>
+                <input
+                  type="text"
+                  required
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                  value={formData.company}
+                  onChange={e => setFormData({...formData, company: e.target.value})}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Preferred Logo Type</label>
+                <select
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors appearance-none bg-white"
+                  value={formData.logoType}
+                  onChange={e => setFormData({...formData, logoType: e.target.value})}
+                  required
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  <option value="">Select a logo type</option>
+                  {logoTypes.map(type => (
+                    <option key={type.title} value={type.title}>{type.title}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Description of Your Business</label>
+                <textarea
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                  rows={4}
+                  value={formData.description}
+                  onChange={e => setFormData({...formData, description: e.target.value})}
+                  required
+                ></textarea>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Preferred Colors</label>
+                <input
+                  type="text"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                  placeholder="e.g., Blue and Gold, Modern and Professional colors"
+                  value={formData.color}
+                  onChange={e => setFormData({...formData, color: e.target.value})}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2 text-gray-700">Reference Examples (Optional)</label>
+                <textarea
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                  rows={2}
+                  placeholder="Links or descriptions of logos you like"
+                  value={formData.reference}
+                  onChange={e => setFormData({...formData, reference: e.target.value})}
+                ></textarea>
+              </div>
+              <div className="flex justify-end gap-4 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowRequestForm(false)}
+                  className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                >
+                  Submit Request
                 </button>
               </div>
-              <form onSubmit={handleFormSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">Your Name</label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-                    value={formData.name}
-                    onChange={e => setFormData({...formData, name: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">Email</label>
-                  <input
-                    type="email"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-                    value={formData.email}
-                    onChange={e => setFormData({...formData, email: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">Company Name</label>
-                  <input
-                    type="text"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-                    value={formData.company}
-                    onChange={e => setFormData({...formData, company: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">Preferred Logo Type</label>
-                  <select
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors appearance-none bg-white"
-                    value={formData.logoType}
-                    onChange={e => setFormData({...formData, logoType: e.target.value})}
-                    required
-                  >
-                    <option value="">Select a logo type</option>
-                    {logoTypes.map(type => (
-                      <option key={type.title} value={type.title}>{type.title}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">Description of Your Business</label>
-                  <textarea
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-                    rows={4}
-                    value={formData.description}
-                    onChange={e => setFormData({...formData, description: e.target.value})}
-                    required
-                  ></textarea>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">Preferred Colors</label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-                    placeholder="e.g., Blue and Gold, Modern and Professional colors"
-                    value={formData.color}
-                    onChange={e => setFormData({...formData, color: e.target.value})}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2 text-gray-700">Reference Examples (Optional)</label>
-                  <textarea
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
-                    rows={2}
-                    placeholder="Links or descriptions of logos you like"
-                    value={formData.reference}
-                    onChange={e => setFormData({...formData, reference: e.target.value})}
-                  ></textarea>
-                </div>
-                <div className="flex justify-end gap-4 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setShowRequestForm(false)}
-                    className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                  >
-                    Submit Request
-                  </button>
-                </div>
-              </form>
-            </div>
+            </form>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Image Modal */}
-        {selectedImage && (
-          <LogoModal 
-            src={updateLogoPath(selectedImage)} 
-            onClose={() => setSelectedImage(null)} 
-          />
-        )}
-      </main>
-    </>
+      {/* Image Modal */}
+      {selectedImage && (
+        <LogoModal 
+          src={updateLogoPath(selectedImage)} 
+          onClose={() => setSelectedImage(null)} 
+        />
+      )}
+    </main>
   );
 } 
