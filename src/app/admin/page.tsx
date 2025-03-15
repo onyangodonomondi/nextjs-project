@@ -13,8 +13,8 @@ import { ErrorTracker } from '@/services/errorTracking';
 import { ImageDebug } from '@/components/ImageDebug';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ImageLoader } from '@/components/ImageLoader';
-import { RenameDialog } from '@/components/RenameDialog';
-import { generateFileName } from '@/utils/fileNameUtils';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiDownload, FiCopy, FiEdit2, FiMaximize2 } from 'react-icons/fi';
 
 interface ImageCategory {
   name: string;
@@ -36,11 +36,12 @@ export default function AdminDashboard() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [renameDialog, setRenameDialog] = useState({
-    isOpen: false,
-    file: null as File | null,
-    originalName: ''
-  });
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState<'name' | 'date'>('date');
+  const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
     // Check authentication
@@ -116,12 +117,19 @@ export default function AdminDashboard() {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
       useWebWorker: true,
-      fileType: 'image/jpeg',
+      fileType: file.type,
+      initialQuality: 0.8,
     };
 
     try {
+      console.log(`Compressing image: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
       const compressedFile = await imageCompression(file, options);
-      return compressedFile;
+      console.log(`Compressed size: ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`);
+      
+      return new File([compressedFile], file.name, {
+        type: file.type,
+        lastModified: file.lastModified,
+      });
     } catch (error) {
       console.error('Error compressing image:', error);
       throw new Error('Image compression failed');
@@ -130,43 +138,28 @@ export default function AdminDashboard() {
 
   const handleFileUpload = useCallback(async (files: FileList | null) => {
     if (!files?.length) return;
-    const file = files[0];
-    
-    // Open rename dialog
-    setRenameDialog({
-      isOpen: true,
-      file,
-      originalName: file.name
-    });
-  }, []);
-
-  const handleRename = async (newName: string) => {
-    if (!renameDialog.file) return;
+    let file = files[0];
     
     setIsLoading(true);
     try {
-      // Generate unique filename
-      const uniqueName = generateFileName(newName);
-      const fileExt = renameDialog.file.name.split('.').pop();
-      const finalName = `${uniqueName}.${fileExt}`;
-
-      // Create new file with new name
-      const newFile = new File([renameDialog.file], finalName, {
-        type: renameDialog.file.type
-      });
-
       // Validate image
-      const validation = await ImageValidator.validateImage(newFile);
+      const validation = await ImageValidator.validateImage(file);
       if (!validation.isValid) {
         throw new Error(validation.errors.join(', '));
       }
 
-      // Add to upload queue
+      // Compress if file size is over 1MB
+      if (file.size > 1024 * 1024) {
+        const compressedFile = await compressImage(file);
+        file = compressedFile;
+      }
+
+      // Upload file
       const result = await UploadQueue.addToQueue({
-        file: newFile,
+        file,
         category: selectedCategory,
         options: {
-          format: 'webp',
+          preserveOriginal: true,
           quality: 80
         }
       });
@@ -188,14 +181,13 @@ export default function AdminDashboard() {
       ErrorTracker.trackError(
         error as Error,
         'ImageUpload',
-        { category: selectedCategory, fileName: renameDialog.file.name }
+        { category: selectedCategory, fileName: file.name }
       );
       toast.error(error instanceof Error ? error.message : 'Upload failed');
     } finally {
       setIsLoading(false);
-      setRenameDialog({ isOpen: false, file: null, originalName: '' });
     }
-  };
+  }, [categories, selectedCategory]);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -213,6 +205,60 @@ export default function AdminDashboard() {
     handleFileUpload(e.dataTransfer.files);
   };
 
+  const filteredImages = useCallback(() => {
+    const category = categories.find((cat) => cat.name === selectedCategory);
+    if (!category) return [];
+    
+    return category.images.filter(image => 
+      image.alt.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [categories, selectedCategory, searchTerm]);
+
+  const handleImagePreview = (image: ImageItem) => {
+    setSelectedImage(image);
+    setIsPreviewOpen(true);
+  };
+
+  const handleCopyUrl = async (imageSrc: string) => {
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}${imageSrc}`);
+      toast.success('Image URL copied to clipboard');
+    } catch (error) {
+      toast.error('Failed to copy URL');
+    }
+  };
+
+  const handleDownload = async (imageSrc: string) => {
+    try {
+      const response = await fetch(imageSrc);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = imageSrc.split('/').pop() || 'image';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      toast.error('Failed to download image');
+    }
+  };
+
+  const filteredAndSortedImages = useCallback(() => {
+    const filtered = filteredImages();
+    
+    return [...filtered].sort((a, b) => {
+      if (sortBy === 'name') {
+        return sortOrder === 'asc' 
+          ? a.alt.localeCompare(b.alt)
+          : b.alt.localeCompare(a.alt);
+      }
+      // Add date sorting when you have date metadata
+      return 0;
+    });
+  }, [filteredImages, sortBy, sortOrder]);
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -223,11 +269,11 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Admin Header */}
+      {/* Enhanced Admin Header */}
       <header className="fixed top-0 left-0 right-0 bg-white shadow-sm border-b z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
+            <div className="flex items-center space-x-4">
               <div className="relative w-10 h-10">
                 <Image
                   src="/images/logo.png"
@@ -238,146 +284,337 @@ export default function AdminDashboard() {
                   priority
                 />
               </div>
-              <h1 className="text-xl font-bold text-gray-900 ml-3">Admin Dashboard</h1>
+              <h1 className="text-xl font-bold text-gray-900">Admin Dashboard</h1>
             </div>
-            <button
-              onClick={handleLogout}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            >
-              <i className="fas fa-sign-out-alt mr-2"></i>
-              Logout
-            </button>
+            
+            {/* Add Quick Stats */}
+            <div className="hidden md:flex items-center space-x-4">
+              <div className="text-sm">
+                <span className="text-gray-500">Total Images: </span>
+                <span className="font-semibold">{
+                  categories.reduce((acc, cat) => acc + cat.images.length, 0)
+                }</span>
+              </div>
+              <div className="text-sm">
+                <span className="text-gray-500">Current Category: </span>
+                <span className="font-semibold">{selectedCategory}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+              >
+                <i className="fas fa-sign-out-alt mr-2"></i>
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="pt-16"> {/* Add padding top to account for fixed header */}
-        {/* Category Navigation */}
-        <div className="sticky top-16 bg-gray-50 border-b z-40">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex gap-2 overflow-x-auto py-4">
+      {/* Enhanced Category Navigation */}
+      <div className="sticky top-16 bg-gray-50 border-b z-40 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex gap-2 overflow-x-auto py-2 w-full sm:w-auto">
               {categories.map((category) => (
                 <button
                   key={category.name}
                   onClick={() => setSelectedCategory(category.name)}
                   className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 whitespace-nowrap ${
                     selectedCategory === category.name
-                      ? 'bg-primary text-white shadow-lg'
-                      : 'bg-white text-gray-600 hover:bg-gray-50'
+                      ? 'bg-primary text-white shadow-lg scale-105'
+                      : 'bg-white text-gray-600 hover:bg-gray-50 hover:scale-102'
                   }`}
                 >
                   <span className="flex items-center gap-2">
                     {category.name}
-                    <span className="text-xs bg-opacity-20 px-2 py-1 rounded-full">
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      selectedCategory === category.name 
+                        ? 'bg-white/20' 
+                        : 'bg-gray-100'
+                    }`}>
                       {category.images.length}
                     </span>
                   </span>
                 </button>
               ))}
             </div>
+
+            {/* Add Control Panel */}
+            <div className="flex items-center gap-4 w-full sm:w-auto">
+              <div className="relative flex-1 sm:flex-none">
+                <input
+                  type="text"
+                  placeholder="Search images..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+                <i className="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as 'name' | 'date')}
+                  className="px-3 py-2 rounded-lg border focus:ring-2 focus:ring-primary"
+                >
+                  <option value="name">Sort by Name</option>
+                  <option value="date">Sort by Date</option>
+                </select>
+
+                <button
+                  onClick={() => setSortOrder(order => order === 'asc' ? 'desc' : 'asc')}
+                  className="p-2 rounded bg-white hover:bg-gray-50"
+                >
+                  <i className={`fas fa-sort-${sortOrder === 'asc' ? 'up' : 'down'}`}></i>
+                </button>
+
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded ${viewMode === 'grid' ? 'bg-primary text-white' : 'bg-white'}`}
+                >
+                  <i className="fas fa-grid-2"></i>
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded ${viewMode === 'list' ? 'bg-primary text-white' : 'bg-white'}`}
+                >
+                  <i className="fas fa-list"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Enhanced Upload Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div
+          className={`
+            border-2 border-dashed rounded-lg p-8 mb-8 text-center cursor-pointer
+            transition-all duration-300 transform
+            ${isDragging 
+              ? 'border-primary bg-primary/5 scale-102' 
+              : 'border-gray-300 hover:border-primary hover:scale-101'
+            }
+          `}
+          onClick={() => fileInputRef.current?.click()}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => handleFileUpload(e.target.files)}
+          />
+          <div className="flex flex-col items-center">
+            <i className={`fas fa-cloud-upload-alt text-5xl mb-4 transition-colors duration-200 ${
+              isDragging ? 'text-primary' : 'text-gray-400'
+            }`}></i>
+            {isDragging ? (
+              <p className="text-primary text-lg font-medium">Drop to upload to {selectedCategory}</p>
+            ) : (
+              <>
+                <p className="text-gray-600 text-lg">Drag & drop an image here, or click to select</p>
+                <p className="text-sm text-gray-500 mt-2">
+                  Uploading to: <span className="font-medium">{selectedCategory}</span>
+                </p>
+                <p className="text-xs text-gray-400 mt-1">
+                  Supported formats: JPG, PNG, WebP • Max size: 5MB • Images over 1MB will be compressed
+                </p>
+              </>
+            )}
           </div>
         </div>
 
-        {/* Upload Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div
-            className={`
-              border-2 border-dashed rounded-lg p-8 mb-8 text-center cursor-pointer
-              transition-colors duration-200
-              ${isDragging ? 'border-primary bg-primary/5' : 'border-gray-300 hover:border-primary'}
-            `}
-            onClick={() => fileInputRef.current?.click()}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
+        {/* Enhanced Image Grid */}
+        <ErrorBoundary>
+          <motion.div
+            layout
+            className={viewMode === 'grid' 
+              ? "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6"
+              : "flex flex-col gap-4"
+            }
           >
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => handleFileUpload(e.target.files)}
-            />
-            <div className="flex flex-col items-center">
-              <i className="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
-              {isDragging ? (
-                <p className="text-primary">Drop the image here</p>
-              ) : (
-                <>
-                  <p className="text-gray-600">Drag & drop an image here, or click to select</p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Uploading to: {selectedCategory}
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Image Grid with fixed image handling */}
-          <ErrorBoundary>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {categories
-                .find((cat) => cat.name === selectedCategory)
-                ?.images.map((image) => (
-                  <div
-                    key={image.src}
-                    className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+            <AnimatePresence>
+              {filteredAndSortedImages().map((image) => (
+                <motion.div
+                  key={image.src}
+                  layout
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className={`group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 ${
+                    viewMode === 'list' ? 'flex items-center p-4' : ''
+                  }`}
+                >
+                  <div 
+                    className={`relative cursor-pointer ${
+                      viewMode === 'list' ? 'w-24 h-24' : 'aspect-square'
+                    }`}
+                    onClick={() => handleImagePreview(image)}
                   >
-                    <div className="aspect-square relative">
-                      <ImageLoader
-                        src={image.src}
-                        alt={image.alt}
-                        className="object-cover"
-                      />
-                      
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-4">
-                        <p className="text-white text-sm px-4 text-center break-words">
-                          {image.alt}
-                        </p>
-                        <button
-                          onClick={() => handleDeleteImage(image.src)}
-                          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
-                        >
-                          <i className="fas fa-trash-alt"></i>
-                          Delete
-                        </button>
-                      </div>
+                    <ImageLoader
+                      src={image.src}
+                      alt={image.alt}
+                      className="object-cover"
+                    />
+                  </div>
 
-                      {/* Debug info in development */}
-                      {process.env.NODE_ENV === 'development' && (
-                        <div className="absolute top-0 left-0 z-10 bg-black/50 text-white text-xs p-1 break-all">
-                          {image.src}
-                        </div>
-                      )}
+                  {/* Enhanced Overlay with more actions */}
+                  <div className={`
+                    absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 
+                    transition-opacity duration-200 flex flex-col items-center justify-center gap-4
+                    ${viewMode === 'list' ? 'hidden' : ''}
+                  `}>
+                    <p className="text-white text-sm px-4 text-center break-words">
+                      {image.alt}
+                    </p>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCopyUrl(image.src);
+                        }}
+                        className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors"
+                        title="Copy URL"
+                      >
+                        <FiCopy />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDownload(image.src);
+                        }}
+                        className="bg-green-500 text-white p-2 rounded-lg hover:bg-green-600 transition-colors"
+                        title="Download"
+                      >
+                        <FiDownload />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteImage(image.src);
+                        }}
+                        className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors"
+                        title="Delete"
+                      >
+                        <i className="fas fa-trash-alt"></i>
+                      </button>
                     </div>
                   </div>
-                ))}
-            </div>
-          </ErrorBoundary>
-        </div>
-      </main>
 
-      {/* Add loading indicator */}
+                  {/* Enhanced List View Info */}
+                  {viewMode === 'list' && (
+                    <div className="flex-1 ml-4 flex justify-between items-center">
+                      <div>
+                        <p className="font-medium">{image.alt}</p>
+                        <p className="text-sm text-gray-500">{image.src.split('/').pop()}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleCopyUrl(image.src)}
+                          className="text-blue-500 hover:text-blue-600 p-2"
+                          title="Copy URL"
+                        >
+                          <FiCopy />
+                        </button>
+                        <button
+                          onClick={() => handleDownload(image.src)}
+                          className="text-green-500 hover:text-green-600 p-2"
+                          title="Download"
+                        >
+                          <FiDownload />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteImage(image.src)}
+                          className="text-red-500 hover:text-red-600 p-2"
+                          title="Delete"
+                        >
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </ErrorBoundary>
+      </div>
+
+      {/* Enhanced Loading Indicator */}
       {isLoading && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl">
-            <div className="flex items-center space-x-3">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-white p-6 rounded-lg shadow-xl animate-fadeIn">
+            <div className="flex items-center space-x-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              <p>Processing image...</p>
+              <p className="text-lg">Processing image...</p>
             </div>
           </div>
         </div>
       )}
 
-      {/* Add RenameDialog */}
-      <RenameDialog
-        isOpen={renameDialog.isOpen}
-        originalName={renameDialog.originalName}
-        onClose={() => setRenameDialog({ isOpen: false, file: null, originalName: '' })}
-        onRename={handleRename}
-      />
+      {/* Add Image Preview Modal */}
+      <AnimatePresence>
+        {isPreviewOpen && selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+            onClick={() => setIsPreviewOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              className="relative max-w-4xl w-full bg-white rounded-xl overflow-hidden"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="relative aspect-video">
+                <Image
+                  src={selectedImage.src}
+                  alt={selectedImage.alt}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="p-4 bg-white">
+                <h3 className="text-lg font-medium">{selectedImage.alt}</h3>
+                <p className="text-sm text-gray-500">{selectedImage.src}</p>
+                <div className="flex gap-2 mt-4">
+                  <button
+                    onClick={() => handleCopyUrl(selectedImage.src)}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                  >
+                    <FiCopy /> Copy URL
+                  </button>
+                  <button
+                    onClick={() => handleDownload(selectedImage.src)}
+                    className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                  >
+                    <FiDownload /> Download
+                  </button>
+                  <button
+                    onClick={() => handleDeleteImage(selectedImage.src)}
+                    className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                  >
+                    <i className="fas fa-trash-alt"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 } 
