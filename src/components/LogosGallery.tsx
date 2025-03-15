@@ -274,7 +274,7 @@ export default function LogosGallery({ logos }: Props) {
               <button
                 onClick={handleLoadMore}
                 disabled={isLoading}
-                className="px-6 py-3 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed inline-flex items-center gap-2"
+                className="px-6 py-3 bg-navy-900 text-white rounded-full hover:bg-navy-400 transition-colors disabled:opacity-70 disabled:cursor-not-allowed inline-flex items-center gap-2"
               >
                 {isLoading ? (
                   <>
@@ -308,7 +308,7 @@ export default function LogosGallery({ logos }: Props) {
             </p>
             <button
               onClick={() => setShowRequestForm(true)}
-              className="px-8 py-4 rounded-full bg-white text-primary font-medium hover:bg-gray-100 transition-colors shadow-lg"
+              className="px-8 py-4 rounded-full bg-white text-navy-900 font-medium hover:bg-blue-50 transition-colors shadow-lg"
             >
               Request Your Custom Logo
             </button>
@@ -320,7 +320,7 @@ export default function LogosGallery({ logos }: Props) {
       <div className="fixed bottom-8 right-8 z-40">
         <button
           onClick={() => setShowRequestForm(true)}
-          className="bg-primary text-white px-6 py-4 rounded-full shadow-lg hover:bg-primary-dark transition-colors flex items-center gap-2 group"
+          className="bg-navy-900 text-white px-6 py-4 rounded-full shadow-lg hover:bg-navy-400 transition-colors flex items-center gap-2 group"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -429,13 +429,13 @@ export default function LogosGallery({ logos }: Props) {
                 <button
                   type="button"
                   onClick={() => setShowRequestForm(false)}
-                  className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 py-3 border border-gray-400 rounded-lg hover:bg-gray-50 transition-colors text-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                  className="px-6 py-3 bg-navy-900 text-white rounded-lg hover:bg-navy-400 transition-colors"
                 >
                   Submit Request
                 </button>
