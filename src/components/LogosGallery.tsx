@@ -61,6 +61,22 @@ const logoTypes: LogoType[] = [
   }
 ];
 
+const updateLogoPath = (path: string | undefined): string => {
+  if (!path) return '/images/portfolio/logos/placeholder-logo.jpg';
+  
+  if (path.includes('/portfolio/logos/')) return path;
+  
+  if (path.includes('/logos/')) {
+    return path.replace('/logos/', '/portfolio/logos/');
+  }
+  
+  if (!path.startsWith('/')) {
+    return `/images/portfolio/logos/${path}`;
+  }
+  
+  return `/images/portfolio/logos/${path.split('/').pop()}`;
+};
+
 export default function LogosGallery({ logos }: Props) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showRequestForm, setShowRequestForm] = useState(false);
@@ -152,15 +168,24 @@ export default function LogosGallery({ logos }: Props) {
                   data-aos="fade-up"
                   onClick={() => setSelectedImage(item.src)}
                 >
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    fill
-                    loading={index < 6 ? "eager" : "lazy"}
-                    className="object-contain p-3 transition-transform duration-300 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 16vw"
-                    quality={75}
-                  />
+                  {(item.src || item.imageUrl) ? (
+                    <Image
+                      src={updateLogoPath(item.src || item.imageUrl) || '/images/portfolio/logos/placeholder-logo.jpg'}
+                      alt={item.alt || item.title || 'Logo'}
+                      fill
+                      loading={index < 6 ? "eager" : "lazy"}
+                      className="object-cover object-center"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/images/portfolio/logos/placeholder-logo.jpg';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                      <span className="text-gray-400">No image</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -292,7 +317,7 @@ export default function LogosGallery({ logos }: Props) {
           >
             <div className="relative w-full max-w-4xl">
               <Image
-                src={selectedImage}
+                src={updateLogoPath(selectedImage)}
                 alt="Enlarged logo"
                 width={1200}
                 height={1200}

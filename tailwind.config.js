@@ -10,16 +10,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--primary)',
-        'primary-dark': 'var(--primary-dark)',
+        primary: {
+          DEFAULT: "#0A2647",
+          dark: "#051a33",
+          light: "#1a3a6d",
+        },
         secondary: {
-          DEFAULT: '#144272', // Rich navy blue
-          light: 'rgba(20, 66, 114, 0.1)',
+          DEFAULT: "#FF5400",
+          dark: "#cc4300",
+          light: "#ff7633",
         },
         accent: {
-          DEFAULT: '#205295', // Bright navy blue
-          hover: '#2C74B3', // Lighter navy blue for hover states
-          light: 'rgba(32, 82, 149, 0.1)',
+          DEFAULT: "#205295",
+          dark: "#174176",
+          light: "#2a63a7",
         },
         navy: {
           50: '#E5F0FF',
@@ -38,7 +42,8 @@ module.exports = {
         'accent-hover': 'var(--accent-hover)',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -63,7 +68,7 @@ module.exports = {
         },
       },
       animation: {
-        fadeIn: 'fadeIn 0.3s ease-in-out',
+        'fadeIn': 'fadeIn 0.3s ease-in-out',
         slideIn: 'slideIn 0.4s ease-out forwards',
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -73,8 +78,8 @@ module.exports = {
       },
       keyframes: {
         fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' }
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
         },
         slideIn: {
           '0%': { transform: 'translateY(10px)', opacity: '0' },

@@ -6,6 +6,7 @@ import PageHero from '@/components/PageHero';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { cardClasses, headingClasses } from '@/utils/classNames';
 
 // First, let's define better types for our technologies
 type TechStack = {
@@ -745,8 +746,9 @@ export default function WebDevelopment() {
                           focus:outline-none focus:ring-2 focus:ring-primary/20 
                           appearance-none bg-gray-50/50 hover:bg-gray-50 transition-colors 
                           cursor-pointer"
+                        defaultValue=""
                       >
-                        <option value="" disabled selected>Select project type</option>
+                        <option value="" disabled>Select project type</option>
                         <option value="website">Website Development</option>
                         <option value="ecommerce">E-commerce Platform</option>
                         <option value="webapp">Web Application</option>
@@ -895,20 +897,20 @@ export default function WebDevelopment() {
               {websiteTypes.map((type, index) => (
                 <div
                       key={type.id} 
-                      className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg 
+                      className={`bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg 
                         transition-all duration-300 min-w-[350px] border border-gray-100
-                        hover:border-primary/20 group"
+                        hover:border-primary/20 group`}
                     >
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4 
-                        group-hover:text-primary transition-colors">
+                      <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                        group-hover:text-primary transition-colors`}>
                         {type.title}
                       </h3>
                     <p className="text-gray-600 mb-6">{type.description}</p>
                       <ul className="space-y-3 text-gray-600">
                         {type.features.map((feature) => (
                           <li key={feature} className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary/30 
-                              group-hover:bg-primary transition-colors"></span>
+                            <span className={`w-1.5 h-1.5 rounded-full bg-primary/30 
+                              group-hover:bg-primary transition-colors`}></span>
                             {feature}
                       </li>
                     ))}
@@ -922,8 +924,6 @@ export default function WebDevelopment() {
               <div className="flex items-center justify-center gap-8 mt-6">
                 {/* Left Arrow */}
                 <button
-                  className="p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
-                    shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                   onClick={() => {
                     const slider = document.getElementById('websiteSlider');
                     if (slider) {
@@ -937,8 +937,10 @@ export default function WebDevelopment() {
                     }
                   }}
                   aria-label="Previous"
+                  className={`p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
+                    shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200`}
                 >
-                  <i className="fas fa-arrow-left text-lg" />
+                  <i className="fas fa-chevron-left"></i>
                 </button>
 
                 {/* Scroll Dots */}
@@ -969,8 +971,6 @@ export default function WebDevelopment() {
 
                 {/* Right Arrow */}
                 <button
-                  className="p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
-                    shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                   onClick={() => {
                     const slider = document.getElementById('websiteSlider');
                     if (slider) {
@@ -984,8 +984,10 @@ export default function WebDevelopment() {
                     }
                   }}
                   aria-label="Next"
+                  className={`p-3 text-white bg-primary hover:bg-primary-dark rounded-full 
+                    shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200`}
                 >
-                  <i className="fas fa-arrow-right text-lg" />
+                  <i className="fas fa-chevron-right"></i>
                 </button>
               </div>
 

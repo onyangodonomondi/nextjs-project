@@ -15,4 +15,26 @@ export async function getBlurDataUrl(imagePath: string) {
     console.error('Error generating blur data:', err);
     return null;
   }
-} 
+}
+
+export const imageLoader = ({ src, width, quality = 75 }) => {
+  // Use Next.js image optimization
+  if (src.startsWith('data:') || src.startsWith('blob:')) {
+    return src;
+  }
+  
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
+};
+
+export const getImageSizes = (breakpoint: string) => {
+  switch (breakpoint) {
+    case 'sm':
+      return '(max-width: 640px) 100vw, 50vw';
+    case 'md':
+      return '(max-width: 768px) 50vw, 33vw';
+    case 'lg':
+      return '(max-width: 1024px) 33vw, 25vw';
+    default:
+      return '100vw';
+  }
+}; 

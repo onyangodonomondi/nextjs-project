@@ -1,12 +1,7 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import { Metadata } from 'next';
+import './globals.css';
 import RootLayoutWrapper from '@/components/RootLayoutWrapper';
-import { Inter } from 'next/font/google'
-
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-})
+import PreloadResources from '@/components/PreloadResources';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mocky.co.ke'),
@@ -14,7 +9,7 @@ export const metadata: Metadata = {
     default: 'Mocky Digital - Professional Web Design & Digital Marketing Agency Kenya',
     template: '%s | Mocky Digital Kenya'
   },
-  description: 'Leading digital agency in Nairobi offering professional web design, graphic design, and digital marketing services. Expert branding and SEO solutions for Kenyan businesses.',
+  description: 'Leading digital agency in Nairobi offering professional web design, graphic design, and digital marketing services.',
   keywords: 'web design kenya, graphic design nairobi, digital marketing agency, seo services, professional branding, website development, social media marketing',
   openGraph: {
     title: 'Mocky Digital - Professional Digital Agency in Kenya',
@@ -23,6 +18,21 @@ export const metadata: Metadata = {
     siteName: 'Mocky Digital',
     locale: 'en_KE',
     type: 'website',
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Mocky Digital'
+      }
+    ]
+  },
+  twitter: {
+    card: 'summary_large_image'
+  },
+  robots: {
+    index: true,
+    follow: true
   },
   alternates: {
     canonical: '/',
@@ -39,21 +49,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className="font-sans">
       <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+        <link 
+          rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
+        />
+        <link 
+          rel="stylesheet" 
+          href="https://unpkg.com/aos@next/dist/aos.css" 
+        />
         <script src="https://unpkg.com/@phosphor-icons/web"></script>
-        <style>
-          {`
-            body {
-              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
-                         "Helvetica Neue", Arial, sans-serif;
-            }
-          `}
-        </style>
+        <PreloadResources />
       </head>
-      <body>
+      <body className="min-h-screen bg-gray-50">
         <RootLayoutWrapper>{children}</RootLayoutWrapper>
       </body>
     </html>

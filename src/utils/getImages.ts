@@ -1,18 +1,23 @@
-import { getImagesFromFS } from './serverUtils';
+import { cache } from 'react';
 
 export interface ImageItem {
   id: number;
   src: string;
   alt: string;
-  category?: string;
+  category: string;
+  size: number;
+  createdAt: string;
   title?: string;
   description?: string;
 }
 
-export async function getImagesFromDirectory(path: string): Promise<ImageItem[]> {
+export const getImagesFromDirectory = cache(async (path: string): Promise<ImageItem[]> => {
   try {
     const response = await fetch(`/api/images?path=${encodeURIComponent(path)}`, {
-      cache: 'no-store'
+      next: { 
+        revalidate: 60,
+        tags: ['images', path]
+      }
     });
 
     if (!response.ok) {
@@ -20,9 +25,19 @@ export async function getImagesFromDirectory(path: string): Promise<ImageItem[]>
     }
 
     const images = await response.json();
-    return images;
+
+    // Validate the response data
+    if (!Array.isArray(images)) {
+      throw new Error('Invalid response format');
+    }
+
+    return images.map(img => ({
+      ...img,
+      size: Number(img.size) || 0,
+      createdAt: img.createdAt || new Date().toISOString()
+    }));
   } catch (error) {
-    console.error('Error getting images:', error);
+    console.error('Error fetching images:', error);
     return [];
   }
-} 
+}); 

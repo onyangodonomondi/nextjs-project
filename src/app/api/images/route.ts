@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getImagesFromFS } from '@/utils/server/fileSystem';
+import { getImagesFromServer } from '@/utils/serverUtils';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -10,26 +10,31 @@ export async function GET(request: Request) {
     const path = searchParams.get('path');
 
     if (!path) {
-      return NextResponse.json({ error: 'Path parameter is required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Path parameter is required' },
+        { status: 400 }
+      );
     }
 
-    const images = getImagesFromFS(path);
-    
-    // Ensure all image paths are absolute
-    const processedImages = images.map(img => ({
-      ...img,
-      src: img.src.startsWith('/') ? img.src : `/${img.src}`
-    }));
+    // Validate path
+    if (path.includes('..') || !path.startsWith('/')) {
+      return NextResponse.json(
+        { error: 'Invalid path' },
+        { status: 400 }
+      );
+    }
 
-    return NextResponse.json(processedImages, {
+    const images = await getImagesFromServer(path);
+    
+    return NextResponse.json(images, {
       headers: {
-        'Cache-Control': 'no-store, max-age=0'
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
       }
     });
   } catch (error) {
-    console.error('Error getting images:', error);
+    console.error('Error processing request:', error);
     return NextResponse.json(
-      { error: 'Failed to get images' },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

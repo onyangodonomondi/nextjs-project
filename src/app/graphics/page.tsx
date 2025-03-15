@@ -602,7 +602,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     priority
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Logo Design</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Logo Design</h3>
                 <p className="text-gray-600">Professional and memorable logos that represent your brand identity</p>
               </motion.div>
 
@@ -616,7 +617,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Business Cards</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Business Cards</h3>
                 <p className="text-gray-600">Eye-catching business cards that leave a lasting impression</p>
               </motion.div>
 
@@ -630,7 +632,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Brand Manual</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Brand Manual</h3>
                 <p className="text-gray-600">Comprehensive brand guidelines to maintain consistency</p>
               </motion.div>
 
@@ -644,7 +647,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Brochures</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Brochures</h3>
                 <p className="text-gray-600">Informative and visually appealing brochures</p>
               </motion.div>
 
@@ -658,7 +662,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Branded Caps</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Branded Caps</h3>
                 <p className="text-gray-600">Custom designed caps with your brand identity</p>
               </motion.div>
 
@@ -672,7 +677,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Company Profile</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Company Profile</h3>
                 <p className="text-gray-600">Professional company profiles that showcase your business</p>
               </motion.div>
 
@@ -686,7 +692,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Email Signature</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Email Signature</h3>
                 <p className="text-gray-600">Professional email signatures for your business communications</p>
               </motion.div>
 
@@ -700,7 +707,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Fliers</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Fliers</h3>
                 <p className="text-gray-600">Eye-catching fliers for your events and promotions</p>
               </motion.div>
 
@@ -714,7 +722,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Layered Designs</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Layered Designs</h3>
                 <p className="text-gray-600">Complex layered designs for various applications</p>
               </motion.div>
 
@@ -728,7 +737,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Letterhead</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Letterhead</h3>
                 <p className="text-gray-600">Professional letterheads for your business correspondence</p>
               </motion.div>
 
@@ -742,7 +752,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Merchandise</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Merchandise</h3>
                 <p className="text-gray-600">Custom branded merchandise and promotional items</p>
               </motion.div>
 
@@ -756,7 +767,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Notebooks</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Notebooks</h3>
                 <p className="text-gray-600">Custom designed notebooks and stationery</p>
               </motion.div>
 
@@ -770,7 +782,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Branded Pens</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Branded Pens</h3>
                 <p className="text-gray-600">Custom branded pens for your business</p>
               </motion.div>
 
@@ -784,7 +797,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Roll-up Banners</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Roll-up Banners</h3>
                 <p className="text-gray-600">Professional roll-up banners for events and displays</p>
               </motion.div>
 
@@ -798,7 +812,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Staff ID Cards</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Staff ID Cards</h3>
                 <p className="text-gray-600">Professional staff identification cards</p>
               </motion.div>
 
@@ -812,7 +827,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Teardrop Banners</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Teardrop Banners</h3>
                 <p className="text-gray-600">Eye-catching teardrop banners for outdoor advertising</p>
               </motion.div>
 
@@ -826,7 +842,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Wristbands</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Wristbands</h3>
                 <p className="text-gray-600">Custom designed wristbands for events and branding</p>
               </motion.div>
 
@@ -840,7 +857,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Billboard Design</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Billboard Design</h3>
                 <p className="text-gray-600">Impactful billboard designs for outdoor advertising</p>
               </motion.div>
 
@@ -854,7 +872,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Event Backdrops</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Event Backdrops</h3>
                 <p className="text-gray-600">Custom designed backdrops for events and exhibitions</p>
               </motion.div>
 
@@ -875,7 +894,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     priority
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">Calendar Design</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>Calendar Design</h3>
                 <p className="text-gray-600">Custom designed calendars for your business and promotional needs</p>
               </motion.div>
 
@@ -896,7 +916,8 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                     priority
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-[#0A2647] mb-2">T-shirt Design</h3>
+                <h3 className={`text-xl font-semibold text-gray-900 mb-4 
+                  group-hover:text-primary transition-colors`}>T-shirt Design</h3>
                 <p className="text-gray-600">Custom designed t-shirts for your brand, events, or team uniforms</p>
               </motion.div>
             </div>
@@ -1106,42 +1127,50 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
 
                 <div className="bg-white rounded-xl shadow-sm p-8">
                   <div className="space-y-8">
-                    <div className="flex items-center gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold text-lg">
+                    <div className={`flex items-center gap-4`}>
+                      <div className={`flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full 
+                        flex items-center justify-center text-[#FF5400] font-semibold text-lg`}>
                         1
                       </div>
                       <div>
-                        <h4 className="font-semibold text-[#0A2647] text-lg">Submit Your Brief</h4>
+                        <h4 className={`font-semibold text-gray-900 mb-4 
+                          group-hover:text-primary transition-colors`}>Submit Your Brief</h4>
                         <p className="text-gray-600">Fill in the project details and requirements</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold text-lg">
+                    <div className={`flex items-center gap-4`}>
+                      <div className={`flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full 
+                        flex items-center justify-center text-[#FF5400] font-semibold text-lg`}>
                         2
                       </div>
                       <div>
-                        <h4 className="font-semibold text-[#0A2647] text-lg">Make Deposit</h4>
+                        <h4 className={`font-semibold text-gray-900 mb-4 
+                          group-hover:text-primary transition-colors`}>Make Deposit</h4>
                         <p className="text-gray-600">Secure your project slot with a small deposit</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold text-lg">
+                    <div className={`flex items-center gap-4`}>
+                      <div className={`flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full 
+                        flex items-center justify-center text-[#FF5400] font-semibold text-lg`}>
                         3
                       </div>
                       <div>
-                        <h4 className="font-semibold text-[#0A2647] text-lg">Review & Feedback</h4>
+                        <h4 className={`font-semibold text-gray-900 mb-4 
+                          group-hover:text-primary transition-colors`}>Review & Feedback</h4>
                         <p className="text-gray-600">Get your initial designs and provide feedback</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold text-lg">
+                    <div className={`flex items-center gap-4`}>
+                      <div className={`flex-shrink-0 w-10 h-10 bg-[#FF5400]/10 rounded-full 
+                        flex items-center justify-center text-[#FF5400] font-semibold text-lg`}>
                         4
                       </div>
                       <div>
-                        <h4 className="font-semibold text-[#0A2647] text-lg">Final Delivery</h4>
+                        <h4 className={`font-semibold text-gray-900 mb-4 
+                          group-hover:text-primary transition-colors`}>Final Delivery</h4>
                         <p className="text-gray-600">Receive your polished, final design files</p>
                       </div>
                     </div>
@@ -1170,22 +1199,23 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                   </motion.p>
                 </div>
 
-                <div className="bg-white rounded-xl shadow-sm p-8 border border-gray-100">
+                <div className={`bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 min-w-[350px] border border-gray-100 hover:border-primary/20 group`}>
                   {/* M-PESA Header */}
-                  <div className="flex items-center gap-6 mb-8 pb-6 border-b border-gray-100">
-                    <div className="p-4 bg-[#FF5400]/10 rounded-xl">
+                  <div className={`flex items-center gap-6 mb-8 pb-6 border-b border-gray-100`}>
+                    <div className={`p-4 bg-[#FF5400]/10 rounded-xl`}>
                       <i className="fas fa-money-bill-wave text-3xl text-[#FF5400]"></i>
                     </div>
                     <div>
-                      <h3 className="font-semibold text-2xl text-[#0A2647] mb-2">M-PESA Payment</h3>
+                      <h3 className={`font-semibold text-2xl text-gray-900 mb-2`}>M-PESA Payment</h3>
                       <p className="text-gray-600">Follow these simple steps to make your deposit</p>
                     </div>
                   </div>
 
                   {/* Payment Steps */}
-                  <div className="space-y-6 mb-8">
-                    <div className="flex gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold">
+                  <div className={`space-y-6 mb-8`}>
+                    <div className={`flex gap-4`}>
+                      <div className={`flex-shrink-0 w-8 h-8 bg-[#FF5400]/10 rounded-full 
+                        flex items-center justify-center text-[#FF5400] font-semibold`}>
                         1
                       </div>
                       <div>
@@ -1193,8 +1223,9 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                       </div>
                     </div>
 
-                    <div className="flex gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold">
+                    <div className={`flex gap-4`}>
+                      <div className={`flex-shrink-0 w-8 h-8 bg-[#FF5400]/10 rounded-full 
+                        flex items-center justify-center text-[#FF5400] font-semibold`}>
                         2
                       </div>
                       <div>
@@ -1202,8 +1233,9 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                       </div>
                     </div>
 
-                    <div className="flex gap-4">
-                      <div className="flex-shrink-0 w-8 h-8 bg-[#FF5400]/10 rounded-full flex items-center justify-center text-[#FF5400] font-semibold">
+                    <div className={`flex gap-4`}>
+                      <div className={`flex-shrink-0 w-8 h-8 bg-[#FF5400]/10 rounded-full 
+                        flex items-center justify-center text-[#FF5400] font-semibold`}>
                         3
                       </div>
                       <div>
@@ -1213,14 +1245,14 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                   </div>
 
                   {/* Payment Details */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-lg">
+                  <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-lg`}>
                     <div>
                       <label className="text-sm text-gray-600 block mb-2">Business Number</label>
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl font-semibold text-[#0A2647]">522533</span>
+                      <div className={`flex items-center gap-3`}>
+                        <span className={`text-2xl font-semibold text-gray-900`}>522533</span>
                         <button 
                           onClick={() => copyToClipboard('522533')}
-                          className="text-[#FF5400] hover:text-[#FF5400]/80 text-sm flex items-center gap-1"
+                          className={`text-[#FF5400] hover:text-[#FF5400]/80 text-sm flex items-center gap-1`}
                         >
                           <i className="fas fa-copy"></i>
                           Copy
@@ -1230,11 +1262,11 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
 
                     <div>
                       <label className="text-sm text-gray-600 block mb-2">Account Number</label>
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl font-semibold text-[#0A2647]">7934479</span>
+                      <div className={`flex items-center gap-3`}>
+                        <span className={`text-2xl font-semibold text-gray-900`}>7934479</span>
                         <button 
                           onClick={() => copyToClipboard('7934479')}
-                          className="text-[#FF5400] hover:text-[#FF5400]/80 text-sm flex items-center gap-1"
+                          className={`text-[#FF5400] hover:text-[#FF5400]/80 text-sm flex items-center gap-1`}
                         >
                           <i className="fas fa-copy"></i>
                           Copy
@@ -1244,18 +1276,18 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
                   </div>
 
                   {/* Transaction Confirmation */}
-                  <div className="mt-8 p-6 bg-[#FF5400]/5 rounded-lg border border-[#FF5400]/10">
-                    <div className="flex items-start gap-4">
-                      <div className="p-2 bg-[#FF5400]/10 rounded-lg mt-1">
+                  <div className={`mt-8 p-6 bg-[#FF5400]/5 rounded-lg border border-[#FF5400]/10`}>
+                    <div className={`flex items-start gap-4`}>
+                      <div className={`p-2 bg-[#FF5400]/10 rounded-lg mt-1`}>
                         <i className="fas fa-info-circle text-[#FF5400]"></i>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-[#0A2647] mb-2">Share Your Transaction</h4>
+                        <h4 className={`font-semibold text-gray-900 mb-2`}>Share Your Transaction</h4>
                         <p className="text-gray-600 text-sm leading-relaxed">
                           After making your payment, please share the M-PESA transaction message with us on WhatsApp 
                           <a 
                             href="https://wa.me/254741590670" 
-                            className="text-[#FF5400] hover:text-[#FF5400]/80 font-medium ml-1"
+                            className={`text-[#FF5400] hover:text-[#FF5400]/80 font-medium ml-1`}
                             target="_blank"
                             rel="noopener noreferrer"
                           >

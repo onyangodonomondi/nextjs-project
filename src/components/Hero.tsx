@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { devConfig } from '@/config/development';
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -15,6 +17,9 @@ export default function Hero() {
     "Hello Mocky Graphics! I'm interested in your services. Can you help me with my project?"
   );
   const whatsappLink = `https://wa.me/254741590670?text=${whatsappMessage}`;
+
+  // Simplify image handling
+  const imageSrc = "/images/hero-fallback.svg";
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#0A1929]">
@@ -134,12 +139,12 @@ export default function Hero() {
               </div>
               
               <Image
-                src="/images/hero/2.svg"
-                alt="Digital Marketing Illustration"
+                src={imageSrc}
+                alt="Hero Image"
                 width={600}
-                height={600}
-                className="relative z-10 object-contain animate-float drop-shadow-2xl"
+                height={400}
                 priority
+                style={{ objectFit: 'contain' }}
               />
             </div>
           </div>

@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { websiteProjects } from './WebsiteProjects';
 import type { ImageItem } from '@/utils/getImages';
-import { getImagesFromDirectory } from '@/utils/getImages';
 
 interface WebsiteProject {
   id: number;
@@ -35,16 +34,18 @@ function getRandomItems<T>(array: T[], count: number): T[] {
   return shuffled.slice(0, count);
 }
 
-export default function RecentWork({
-  initialLogos = [],
-  initialGraphics = [],
-  initialFliers = [],
-  initialWebsites = []
-}: Props) {
-  const [logos, setLogos] = useState(initialLogos);
-  const [graphics, setGraphics] = useState(initialGraphics);
-  const [fliers, setFliers] = useState(initialFliers);
-  const [websites, setWebsites] = useState(initialWebsites);
+export default function RecentWork() {
+  const [images, setImages] = useState<{
+    logos: ImageItem[];
+    graphics: ImageItem[];
+    fliers: ImageItem[];
+    websites: ImageItem[];
+  }>({
+    logos: [],
+    graphics: [],
+    fliers: [],
+    websites: []
+  });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -56,46 +57,85 @@ export default function RecentWork({
     logos: 4,
     websites: 4
   });
+  const [sortOrder, setSortOrder] = useState('date');
 
-  const fetchImages = async () => {
-    const [newLogos, newGraphics, newFliers, newWebsites] = await Promise.all([
-      getImagesFromDirectory('/images/logos').then(images => 
-        images.map(img => ({ ...img, category: 'logo' }))
-      ),
-      getImagesFromDirectory('/images/branding').then(images => 
-        images.map(img => ({ ...img, category: 'graphics' }))
-      ),
-      getImagesFromDirectory('/images/portfolio/fliers').then(images => 
-        images.map(img => ({ ...img, category: 'flier' }))
-      ),
-      getImagesFromDirectory('/images/portfolio/websites').then(images => 
-        images.map(img => ({ ...img, category: 'website' }))
-      )
-    ]);
+  // Function to sort images by date (add null checks)
+  const sortByDate = (a: ImageItem, b: ImageItem) => {
+    if (!a.createdAt && !b.createdAt) return 0;
+    if (!a.createdAt) return 1;
+    if (!b.createdAt) return -1;
+    
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  };
 
-    setLogos(newLogos);
-    setGraphics(newGraphics);
-    setFliers(newFliers);
-    setWebsites(newWebsites);
+  const sortBySize = (a: ImageItem, b: ImageItem) => {
+    if (!a.size && !b.size) return 0;
+    if (!a.size) return 1;
+    if (!b.size) return -1;
+    
+    return b.size - a.size;
+  };
+
+  // Update the sorting logic
+  const sortImages = (items: ImageItem[]) => {
+    switch (sortOrder) {
+      case 'name':
+        return [...items].sort((a, b) => a.alt.localeCompare(b.alt));
+      case 'date':
+        return [...items].sort(sortByDate);
+      case 'size':
+        return [...items].sort(sortBySize);
+      default:
+        return items;
+    }
   };
 
   useEffect(() => {
+    async function fetchImages() {
+      try {
+        setIsLoading(true);
+        const [logosRes, graphicsRes, fliersRes, websitesRes] = await Promise.all([
+          fetch('/api/images?path=/images/logos'),
+          fetch('/api/images?path=/images/branding'),
+          fetch('/api/images?path=/images/portfolio/fliers'),
+          fetch('/api/images?path=/images/portfolio/websites')
+        ]);
+
+        // Check for fetch errors
+        if (!logosRes.ok || !graphicsRes.ok || !fliersRes.ok || !websitesRes.ok) {
+          throw new Error('One or more API calls failed');
+        }
+
+        // Parse JSON responses
+        const [logos, graphics, fliers, websites] = await Promise.all([
+          logosRes.json(),
+          graphicsRes.json(),
+          fliersRes.json(),
+          websitesRes.json()
+        ]);
+
+        setImages({
+          logos: Array.isArray(logos) ? logos : [],
+          graphics: Array.isArray(graphics) ? graphics : [],
+          fliers: Array.isArray(fliers) ? fliers : [],
+          websites: Array.isArray(websites) ? websites : []
+        });
+      } catch (error) {
+        console.error('Error fetching images:', error);
+        setError('Failed to load images');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
     fetchImages();
   }, []);
 
-  // Get random items for each category
-  const randomGraphics = getRandomItems(graphics, visibleItems.graphics);
-  const randomFliers = getRandomItems(fliers, visibleItems.fliers);
-  const randomLogos = getRandomItems(logos, visibleItems.logos);
-  const randomWebsites = getRandomItems(websites, visibleItems.websites);
-
-  // Loading simulation
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+  // Update the random items selection to use sorted images
+  const randomGraphics = getRandomItems(sortImages(images.graphics), visibleItems.graphics);
+  const randomFliers = getRandomItems(sortImages(images.fliers), visibleItems.fliers);
+  const randomLogos = getRandomItems(sortImages(images.logos), visibleItems.logos);
+  const randomWebsites = getRandomItems(sortImages(images.websites), visibleItems.websites);
 
   // Keyboard navigation
   useEffect(() => {
@@ -279,7 +319,7 @@ export default function RecentWork({
               <div className="flex justify-between items-center mb-8">
                 <div>
                   <h3 className="text-2xl font-bold text-primary">Print|| Merchandise</h3>
-                  <span className="text-sm text-gray-500">({graphics.length} items)</span>
+                  <span className="text-sm text-gray-500">({images.graphics.length} items)</span>
                 </div>
                 <Link href="/graphics" className="text-primary hover:text-primary-dark font-medium flex items-center gap-2">
                   View All <i className="fas fa-arrow-right"></i>
@@ -290,7 +330,7 @@ export default function RecentWork({
                   <ImageCard key={item.id} item={item} index={index} />
                 ))}
               </div>
-              {visibleItems.graphics < graphics.length && (
+              {visibleItems.graphics < images.graphics.length && (
                 <button 
                   onClick={() => handleLoadMore('graphics')}
                   className="mt-8 mx-auto block px-6 py-3 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors"
@@ -322,7 +362,7 @@ export default function RecentWork({
                   <ImageCard item={item} index={index} aspectRatio="aspect-[3/4]" />
                 ))}
               </div>
-              {visibleItems.fliers < fliers.length && (
+              {visibleItems.fliers < images.fliers.length && (
                 <button 
                   onClick={() => handleLoadMore('fliers')}
                   className="mt-8 mx-auto block px-6 py-3 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors"
@@ -427,7 +467,7 @@ export default function RecentWork({
                   <ImageCard item={item} index={index} isLogo />
                 ))}
               </div>
-              {visibleItems.logos < logos.length && (
+              {visibleItems.logos < images.logos.length && (
                 <button 
                   onClick={() => handleLoadMore('logos')}
                   className="mt-8 mx-auto block px-6 py-3 bg-primary text-white rounded-full hover:bg-primary-dark transition-colors"

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import { setAuth } from '@/utils/auth';
 
 export default function AdminLogin() {
   const [password, setPassword] = useState('');
@@ -16,15 +17,21 @@ export default function AdminLogin() {
 
     try {
       if (password === process.env.NEXT_PUBLIC_ADMIN_AUTH) {
-        localStorage.setItem('adminAuth', password);
+        // Use the auth utility to set both localStorage and cookie
+        setAuth(password);
         toast.success('Login successful');
-        router.push('/admin');
+        
+        // Force a router refresh and then redirect
+        router.refresh(); // This is important for Next.js to recognize the auth change
+        setTimeout(() => {
+          router.push('/admin');
+        }, 100);
       } else {
-        throw new Error('Invalid password');
+        toast.error('Invalid password');
       }
     } catch (error) {
-      toast.error('Invalid password');
-      setPassword('');
+      console.error('Login error:', error);
+      toast.error('Login failed');
     } finally {
       setIsLoading(false);
     }
