@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-export default function Hero() {
+export default function ClientHero() {
   // Precomputed link
   const whatsappLink = "https://wa.me/254741590670?text=Hello%20Mocky%20Graphics!";
 
@@ -45,8 +45,9 @@ export default function Hero() {
               <Image 
                 src="/images/logo.png" 
                 alt="Mocky Digital"
-                fill
-                className="object-contain"
+                width={300}
+                height={300}
+                className="object-contain w-full h-full"
                 priority
               />
             </div>
@@ -55,4 +56,4 @@ export default function Hero() {
       </div>
     </section>
   );
-}
+} 

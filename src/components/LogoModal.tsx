@@ -1,5 +1,7 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { useEffect } from 'react';
 
 interface LogoModalProps {
   src: string;
@@ -7,58 +9,66 @@ interface LogoModalProps {
 }
 
 export default function LogoModal({ src, onClose }: LogoModalProps) {
-  // Ensure src is valid
-  const validSrc = src || '/images/portfolio/logo-types/wordmark.png';
-  
-  // Prevent scrolling of the body when modal is open
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Handle escape key press
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    
-    // Add ESC key listener
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
     };
-    
-    window.addEventListener('keydown', handleEsc);
-    
+
+    // Handle clicks outside the modal
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Prevent body scrolling
+    document.body.style.overflow = 'hidden';
+
+    // Clean up
     return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
       document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleEsc);
     };
   }, [onClose]);
 
   return (
-    <div 
-      className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-    >
-      <div className="relative w-full max-w-4xl">
-        <Image
-          src={validSrc}
-          alt="Enlarged logo"
-          width={1200}
-          height={1200}
-          quality={90}
-          priority
-          className="object-contain w-full h-auto"
-          onError={(e) => {
-            // Fallback to a default image on error
-            const target = e.target as HTMLImageElement;
-            target.src = '/images/portfolio/logo-types/wordmark.png';
-          }}
-        />
-        <button
-          className="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-70 transition-opacity"
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
-          aria-label="Close modal"
-        >
-          <i className="fas fa-times"></i>
-        </button>
+    <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4">
+      <div 
+        ref={modalRef}
+        className="bg-white rounded-lg overflow-hidden shadow-2xl max-w-3xl w-full max-h-[90vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="relative h-96 md:h-[70vh]">
+          <Image
+            src={src}
+            alt="Logo Preview"
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 80vw"
+            quality={90}
+            priority
+          />
+        </div>
+        <div className="flex justify-between items-center bg-white p-4">
+          <button
+            onClick={onClose}
+            className="ml-auto bg-gray-100 hover:bg-gray-200 text-gray-800 p-2 rounded-full"
+            aria-label="Close"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -126,12 +126,17 @@ export default function LogosGallery({ logos }: Props) {
 
   // Create a stable state for the logo data with proper typing
   const [stableLogos, setStableLogos] = useState<ImageItem[]>([]);
+  const [isImagesLoaded, setIsImagesLoaded] = useState(false);
+  // Add loading state for pagination to prevent flickering
+  const [isChangingPage, setIsChangingPage] = useState(false);
 
   // Stabilize the logos data to prevent flickering
   useEffect(() => {
     if (logos && logos.length > 0) {
       console.log("Setting stable logos:", logos.length);
       setStableLogos(logos);
+      // Set a timeout to ensure the UI has time to stabilize before rendering images
+      setTimeout(() => setIsImagesLoaded(true), 100);
     } else if (stableLogos.length === 0) {
       // If we don't have logos but also don't have stable logos yet,
       // set some placeholder logos
@@ -162,6 +167,8 @@ export default function LogosGallery({ logos }: Props) {
           alt: "Logo Example 4",
         },
       ]);
+      // Set a timeout to ensure the UI has time to stabilize before rendering images
+      setTimeout(() => setIsImagesLoaded(true), 100);
     }
   }, [logos]);
 
@@ -181,18 +188,35 @@ export default function LogosGallery({ logos }: Props) {
     window.open(`https://wa.me/254741590670?text=${message}`, '_blank');
   };
 
-  // Add these optimizations to your LogosGallery component
-
   // 1. Add pagination to avoid loading all 54 images at once
   const [currentPage, setCurrentPage] = useState(1);
   const imagesPerPage = 12;
   const totalPages = Math.ceil((stableLogos?.length || 0) / imagesPerPage);
 
+  // Improved page changing function with loading state
+  const changePage = useCallback((newPage: number) => {
+    if (newPage === currentPage) return;
+    setIsChangingPage(true);
+    setIsImagesLoaded(false);
+    
+    // Use setTimeout to ensure state updates don't cause layout thrashing
+    setTimeout(() => {
+      setCurrentPage(newPage);
+      // Give time for the new page to render before showing images
+      setTimeout(() => {
+        setIsImagesLoaded(true);
+        setIsChangingPage(false);
+      }, 100);
+    }, 10);
+  }, [currentPage]);
+
   // Get current logos for pagination
-  const currentLogos = stableLogos.slice(
-    (currentPage - 1) * imagesPerPage,
-    currentPage * imagesPerPage
-  );
+  const currentLogos = useMemo(() => {
+    return stableLogos.slice(
+      (currentPage - 1) * imagesPerPage,
+      currentPage * imagesPerPage
+    );
+  }, [stableLogos, currentPage, imagesPerPage]);
 
   // Create a reference to the parent container
   const parentRef = useRef(null);
@@ -203,9 +227,9 @@ export default function LogosGallery({ logos }: Props) {
     
     const width = window.innerWidth;
     if (width < 640) return 2; // Mobile: 2 items per row
-    if (width < 1024) return 4; // Tablet: 4 items per row
-    if (width < 1280) return 5; // Small desktop: 5 items per row
-    return 6; // Large desktop: 6 items per row
+    if (width < 1024) return 3; // Tablet: 3 items per row
+    if (width < 1280) return 4; // Small desktop: 4 items per row
+    return 5; // Large desktop: 5 items per row
   }, []);
 
   // Calculate the number of items per row
@@ -239,12 +263,15 @@ export default function LogosGallery({ logos }: Props) {
     return rowData;
   }, [stableLogos, itemsPerRow]);
 
+  // Add memoized size measurement to prevent recalculations causing flicker
+  const estimateSize = useCallback(() => 240, []);
+
   // Set up the virtualizer
   const rowVirtualizer = useVirtualizer({
     count: rows?.length || 0,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 240,
-    overscan: 3,
+    estimateSize,
+    overscan: 5, // Increase overscan to reduce flickering on scroll
     scrollToFn: (offset, options = {}) => {
       // Add a safer scrollTo function with guards
       try {
@@ -260,64 +287,79 @@ export default function LogosGallery({ logos }: Props) {
     }
   });
 
+  // Handle image click with smooth transitions
+  const handleImageClick = useCallback((imageSrc: string | undefined | null) => {
+    if (!imageSrc) return;
+    
+    // Slightly delay modal opening to avoid layout shifts
+    setTimeout(() => {
+      setSelectedImage(imageSrc);
+    }, 50);
+  }, []);
+
   return (
     <>
       <Navbar />
-      <main className="pt-24">
+      <main className="pt-24 bg-gradient-to-b from-gray-50 to-white">
         <PageHero 
           title="Logo Design Portfolio"
           description="Explore our collection of unique and memorable logo designs."
         />
 
-        {/* Logo Types Section */}
-        <section className="py-16 bg-gray-50">
-          <div className="container max-w-6xl">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4 text-primary">Types of Logos We Create</h2>
-              <p className="text-xl text-gray-600">
-                Choose the perfect logo style for your brand
+        {/* Logo Types Section - Redesigned as a list without images */}
+        <section className="py-12 border-b border-gray-100">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-3 text-gray-800">Logo Types We Specialize In</h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Choose from a variety of logo styles to perfectly represent your brand's identity
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
               {logoTypes.map((type) => (
                 <div 
                   key={type.title}
-                  className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-shadow"
+                  className="px-4 py-2 rounded-full bg-white shadow-sm hover:shadow-md transition-shadow border border-gray-100 cursor-pointer"
+                  onClick={() => setFormData({...formData, logoType: type.title})}
                 >
-                  <div className="relative w-full aspect-square mb-4 max-w-[200px] mx-auto">
-                    <Image
-                      src={type.image}
-                      alt={type.title}
-                      fill
-                      className="object-contain p-3"
-                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 200px"
-                    />
-                  </div>
-                  <h3 className="text-lg font-bold mb-2 text-primary">{type.title}</h3>
-                  <p className="text-sm text-gray-600 mb-2">{type.description}</p>
-                  <p className="text-xs text-gray-500">{type.examples}</p>
+                  <span className="font-medium text-primary">{type.title}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 grid md:grid-cols-3 gap-6">
+              {logoTypes.map((type) => (
+                <div key={type.title} className="bg-white p-6 rounded-lg shadow-sm hover:shadow transition-shadow">
+                  <h3 className="text-xl font-semibold mb-2 text-gray-800">{type.title}</h3>
+                  <p className="text-gray-600 mb-2">{type.description}</p>
+                  <p className="text-sm text-gray-500 italic">{type.examples}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Portfolio Section */}
+        {/* Portfolio Section - Improved UI */}
         <section className="py-16">
-          <div className="container">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4 text-orange-500">Our Logo Designs</h2>
-              <p className="text-xl text-gray-600">
-                Browse through our collection of professional logo designs
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-10">
+              <span className="inline-block px-3 py-1 bg-primary-light text-primary text-sm font-medium rounded-full mb-3">SHOWCASE</span>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Our Logo Designs</h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Browse through our collection of professionally crafted logos that have helped businesses establish strong brand identities
               </p>
             </div>
 
             <div 
               ref={parentRef} 
-              className="h-[800px] overflow-auto"
+              className="h-[800px] overflow-auto rounded-xl bg-gray-50 p-4"
               style={{ 
                 contain: 'strict',
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#CBD5E0 #F7FAFC',
+                willChange: 'transform', // Hint to browser to optimize rendering
+                backfaceVisibility: 'hidden', // Prevent flickering in some browsers
               }}
             >
               <div
@@ -325,40 +367,60 @@ export default function LogosGallery({ logos }: Props) {
                   height: `${rowVirtualizer.getTotalSize()}px`,
                   width: '100%',
                   position: 'relative',
+                  willChange: 'contents', // Optimize rendering of dynamic content
+                  contain: 'size layout', // Improve rendering performance
                 }}
               >
                 {rowVirtualizer?.getVirtualItems()?.map(virtualRow => (
                   <div
                     key={virtualRow.index}
-                    className="absolute top-0 left-0 w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
+                    className="absolute top-0 left-0 w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6"
                     style={{
                       height: `${virtualRow.size}px`,
                       transform: `translateY(${virtualRow.start}px)`,
+                      willChange: 'transform', // Optimize transforms
+                      containIntrinsicSize: `auto ${virtualRow.size}px`, // Stable size hint for browser
+                      contain: 'layout', // Improve rendering performance
                     }}
                   >
                     {rows[virtualRow.index]?.map((item, colIndex) => (
                       <div
                         key={`${virtualRow.index}-${colIndex}`}
-                        className="group relative aspect-square bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                        onClick={() => setSelectedImage(item.src || item.imageUrl || null)}
+                        className="group relative aspect-square bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+                        onClick={() => handleImageClick(item.src || item.imageUrl || null)}
+                        style={{ minHeight: '200px' }} // Add fixed minimum height to prevent layout shifts
                       >
                         {(item.src || item.imageUrl) ? (
-                          <Image
-                            src={updateLogoPath(item.src || item.imageUrl)}
-                            alt={item.alt || item.title || 'Logo'}
-                            fill
-                            loading="lazy"
-                            placeholder="blur"
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEhAI6dtiLOgAAAABJRU5ErkJggg=="
-                            className="object-contain"
-                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16.66vw"
-                            quality={75}
-                            onError={(e) => {
-                              console.log("Image error:", item.src || item.imageUrl);
-                              const target = e.target as HTMLImageElement;
-                              target.src = '/images/portfolio/logo-types/wordmark.png';
-                            }}
-                          />
+                          <>
+                            {isImagesLoaded && (
+                              <Image
+                                src={updateLogoPath(item.src || item.imageUrl)}
+                                alt={item.alt || item.title || 'Logo'}
+                                fill
+                                loading="lazy"
+                                placeholder="blur"
+                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEhAI6dtiLOgAAAABJRU5ErkJggg=="
+                                className="object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                                quality={75}
+                                onError={(e) => {
+                                  console.log("Image error:", item.src || item.imageUrl);
+                                  const target = e.target as HTMLImageElement;
+                                  target.src = '/images/portfolio/logo-types/wordmark.png';
+                                }}
+                              />
+                            )}
+                            {!isImagesLoaded && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-gray-50 animate-pulse">
+                                <div className="w-12 h-12 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>
+                              </div>
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                              <div className="p-3 text-white">
+                                <p className="font-medium text-sm truncate">{item.title || item.alt || 'View Logo'}</p>
+                              </div>
+                            </div>
+                          </>
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-gray-100">
                             <span className="text-gray-400">No image</span>
@@ -371,35 +433,52 @@ export default function LogosGallery({ logos }: Props) {
               </div>
             </div>
 
-            {/* Pagination Controls */}
+            {/* Pagination Controls - Improved UI */}
             {totalPages > 1 && (
               <div className="flex justify-center items-center gap-2 mt-8">
                 <button 
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+                  onClick={() => changePage(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1 || isChangingPage}
+                  className="px-4 py-2 rounded-md bg-white border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
                 >
-                  Prev
+                  Previous
                 </button>
                 
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <button
-                    key={i + 1}
-                    onClick={() => setCurrentPage(i + 1)}
-                    className={`w-8 h-8 rounded-full ${
-                      currentPage === i + 1 
-                        ? 'bg-primary text-white' 
-                        : 'bg-gray-200'
-                    }`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+                <div className="flex gap-1">
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    // Show first page, last page, current page, and pages around current
+                    let pageToShow;
+                    if (totalPages <= 5) {
+                      pageToShow = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageToShow = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageToShow = totalPages - 4 + i;
+                    } else {
+                      pageToShow = currentPage - 2 + i;
+                    }
+                    
+                    return (
+                      <button
+                        key={pageToShow}
+                        onClick={() => changePage(pageToShow)}
+                        disabled={isChangingPage}
+                        className={`w-10 h-10 rounded-md flex items-center justify-center ${
+                          currentPage === pageToShow 
+                            ? 'bg-primary text-white shadow-md' 
+                            : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                        }`}
+                      >
+                        {pageToShow}
+                      </button>
+                    );
+                  })}
+                </div>
                 
                 <button 
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                  className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+                  onClick={() => changePage(Math.min(totalPages, currentPage + 1))}
+                  disabled={currentPage === totalPages || isChangingPage}
+                  className="px-4 py-2 rounded-md bg-white border border-gray-200 text-gray-600 disabled:opacity-50 hover:bg-gray-50 transition-colors"
                 >
                   Next
                 </button>
@@ -408,63 +487,93 @@ export default function LogosGallery({ logos }: Props) {
           </div>
         </section>
 
-        {/* Request Form Button */}
+        {/* Call to Action Section - New */}
+        <section className="py-16 bg-gradient-to-r from-primary-dark to-primary text-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to create your brand identity?</h2>
+              <p className="text-xl mb-8 opacity-90">
+                Partner with us to design a logo that captures your brand's essence and resonates with your audience.
+              </p>
+              <button
+                onClick={() => setShowRequestForm(true)}
+                className="px-8 py-4 rounded-full bg-white text-primary font-medium hover:bg-gray-100 transition-colors shadow-lg"
+              >
+                Request Your Custom Logo
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Request Form Button - Redesigned */}
         <div className="fixed bottom-8 right-8 z-40">
           <button
             onClick={() => setShowRequestForm(true)}
-            className="bg-primary text-white px-6 py-4 rounded-full shadow-lg hover:bg-primary-dark transition-colors flex items-center gap-2"
+            className="bg-primary text-white px-6 py-4 rounded-full shadow-lg hover:bg-primary-dark transition-colors flex items-center gap-2 group"
           >
-            <i className="fas fa-pencil-alt"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
             Request Logo Design
           </button>
         </div>
 
-        {/* Request Form Modal */}
+        {/* Request Form Modal - Improved UI */}
         {showRequestForm && (
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
             onClick={() => setShowRequestForm(false)}
           >
             <div 
-              className="bg-white rounded-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
               onClick={e => e.stopPropagation()}
             >
-              <h3 className="text-2xl font-bold mb-6">Request Logo Design</h3>
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-800">Request Logo Design</h3>
+                <button 
+                  onClick={() => setShowRequestForm(false)}
+                  className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
               <form onSubmit={handleFormSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Your Name</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">Your Name</label>
                   <input
                     type="text"
                     required
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">Email</label>
                   <input
                     type="email"
                     required
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Company Name</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">Company Name</label>
                   <input
                     type="text"
                     required
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                     value={formData.company}
                     onChange={e => setFormData({...formData, company: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Preferred Logo Type</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">Preferred Logo Type</label>
                   <select
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors appearance-none bg-white"
                     value={formData.logoType}
                     onChange={e => setFormData({...formData, logoType: e.target.value})}
                     required
@@ -476,9 +585,9 @@ export default function LogosGallery({ logos }: Props) {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Description of Your Business</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">Description of Your Business</label>
                   <textarea
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                     rows={4}
                     value={formData.description}
                     onChange={e => setFormData({...formData, description: e.target.value})}
@@ -486,36 +595,36 @@ export default function LogosGallery({ logos }: Props) {
                   ></textarea>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Preferred Colors</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">Preferred Colors</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                     placeholder="e.g., Blue and Gold, Modern and Professional colors"
                     value={formData.color}
                     onChange={e => setFormData({...formData, color: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Reference Examples (Optional)</label>
+                  <label className="block text-sm font-medium mb-2 text-gray-700">Reference Examples (Optional)</label>
                   <textarea
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
                     rows={2}
                     placeholder="Links or descriptions of logos you like"
                     value={formData.reference}
                     onChange={e => setFormData({...formData, reference: e.target.value})}
                   ></textarea>
                 </div>
-                <div className="flex justify-end gap-4">
+                <div className="flex justify-end gap-4 pt-2">
                   <button
                     type="button"
                     onClick={() => setShowRequestForm(false)}
-                    className="px-6 py-2 border rounded-lg hover:bg-gray-100"
+                    className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark"
+                    className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
                   >
                     Submit Request
                   </button>

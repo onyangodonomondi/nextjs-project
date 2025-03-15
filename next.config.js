@@ -78,6 +78,10 @@ const nextConfig = {
   },
   // Add these for CSS support
   webpack: (config) => {
+    // Disable side effects filtering to prevent any module loss
+    if (config.optimization && config.optimization.sideEffects === true) {
+      config.optimization.sideEffects = false;
+    }
     return config;
   },
   sassOptions: {
@@ -96,6 +100,8 @@ const nextConfig = {
   
   // Optimize output
   compress: true,
+  poweredByHeader: false,
+  generateEtags: true,
 };
 
 module.exports = nextConfig; 
