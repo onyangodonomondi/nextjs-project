@@ -181,7 +181,7 @@ export default function WebDevelopment() {
             <p className="mt-2 text-gray-600">Creating digital experiences that drive business growth</p>
             </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
               <div className="text-primary text-2xl mb-4">
                 <i className="fas fa-laptop-code"></i>
@@ -204,8 +204,16 @@ export default function WebDevelopment() {
             </div>
               <h3 className="text-xl font-semibold mb-3">SEO Optimization</h3>
               <p className="text-gray-600">Built-in search engine optimization to help your website rank higher.</p>
-          </div>
             </div>
+            
+            <div className="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-primary text-2xl mb-4">
+                <i className="fas fa-shield-alt"></i>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Security</h3>
+              <p className="text-gray-600">Robust security measures to protect your website and user data from threats.</p>
+            </div>
+          </div>
           </div>
         </section>
 
@@ -217,7 +225,7 @@ export default function WebDevelopment() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Technologies We Use</h2>
               <p className="mt-4 text-gray-600">Modern tools for modern web solutions</p>
@@ -430,10 +438,10 @@ export default function WebDevelopment() {
                       >
                         Visit Website <i className="fas fa-external-link-alt"></i>
                       </a>
+                    </div>
                   </div>
-                </div>
               ))}
-            </div>
+                </div>
           
           <div className="mt-12 text-center">
             <Link href="/portfolio" className="px-8 py-3 bg-[#0A1929] text-white rounded-full hover:bg-[#0A1929]/90 transition-colors inline-block">
@@ -443,8 +451,8 @@ export default function WebDevelopment() {
           </div>
         </section>
 
-      {/* Development Process Section - Redesigned with compact cards in a single row */}
-      <section className="py-20 bg-white">
+      {/* Development Process Section */}
+      <section className="py-20 bg-white overflow-hidden">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -455,94 +463,177 @@ export default function WebDevelopment() {
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Our Development Process</h2>
             <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
-              A systematic approach to delivering high-quality web solutions
+              A systematic approach to delivering high-quality web solutions that meet your business objectives
             </p>
           </motion.div>
 
-          {/* Compact Process Cards in a single row */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4">
-            {[
-              {
-                step: 1,
-                title: "Discovery",
-                description: "Understanding business goals and requirements",
-                icon: "fas fa-lightbulb",
-                color: "from-amber-400 to-amber-300"
-              },
-              {
-                step: 2,
-                title: "Design",
-                description: "Creating wireframes and visual designs",
-                icon: "fas fa-pencil-ruler",
-                color: "from-blue-400 to-blue-300"
-              },
-              {
-                step: 3,
-                title: "Development",
-                description: "Building with modern technologies",
-                icon: "fas fa-code",
-                color: "from-emerald-400 to-emerald-300"
-              },
-              {
-                step: 4,
-                title: "Testing",
-                description: "Ensuring quality across devices",
-                icon: "fas fa-vial",
-                color: "from-violet-400 to-violet-300"
-              },
-              {
-                step: 5,
-                title: "Deployment",
-                description: "Launching with proper configuration",
-                icon: "fas fa-rocket",
-                color: "from-red-400 to-red-300"
-              },
-              {
-                step: 6,
-                title: "Support",
-                description: "Ongoing maintenance and updates",
-                icon: "fas fa-sync-alt",
-                color: "from-primary to-primary/80"
-              }
-            ].map((process, index) => (
-              <motion.div 
-                key={process.step} 
-                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 relative h-full"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: index * 0.1,
-                }}
-                viewport={{ once: true, margin: "-100px" }}
-                whileHover={{ y: -5 }}
-              >
-                {/* Card Header with Number */}
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center border-2 border-white z-10">
-                  <div className={`w-full h-full rounded-full bg-gradient-to-br ${process.color} flex items-center justify-center`}>
-                    <span className="text-white font-bold text-xs">{process.step}</span>
+          {/* Responsive process cards with horizontal scroll on mobile */}
+          <div className="relative">
+            {/* Desktop and tablet view */}
+            <div className="hidden md:flex justify-between items-stretch space-x-4 mb-8">
+              {[
+                {
+                  step: 1,
+                  title: "Discovery & Planning",
+                  description: "We begin by understanding your business, target audience, and objectives through in-depth consultations.",
+                  icon: "fas fa-lightbulb",
+                  color: "from-amber-400 to-amber-300"
+                },
+                {
+                  step: 2,
+                  title: "Design",
+                  description: "Creating wireframes and visual designs that align with your brand identity and user experience goals.",
+                  icon: "fas fa-pencil-ruler",
+                  color: "from-blue-400 to-blue-300"
+                },
+                {
+                  step: 3,
+                  title: "Development",
+                  description: "Building with modern technologies to create a robust and scalable web solution.",
+                  icon: "fas fa-code",
+                  color: "from-emerald-400 to-emerald-300"
+                },
+                {
+                  step: 4,
+                  title: "Testing",
+                  description: "Thorough quality assurance across devices to ensure a flawless user experience.",
+                  icon: "fas fa-vial",
+                  color: "from-violet-400 to-violet-300"
+                },
+                {
+                  step: 5,
+                  title: "Deployment",
+                  description: "Launching your website with proper configuration and optimization for performance.",
+                  icon: "fas fa-rocket",
+                  color: "from-red-400 to-red-300"
+                },
+                {
+                  step: 6,
+                  title: "Support",
+                  description: "Ongoing maintenance and updates to keep your site secure and performing optimally.",
+                  icon: "fas fa-sync-alt",
+                  color: "from-primary to-primary/80"
+                }
+              ].map((process, index) => (
+                <motion.div 
+                  key={process.step} 
+                  className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 relative flex-1 flex flex-col"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: index * 0.1,
+                  }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  whileHover={{ y: -5 }}
+                >
+                  {/* Card Header with Number */}
+                  <div className="absolute -top-3 left-6 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center border-2 border-white z-10">
+                    <div className={`w-full h-full rounded-full bg-gradient-to-br ${process.color} flex items-center justify-center`}>
+                      <span className="text-white font-bold text-xs">{process.step}</span>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Card Content */}
-                <div className="pt-6 px-3 pb-4 text-center">
-                  <div className="mb-2 flex justify-center">
-                    <i className={`${process.icon} ${process.color.includes('primary') ? 'text-primary' : `text-${process.color.split('-')[1]}-400`} text-lg`}></i>
+                  
+                  {/* Card Content */}
+                  <div className="p-5 pt-7 flex flex-col h-full">
+                    <div className="mb-2 flex items-center">
+                      <i className={`${process.icon} ${process.color.includes('primary') ? 'text-primary' : `text-${process.color.split('-')[1]}-400`} text-lg mr-2`}></i>
+                      <h3 className="font-semibold">{process.title}</h3>
+                    </div>
+                    <p className="text-gray-600 text-sm mt-2 flex-grow">{process.description}</p>
                   </div>
-                  <h3 className="text-sm font-semibold mb-1">{process.title}</h3>
-                  <p className="text-gray-600 text-xs">{process.description}</p>
-                </div>
-                
-                {/* Connection Arrow */}
-                {index < 5 && (
-                  <div className="hidden md:block absolute -right-2 top-1/2 transform -translate-y-1/2 z-10 text-gray-300">
-                    <i className="fas fa-chevron-right"></i>
-                  </div>
-                )}
-              </motion.div>
-            ))}
+                  
+                  {/* Connection Arrow (except for last item) */}
+                  {index < 5 && (
+                    <div className="absolute -right-2 top-1/2 transform -translate-y-1/2 z-10 text-gray-300">
+                      <i className="fas fa-chevron-right"></i>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Mobile view with horizontal scroll */}
+            <div className="md:hidden pb-4 -mx-4">
+              <div className="flex overflow-x-auto snap-x snap-mandatory px-4 space-x-4 pb-6" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {[
+                  {
+                    step: 1,
+                    title: "Discovery",
+                    description: "Understanding your business needs & goals",
+                    icon: "fas fa-lightbulb",
+                    color: "from-amber-400 to-amber-300"
+                  },
+                  {
+                    step: 2,
+                    title: "Design",
+                    description: "Creating wireframes & visual designs",
+                    icon: "fas fa-pencil-ruler",
+                    color: "from-blue-400 to-blue-300"
+                  },
+                  {
+                    step: 3,
+                    title: "Development",
+                    description: "Building with modern technologies",
+                    icon: "fas fa-code",
+                    color: "from-emerald-400 to-emerald-300"
+                  },
+                  {
+                    step: 4,
+                    title: "Testing",
+                    description: "Quality assurance across devices",
+                    icon: "fas fa-vial",
+                    color: "from-violet-400 to-violet-300"
+                  },
+                  {
+                    step: 5,
+                    title: "Deployment",
+                    description: "Launching with proper configuration",
+                    icon: "fas fa-rocket",
+                    color: "from-red-400 to-red-300"
+                  },
+                  {
+                    step: 6,
+                    title: "Support",
+                    description: "Ongoing maintenance & updates",
+                    icon: "fas fa-sync-alt",
+                    color: "from-primary to-primary/80"
+                  }
+                ].map((process, index) => (
+                  <motion.div 
+                    key={process.step} 
+                    className="bg-white rounded-xl shadow-md border border-gray-100 flex-shrink-0 snap-center snap-always w-[270px]"
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <div className="p-4">
+                      <div className="flex items-center mb-3">
+                        <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${process.color} flex items-center justify-center shadow-sm mr-3`}>
+                          <span className="text-white font-bold text-xs">{process.step}</span>
+                        </div>
+                        <h3 className="font-semibold">{process.title}</h3>
+                      </div>
+                      <div className="flex items-start mb-3">
+                        <i className={`${process.icon} ${process.color.includes('primary') ? 'text-primary' : `text-${process.color.split('-')[1]}-400`} text-lg mt-0.5 mr-2`}></i>
+                        <p className="text-gray-600 text-sm">{process.description}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+              
+              {/* Scroll indicator for mobile */}
+              <div className="flex justify-center space-x-1 mt-2">
+                <div className="w-10 h-1 rounded-full bg-primary"></div>
+                <div className="w-2 h-1 rounded-full bg-gray-300"></div>
+                <div className="w-2 h-1 rounded-full bg-gray-300"></div>
+              </div>
+              <p className="text-xs text-center text-gray-500 mt-1">Swipe to see more</p>
+            </div>
           </div>
-          
+        
           <motion.div 
             className="mt-12 text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -563,11 +654,39 @@ export default function WebDevelopment() {
         </div>
       </section>
 
+      {/* Web Development Project Inquiry Form */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Start Your Web Project</h2>
+            <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
+              Fill out the form below to help us understand your project requirements, and we'll get back to you promptly
+              </p>
+            </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-10"
+          >
+            <WebDevelopmentForm />
+          </motion.div>
+        </div>
+      </section>
+
       {/* FAQ Section - Redesigned with horizontal cards */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div 
-            className="text-center mb-16"
+            className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -595,12 +714,12 @@ export default function WebDevelopment() {
                 color: "from-green-400 to-green-300"
               }
             ].map((faq, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
                 className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 h-full"
               >
                 <div className="p-6 flex h-full">
@@ -643,11 +762,11 @@ export default function WebDevelopment() {
                 <div className="p-6 flex h-full">
                   <div className={`flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br ${faq.color} flex items-center justify-center shadow-md mt-1 mr-4`}>
                     <i className={`${faq.icon} text-white`}></i>
-                  </div>
+                      </div>
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">{faq.question}</h3>
                     <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
-                  </div>
+                    </div>
                 </div>
               </motion.div>
             ))}
@@ -669,7 +788,7 @@ export default function WebDevelopment() {
                 color: "from-primary to-primary/80"
               }
             ].map((faq, index) => (
-              <motion.div 
+                  <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -685,8 +804,8 @@ export default function WebDevelopment() {
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">{faq.question}</h3>
                     <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
                   </div>
-                </div>
-              </motion.div>
+                    </div>
+                  </motion.div>
             ))}
           </div>
 
@@ -719,7 +838,7 @@ export default function WebDevelopment() {
                 </a>
               </div>
             </div>
-          </motion.div>
+                </motion.div>
         </div>
       </section>
 
@@ -805,5 +924,317 @@ export default function WebDevelopment() {
           </div>
         </section>
     </div>
+  );
+}
+
+// Add this new component above the main WebDevelopment component
+function WebDevelopmentForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    companyName: '',
+    projectType: 'corporate',
+    budget: 'medium',
+    timeline: 'flexible',
+    requirements: '',
+    hearAbout: ''
+  });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
+  
+  const projectTypes = [
+    { value: 'corporate', label: 'Corporate Website' },
+    { value: 'ecommerce', label: 'E-commerce Store' },
+    { value: 'landing', label: 'Landing Page' },
+    { value: 'blog', label: 'Blog/Content Site' },
+    { value: 'portfolio', label: 'Portfolio Website' },
+    { value: 'web-app', label: 'Web Application' },
+    { value: 'other', label: 'Other' }
+  ];
+  
+  const budgetRanges = [
+    { value: 'small', label: 'Less than $2,000' },
+    { value: 'medium', label: '$2,000 - $5,000' },
+    { value: 'large', label: '$5,000 - $10,000' },
+    { value: 'enterprise', label: 'More than $10,000' },
+    { value: 'undecided', label: 'Not sure yet' }
+  ];
+  
+  const timelineOptions = [
+    { value: 'urgent', label: 'Urgent (< 2 weeks)' },
+    { value: 'standard', label: 'Standard (2-4 weeks)' },
+    { value: 'relaxed', label: 'Relaxed (1-2 months)' },
+    { value: 'flexible', label: 'Flexible / Not sure yet' }
+  ];
+  
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    
+    if (!formData.name.trim()) errors.name = "Name is required";
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      errors.email = "Email is invalid";
+    }
+    
+    if (!formData.phone.trim()) errors.phone = "Phone number is required";
+    if (!formData.requirements.trim()) errors.requirements = "Project requirements are required";
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear error for this field if it exists
+    if (formErrors[name]) {
+      setFormErrors(prev => {
+        const newErrors = {...prev};
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  };
+  
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    // Format the message for WhatsApp
+    const projectTypeLabel = projectTypes.find(type => type.value === formData.projectType)?.label || formData.projectType;
+    const budgetLabel = budgetRanges.find(budget => budget.value === formData.budget)?.label || formData.budget;
+    const timelineLabel = timelineOptions.find(timeline => timeline.value === formData.timeline)?.label || formData.timeline;
+    
+    const message = `
+*Web Development Project Inquiry*
+
+*Contact Information:*
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Company: ${formData.companyName || 'N/A'}
+
+*Project Details:*
+Type: ${projectTypeLabel}
+Budget Range: ${budgetLabel}
+Timeline: ${timelineLabel}
+
+*Requirements:*
+${formData.requirements}
+
+*How they heard about us:*
+${formData.hearAbout || 'Not specified'}
+
+*Sent from the Web Development contact form*
+    `.trim();
+    
+    // Phone number for WhatsApp
+    const phoneNumber = '254741590670'; // Replace with your actual phone number
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Open WhatsApp in a new tab
+    window.open(whatsappUrl, '_blank');
+    
+    // Reset form state
+    setIsSubmitting(false);
+    
+    // Optional: reset form after submission
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      companyName: '',
+      projectType: 'corporate',
+      budget: 'medium',
+      timeline: 'flexible',
+      requirements: '',
+      hearAbout: ''
+    });
+  };
+  
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Contact Information Section */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold mb-4 text-gray-900 border-b pb-2">Contact Information</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name <span className="text-red-500">*</span></label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className={`w-full p-3 border ${formErrors.name ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition`}
+              placeholder="Your full name"
+            />
+            {formErrors.name && <p className="mt-1 text-sm text-red-500">{formErrors.name}</p>}
+          </div>
+          
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address <span className="text-red-500">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={`w-full p-3 border ${formErrors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition`}
+              placeholder="your.email@example.com"
+            />
+            {formErrors.email && <p className="mt-1 text-sm text-red-500">{formErrors.email}</p>}
+          </div>
+          
+          <div>
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number <span className="text-red-500">*</span></label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className={`w-full p-3 border ${formErrors.phone ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition`}
+              placeholder="Your contact number"
+            />
+            {formErrors.phone && <p className="mt-1 text-sm text-red-500">{formErrors.phone}</p>}
+          </div>
+          
+          <div>
+            <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+            <input
+              type="text"
+              id="companyName"
+              name="companyName"
+              value={formData.companyName}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition"
+              placeholder="Your company (if applicable)"
+            />
+          </div>
+        </div>
+      </div>
+      
+      {/* Project Details Section */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold mb-4 text-gray-900 border-b pb-2">Project Details</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <label htmlFor="projectType" className="block text-sm font-medium text-gray-700 mb-1">Type of Website</label>
+            <select
+              id="projectType"
+              name="projectType"
+              value={formData.projectType}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition bg-white"
+            >
+              {projectTypes.map(type => (
+                <option key={type.value} value={type.value}>{type.label}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div>
+            <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-1">Budget Range</label>
+            <select
+              id="budget"
+              name="budget"
+              value={formData.budget}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition bg-white"
+            >
+              {budgetRanges.map(budget => (
+                <option key={budget.value} value={budget.value}>{budget.label}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div>
+            <label htmlFor="timeline" className="block text-sm font-medium text-gray-700 mb-1">Preferred Timeline</label>
+            <select
+              id="timeline"
+              name="timeline"
+              value={formData.timeline}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition bg-white"
+            >
+              {timelineOptions.map(timeline => (
+                <option key={timeline.value} value={timeline.value}>{timeline.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      {/* Requirements Section */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold mb-4 text-gray-900 border-b pb-2">Project Requirements</h3>
+        <div>
+          <label htmlFor="requirements" className="block text-sm font-medium text-gray-700 mb-1">Describe Your Project <span className="text-red-500">*</span></label>
+          <textarea
+            id="requirements"
+            name="requirements"
+            value={formData.requirements}
+            onChange={handleChange}
+            rows={5}
+            className={`w-full p-3 border ${formErrors.requirements ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition`}
+            placeholder="Please provide details about your project: key features, functionality requirements, design preferences, etc."
+          ></textarea>
+          {formErrors.requirements && <p className="mt-1 text-sm text-red-500">{formErrors.requirements}</p>}
+        </div>
+        
+        <div className="mt-4">
+          <label htmlFor="hearAbout" className="block text-sm font-medium text-gray-700 mb-1">How did you hear about us?</label>
+          <input
+            type="text"
+            id="hearAbout"
+            name="hearAbout"
+            value={formData.hearAbout}
+            onChange={handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            placeholder="Google, Referral, Social Media, etc."
+          />
+        </div>
+      </div>
+      
+      {/* Submit Button */}
+      <div className="text-center">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="px-8 py-4 bg-gradient-to-r from-primary to-primary-dark text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 font-medium text-center inline-flex items-center justify-center min-w-[200px]"
+        >
+          {isSubmitting ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Processing...
+            </>
+          ) : (
+            'Submit Project Inquiry'
+          )}
+        </button>
+        
+        <p className="mt-4 text-sm text-gray-600">
+          We'll respond to your inquiry within 24 hours during business days.
+        </p>
+      </div>
+    </form>
   );
 } 
