@@ -15,6 +15,7 @@ const navLinks = [
       { href: '/services', label: 'All Services' },
       { href: '/web-development', label: 'Web Development' },
       { href: '/graphics', label: 'Graphics' },
+      { href: '/vps-solutions', label: 'VPS Solutions' },
     ]
   },
   { href: '/portfolio', label: 'Portfolio' },

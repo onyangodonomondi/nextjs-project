@@ -438,8 +438,8 @@ export default function WebDevelopment() {
                       >
                         Visit Website <i className="fas fa-external-link-alt"></i>
                       </a>
-                    </div>
                   </div>
+                </div>
               ))}
                 </div>
           
@@ -447,32 +447,31 @@ export default function WebDevelopment() {
             <Link href="/portfolio" className="px-8 py-3 bg-[#0A1929] text-white rounded-full hover:bg-[#0A1929]/90 transition-colors inline-block">
               View All Projects
             </Link>
-          </div>
+            </div>
           </div>
         </section>
 
       {/* Development Process Section - Timeline Style */}
       <section className="py-20 bg-white overflow-hidden">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Our Development Process</h2>
             <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
               A systematic approach to delivering high-quality web solutions that meet your business objectives
-            </p>
-          </motion.div>
+              </p>
+            </motion.div>
 
-          {/* Timeline Process for Desktop/Tablet */}
-          <div className="hidden md:block relative mb-16">
-            {/* Timeline Track */}
-            <div className="absolute top-24 left-0 right-0 h-1 bg-gradient-to-r from-amber-300 via-blue-400 to-primary"></div>
+          {/* Desktop Timeline View */}
+          <div className="hidden md:block relative">
+            {/* Horizontal connecting line */}
+            <div className="absolute top-24 left-0 right-0 h-1 bg-gradient-to-r from-amber-300 via-blue-400 to-primary rounded-full"></div>
             
-            {/* Process Steps */}
             <div className="grid grid-cols-6 gap-4 relative">
               {[
                 {
@@ -480,75 +479,65 @@ export default function WebDevelopment() {
                   title: "Discovery & Planning",
                   description: "We begin by understanding your business, target audience, and objectives through in-depth consultations.",
                   icon: "fas fa-lightbulb",
-                  color: "bg-amber-400",
-                  textColor: "text-amber-600"
+                  color: "bg-amber-400"
                 },
                 {
                   step: 2,
                   title: "Design",
                   description: "Creating wireframes and visual designs that align with your brand identity and user experience goals.",
                   icon: "fas fa-pencil-ruler",
-                  color: "bg-blue-400",
-                  textColor: "text-blue-600"
+                  color: "bg-blue-400"
                 },
                 {
                   step: 3,
                   title: "Development",
                   description: "Building with modern technologies to create a robust and scalable web solution.",
                   icon: "fas fa-code",
-                  color: "bg-emerald-400",
-                  textColor: "text-emerald-600"
+                  color: "bg-emerald-400"
                 },
                 {
                   step: 4,
                   title: "Testing",
                   description: "Thorough quality assurance across devices to ensure a flawless user experience.",
                   icon: "fas fa-vial",
-                  color: "bg-violet-400",
-                  textColor: "text-violet-600"
+                  color: "bg-violet-400"
                 },
                 {
                   step: 5,
                   title: "Deployment",
                   description: "Launching your website with proper configuration and optimization for performance.",
                   icon: "fas fa-rocket",
-                  color: "bg-red-400",
-                  textColor: "text-red-600"
+                  color: "bg-red-400"
                 },
                 {
                   step: 6,
                   title: "Support",
                   description: "Ongoing maintenance and updates to keep your site secure and performing optimally.",
                   icon: "fas fa-sync-alt",
-                  color: "bg-primary",
-                  textColor: "text-primary-dark"
+                  color: "bg-primary"
                 }
               ].map((process, index) => (
                 <motion.div 
                   key={process.step} 
-                  className="flex flex-col items-center"
+                  className="flex flex-col items-center relative"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: index * 0.1,
-                  }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  {/* Step Number Circle on Timeline */}
-                  <div className="mb-6 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg border-4 border-white z-10 relative">
-                    <div className={`w-full h-full rounded-full ${process.color} flex items-center justify-center text-white text-lg font-bold`}>
-                      {process.step}
-                    </div>
+                  {/* Circle with number */}
+                  <div className={`w-12 h-12 ${process.color} rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg mb-6 z-10`}>
+                    {process.step}
                   </div>
                   
-                  {/* Content Card */}
-                  <div className="bg-white rounded-xl shadow-md hover:shadow-xl p-6 border border-gray-100 h-full w-full transition-all duration-300 transform hover:translate-y-[-5px]">
+                  {/* Connecting line to circle */}
+                  <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-1 h-16 bg-gray-100"></div>
+                  
+                  {/* Content card */}
+                  <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-5 h-full w-full border border-gray-100 mt-2">
                     <div className="flex items-center mb-3">
-                      <div className={`w-10 h-10 rounded-full ${process.color} bg-opacity-20 flex items-center justify-center mr-3`}>
-                        <i className={`${process.icon} ${process.textColor}`}></i>
-                      </div>
-                      <h3 className={`font-semibold text-base ${process.textColor}`}>{process.title}</h3>
+                      <i className={`${process.icon} ${process.color} text-white p-2 rounded mr-3 text-sm`}></i>
+                      <h3 className="font-semibold text-gray-900">{process.title}</h3>
                     </div>
                     <p className="text-gray-600 text-sm">{process.description}</p>
                   </div>
@@ -557,97 +546,94 @@ export default function WebDevelopment() {
             </div>
           </div>
           
-          {/* Mobile Process Cards with horizontal scroll */}
-          <div className="md:hidden overflow-hidden">
-            <div className="relative">
-              {/* Small timeline track */}
-              <div className="absolute left-4 top-8 bottom-16 w-1 bg-gradient-to-b from-amber-300 via-blue-400 to-primary"></div>
-              
-              {/* Process Steps */}
-              <div className="ml-9 space-y-12 pb-8">
+          {/* Mobile Timeline - Horizontal Scroll */}
+          <div className="md:hidden relative">
+            {/* Horizontal connecting line for mobile */}
+            <div className="absolute top-14 left-0 right-0 h-1 bg-gradient-to-r from-amber-300 via-blue-400 to-primary rounded-full"></div>
+            
+            <div className="flex overflow-x-auto snap-x snap-mandatory pb-10" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="flex space-x-4 px-4 pb-6">
                 {[
                   {
                     step: 1,
-                    title: "Discovery & Planning",
-                    description: "Understanding your business needs & goals through in-depth consultations.",
+                    title: "Discovery",
+                    description: "Understanding your business needs & goals",
                     icon: "fas fa-lightbulb",
-                    color: "bg-amber-400",
-                    textColor: "text-amber-600"
+                    color: "bg-amber-400"
                   },
                   {
                     step: 2,
                     title: "Design",
-                    description: "Creating wireframes & visual designs aligned with your brand.",
+                    description: "Creating wireframes & visual designs",
                     icon: "fas fa-pencil-ruler",
-                    color: "bg-blue-400",
-                    textColor: "text-blue-600"
+                    color: "bg-blue-400"
                   },
                   {
                     step: 3,
                     title: "Development",
-                    description: "Building with modern technologies for robust solutions.",
+                    description: "Building with modern technologies",
                     icon: "fas fa-code",
-                    color: "bg-emerald-400",
-                    textColor: "text-emerald-600"
+                    color: "bg-emerald-400"
                   },
                   {
                     step: 4,
                     title: "Testing",
-                    description: "Quality assurance across devices for flawless user experience.",
+                    description: "Quality assurance across devices",
                     icon: "fas fa-vial",
-                    color: "bg-violet-400",
-                    textColor: "text-violet-600"
+                    color: "bg-violet-400"
                   },
                   {
                     step: 5,
                     title: "Deployment",
-                    description: "Launching with proper configuration & performance optimization.",
+                    description: "Launching with proper configuration",
                     icon: "fas fa-rocket",
-                    color: "bg-red-400",
-                    textColor: "text-red-600"
+                    color: "bg-red-400"
                   },
                   {
                     step: 6,
                     title: "Support",
-                    description: "Ongoing maintenance to keep your site secure & performing optimally.",
+                    description: "Ongoing maintenance & updates",
                     icon: "fas fa-sync-alt",
-                    color: "bg-primary",
-                    textColor: "text-primary-dark"
+                    color: "bg-primary"
                   }
                 ].map((process, index) => (
                   <motion.div 
                     key={process.step} 
-                    className="relative"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    className="flex flex-col items-center w-[200px] flex-shrink-0 snap-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true, margin: "-50px" }}
+                    viewport={{ once: true }}
                   >
-                    {/* Step Number Circle on Timeline */}
-                    <div className="absolute -left-12 top-0 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-md border-2 border-white z-10">
-                      <div className={`w-full h-full rounded-full ${process.color} flex items-center justify-center text-white font-bold text-xs`}>
-                        {process.step}
-                      </div>
+                    {/* Circle with number */}
+                    <div className={`w-10 h-10 ${process.color} rounded-full flex items-center justify-center text-white font-bold shadow-md z-10`}>
+                      {process.step}
                     </div>
                     
-                    {/* Content Card */}
-                    <div className="bg-white rounded-xl shadow-md p-4 border border-gray-100">
-                      <div className="flex items-center mb-2">
-                        <div className={`w-8 h-8 rounded-full ${process.color} bg-opacity-20 flex items-center justify-center mr-2`}>
-                          <i className={`${process.icon} ${process.textColor} text-sm`}></i>
-                        </div>
-                        <h3 className={`font-semibold text-base ${process.textColor}`}>{process.title}</h3>
+                    {/* Content card */}
+                    <div className="bg-white rounded-xl shadow-sm p-4 w-full border border-gray-100 mt-8">
+                      <h3 className="font-semibold text-center mb-2">{process.title}</h3>
+                      <div className="flex items-center justify-center mb-2">
+                        <i className={`${process.icon} ${process.color} text-white p-1.5 rounded text-xs`}></i>
                       </div>
-                      <p className="text-gray-600 text-sm">{process.description}</p>
+                      <p className="text-gray-600 text-xs text-center">{process.description}</p>
                     </div>
                   </motion.div>
                 ))}
               </div>
             </div>
+            
+            {/* Scroll indicator for mobile */}
+            <div className="flex justify-center space-x-1 mt-2">
+              <div className="w-10 h-1 rounded-full bg-primary"></div>
+              <div className="w-2 h-1 rounded-full bg-gray-300"></div>
+              <div className="w-2 h-1 rounded-full bg-gray-300"></div>
+            </div>
+            <p className="text-xs text-center text-gray-500 mt-1">Swipe to see more steps</p>
           </div>
         
           <motion.div 
-            className="mt-12 text-center"
+            className="mt-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
@@ -656,12 +642,13 @@ export default function WebDevelopment() {
             <p className="text-gray-600 max-w-2xl mx-auto mb-6">
               Our transparent and effective process ensures your vision becomes reality on time and within budget.
             </p>
-            <Link 
-              href="/contact" 
-              className="px-6 py-3 bg-[#0A1929] text-white rounded-full hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2 font-medium"
+            <a 
+              href="tel:+254741590670" 
+              className="px-8 py-3 bg-[#0A1929] text-white rounded-full hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2 font-medium"
+              id="start-your-project"
             >
-              <span>Start Your Project</span> <i className="fas fa-arrow-right"></i>
-            </Link>
+              Start Your Project <i className="fas fa-phone ml-1"></i>
+            </a>
           </motion.div>
         </div>
       </section>
@@ -854,87 +841,6 @@ export default function WebDevelopment() {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-20 relative overflow-hidden bg-gradient-to-br from-primary to-[#0A1929]">
-        {/* Abstract shapes for visual interest */}
-        <div className="absolute inset-0 overflow-hidden opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
-          {/* Code symbols */}
-          <div className="absolute top-20 right-20 text-white text-6xl opacity-20 rotate-12">&lt;/&gt;</div>
-          <div className="absolute bottom-20 left-20 text-white text-6xl opacity-20 -rotate-12">{`{ }`}</div>
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <motion.h2 
-              className="text-3xl md:text-5xl font-bold text-white mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              Ready to Transform Your Digital Presence?
-            </motion.h2>
-            
-            <motion.p 
-              className="text-white/90 text-lg max-w-3xl mx-auto mb-10 leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
-              Let's discuss how our web development expertise can help bring your vision to life with solutions that drive business growth and deliver exceptional user experiences.
-            </motion.p>
-            
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-5 justify-center items-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <Link 
-                href="/contact" 
-                className="bg-white hover:bg-gray-100 text-primary px-8 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl min-w-[200px] flex items-center justify-center gap-2"
-              >
-                Get Started <i className="fas fa-arrow-right ml-1"></i>
-              </Link>
-              
-              <Link 
-                href="/portfolio" 
-                className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 min-w-[200px] flex items-center justify-center gap-2"
-              >
-                View Portfolio <i className="fas fa-images ml-1"></i>
-              </Link>
-                </motion.div>
-            
-            {/* Trust indicators */}
-            <motion.div 
-              className="mt-16 pt-10 border-t border-white/20"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <p className="text-white/70 mb-6 text-sm uppercase tracking-wider">Trusted by Businesses Across Kenya</p>
-              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-                {[1, 2, 3, 4, 5].map((_, index) => (
-                  <div key={index} className="w-24 h-12 bg-white/10 rounded-md flex items-center justify-center">
-                    <div className="w-16 h-6 bg-white/20 rounded animate-pulse"></div>
-                  </div>
-              ))}
-            </div>
-            </motion.div>
-          </motion.div>
-          </div>
-        </section>
     </div>
   );
 }
