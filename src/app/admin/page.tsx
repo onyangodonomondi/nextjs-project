@@ -122,7 +122,7 @@ export default function AdminDashboard() {
 
   // Add file validation function
   const validateFile = (file: File) => {
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 2 * 1024 * 1024; // 2MB
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
     if (!allowedTypes.includes(file.type)) {
@@ -130,7 +130,7 @@ export default function AdminDashboard() {
     }
 
     if (file.size > maxSize) {
-      throw new Error(`File too large: ${(file.size / 1024 / 1024).toFixed(1)}MB. Maximum size is 5MB.`);
+      throw new Error(`File too large: ${(file.size / 1024 / 1024).toFixed(1)}MB. Maximum size is 2MB.`);
     }
 
     return true;
@@ -285,9 +285,9 @@ export default function AdminDashboard() {
           case 'name':
             return a.alt.localeCompare(b.alt);
           case 'date':
-            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+            return new Date(b.createdAt || Date.now()).getTime() - new Date(a.createdAt || Date.now()).getTime();
           case 'size':
-            return b.size - a.size;
+            return (b.size ?? 0) - (a.size ?? 0);
           default:
             return 0;
         }
