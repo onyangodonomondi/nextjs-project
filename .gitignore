@@ -56,13 +56,13 @@ next-env.d.ts
 # uploads
 /public/uploads
 
-# Ignore large images
-public/images/**/*.{jpg,jpeg,png,gif,webp}
-!public/images/thumbnails/
+# Remove or comment out image ignore rules
+# public/images/**/*.{jpg,jpeg,png,gif,webp}
+# !public/images/thumbnails/
 
-# Keep upload directories but ignore contents
-public/images/*
-!public/images/.gitkeep
-!public/images/*/
-public/images/*/*
-!public/images/*/.gitkeep
+# Remove or comment out directory rules
+# public/images/*
+# !public/images/.gitkeep
+# !public/images/*/
+# public/images/*/*
+# !public/images/*/.gitkeep
