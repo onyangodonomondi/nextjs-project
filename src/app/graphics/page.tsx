@@ -328,9 +328,9 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
       <main className="bg-[#FDF9F3]">
         {/* Hero Section */}
         <section className="min-h-[calc(100vh-80px)] pt-28 md:pt-32 lg:pt-40 pb-12 md:pb-16 lg:pb-32 relative overflow-hidden">
-          <div className="container mx-auto">
+          <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center">
             {/* Left Content Area */}
-            <div className="relative z-10 w-full px-4 md:px-8 lg:max-w-[45%]">
+            <div className="relative z-10 w-full lg:w-[50%] lg:pr-8">
               {/* Tag line */}
               <div className="mb-4 md:mb-6 lg:mb-8">
                 <motion.div
@@ -395,21 +395,26 @@ ${data.colors.accent ? `- Accent: ${data.colors.accent}` : ''}` : ''}`
               </div>
             </div>
 
-            {/* Hero Image */}
+            {/* Hero Image - Enhanced positioning */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="relative w-full mt-8 md:mt-12 lg:mt-0 lg:absolute lg:top-0 lg:right-0 lg:w-[55%] lg:h-full"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ 
+                delay: 0.2,
+                type: "spring",
+                stiffness: 100
+              }}
+              className="relative w-full mt-12 lg:mt-0 lg:w-[55%] lg:h-[540px] xl:h-[640px] flex justify-center lg:justify-end"
             >
-              <div className="relative w-full aspect-[4/3] lg:h-full">
+              <div className="relative w-[90%] md:w-[80%] h-[400px] md:h-[480px] lg:h-full lg:-mr-8 xl:-mr-16">
+                <div className="absolute w-[80%] h-[80%] rounded-full bg-primary/5 top-[10%] left-[10%] filter blur-3xl -z-1"></div>
                 <Image
                   src="/images/graphics/hero section.png"
                   alt="Design Services Hero"
                   fill
-                  className="object-contain lg:object-right scale-90"
+                  className="object-contain object-center lg:object-right scale-100 lg:scale-110 hover:scale-105 lg:hover:scale-115 transition-transform duration-700"
                   priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 55vw"
+                  sizes="(max-width: 768px) 90vw, (max-width: 1024px) 80vw, 55vw"
                 />
               </div>
             </motion.div>

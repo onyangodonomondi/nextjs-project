@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Image from 'next/image';
 import PageHero from '@/components/PageHero';
 import dynamic from 'next/dynamic';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ImageItem {
   id: number;
@@ -196,6 +197,58 @@ export default function LogosGallery({ logos }: Props) {
     window.open(`https://wa.me/254741590670?text=${message}`, '_blank');
   };
 
+  const [showHumanIcon, setShowHumanIcon] = useState(true);
+  const [isButtonExpanded, setIsButtonExpanded] = useState(true);
+  const [isButtonVisible, setIsButtonVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  
+  // Handle scrolling to hide/show the button
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show button when scrolling up, hide when scrolling down
+      if (currentScrollY > lastScrollY.current + 50) {
+        setIsButtonVisible(false);
+        setIsButtonExpanded(false);
+      } else if (currentScrollY < lastScrollY.current - 50) {
+        setIsButtonVisible(true);
+      }
+      
+      lastScrollY.current = currentScrollY;
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
+  // Auto-hide the text after 5 seconds of inactivity
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    
+    if (isButtonExpanded) {
+      timeout = setTimeout(() => {
+        setIsButtonExpanded(false);
+      }, 5000);
+    }
+    
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [isButtonExpanded]);
+  
+  // Toggle between human and assistant icons every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowHumanIcon(prev => !prev);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main className="pt-24 bg-gradient-to-b from-gray-50 to-white">
       <PageHero 
@@ -229,7 +282,7 @@ export default function LogosGallery({ logos }: Props) {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
-            <span className="inline-block px-3 py-1 bg-primary-light text-primary text-sm font-medium rounded-full mb-3">SHOWCASE</span>
+            <span className="inline-block px-4 py-1.5 bg-[#FF5400] text-white text-sm font-medium rounded-full mb-3 shadow-sm">SHOWCASE</span>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Our Logo Designs</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Browse through our collection of professionally crafted logos that have helped businesses establish strong brand identities
@@ -298,36 +351,66 @@ export default function LogosGallery({ logos }: Props) {
         </div>
       </section>
 
-      {/* Call to Action Section */}
-      <section className="py-16 bg-gradient-to-r from-primary-dark to-primary text-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to create your brand identity?</h2>
-            <p className="text-xl mb-8 opacity-90">
-              Partner with us to design a logo that captures your brand's essence and resonates with your audience.
-            </p>
-            <button
-              onClick={() => setShowRequestForm(true)}
-              className="px-8 py-4 rounded-full bg-white text-primary font-medium hover:bg-gray-100 transition-colors shadow-lg"
-            >
-              Request Your Custom Logo
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Request Form Button */}
-      <div className="fixed bottom-8 right-8 z-40">
-        <button
-          onClick={() => setShowRequestForm(true)}
-          className="bg-primary text-white px-6 py-4 rounded-full shadow-lg hover:bg-primary-dark transition-colors flex items-center gap-2 group"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-          </svg>
-          Request Logo Design
-        </button>
-      </div>
+      <AnimatePresence>
+        {isButtonVisible && (
+          <motion.div 
+            className="fixed bottom-8 right-8 z-40"
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 30 }}
+          >
+            <motion.button
+              onMouseEnter={() => setIsButtonExpanded(true)}
+              onClick={() => setShowRequestForm(true)}
+              className="bg-primary text-white px-6 py-4 rounded-full shadow-lg hover:bg-primary-dark transition-all duration-300 flex items-center gap-2 group"
+              whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)" }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <AnimatePresence mode="wait">
+                {showHumanIcon ? (
+                  <motion.div
+                    key="human-icon"
+                    initial={{ rotate: -30, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 30, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                    </svg>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="assistant-icon"
+                    initial={{ rotate: -30, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 30, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                    </svg>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <AnimatePresence>
+                {isButtonExpanded && (
+                  <motion.span
+                    initial={{ width: 0, opacity: 0 }}
+                    animate={{ width: "auto", opacity: 1 }}
+                    exit={{ width: 0, opacity: 0 }}
+                    className="whitespace-nowrap overflow-hidden"
+                  >
+                    Request Logo Design
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Request Form Modal */}
       {showRequestForm && (

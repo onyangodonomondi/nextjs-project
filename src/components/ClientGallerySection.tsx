@@ -25,13 +25,16 @@ export default function ClientGallerySection({
   const [visibleItems, setVisibleItems] = useState(items.slice(0, 8));
   const [isLoading, setIsLoading] = useState(false);
 
-  // Function to refresh the gallery with new images
-  const refreshGallery = useCallback(async () => {
+  // Function to load more images to the gallery
+  const loadMoreItems = useCallback(async () => {
     setIsLoading(true);
     
     try {
-      // Basic approach: shuffle the existing items
-      const remainingItems = [...allItems];
+      // Get all items that are not currently visible
+      const remainingItems = allItems.filter(
+        item => !visibleItems.some(visibleItem => visibleItem.src === item.src)
+      );
+      
       const newItems = [];
       
       // Select 8 random items from the remaining set
@@ -48,11 +51,23 @@ export default function ClientGallerySection({
           const response = await fetch(`/api/images?path=/images/portfolio/${category}`);
           if (response.ok) {
             const data = await response.json();
+            
             // Update the all items state with the new data
-            setAllItems(data);
+            const updatedAllItems = [...allItems];
+            
+            // Add items that aren't already in allItems
+            for (const item of data) {
+              if (!updatedAllItems.some(existing => existing.src === item.src)) {
+                updatedAllItems.push(item);
+              }
+            }
+            
+            setAllItems(updatedAllItems);
+            
             // Use the new data to fill the remaining slots
             const additionalItems = data.filter(
-              item => !newItems.some(newItem => newItem.src === item.src)
+              item => !visibleItems.some(visibleItem => visibleItem.src === item.src) &&
+                      !newItems.some(newItem => newItem.src === item.src)
             );
             
             while (newItems.length < 8 && additionalItems.length > 0) {
@@ -65,20 +80,17 @@ export default function ClientGallerySection({
         }
       }
       
-      // Animate the transition
-      setVisibleItems([]);
-      
-      // Short delay for the animation
+      // Add the new items to the visible items instead of replacing them
       setTimeout(() => {
-        setVisibleItems(newItems);
+        setVisibleItems(prev => [...prev, ...newItems]);
       }, 300);
       
     } catch (error) {
-      console.error("Error refreshing gallery:", error);
+      console.error("Error loading more items:", error);
     } finally {
       setIsLoading(false);
     }
-  }, [allItems, category]);
+  }, [allItems, visibleItems, category]);
 
   return (
     <>
@@ -86,7 +98,7 @@ export default function ClientGallerySection({
         {visibleItems.map((item, index) => (
           <div 
             key={`${category}-${index}-${item.id || Math.random()}`}
-            className={`group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all ${aspectRatio} transform transition-all duration-500 ${isLoading ? 'scale-95 opacity-0' : 'scale-100 opacity-100'}`}
+            className={`group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all ${aspectRatio} transform transition-all duration-500 ${isLoading && index >= visibleItems.length - 8 ? 'scale-95 opacity-0' : 'scale-100 opacity-100'}`}
           >
             {/* Optional placeholder background */}
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200"></div>
@@ -112,7 +124,7 @@ export default function ClientGallerySection({
       
       <div className="text-center mt-10">
         <button 
-          onClick={refreshGallery}
+          onClick={loadMoreItems}
           disabled={isLoading}
           className="px-6 py-3 bg-[#0A1929] text-white rounded-full inline-flex items-center justify-center hover:bg-[#0A1929]/90 transition-colors min-w-[180px] disabled:opacity-70 disabled:cursor-not-allowed"
         >
