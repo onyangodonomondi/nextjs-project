@@ -33,13 +33,24 @@ async function getLogos() {
       console.log(`Found ${imageFiles.length} image files`);
       
       // Create properly structured logo objects
-      const logos = imageFiles.map((fileName, index) => ({
-        id: index + 1,
-        title: fileName.replace(/\.(jpg|jpeg|png|gif|webp|svg)$/i, '').replace(/-/g, ' '),
-        src: `/images/portfolio/logos/${fileName}`,
-        alt: fileName.replace(/\.(jpg|jpeg|png|gif|webp|svg)$/i, '').replace(/-/g, ' '),
-        imageUrl: `/images/portfolio/logos/${fileName}`
-      }));
+      const logoMap = new Map(); // Use Map to deduplicate
+      
+      imageFiles.forEach((fileName, index) => {
+        const title = fileName.replace(/\.(jpg|jpeg|png|gif|webp|svg)$/i, '').replace(/-/g, ' ');
+        const logoItem = {
+          id: index + 1,
+          title: title,
+          src: `/images/portfolio/logos/${fileName}`,
+          alt: title,
+          imageUrl: `/images/portfolio/logos/${fileName}`
+        };
+        
+        // Use file name as key to deduplicate
+        logoMap.set(fileName, logoItem);
+      });
+      
+      // Convert Map values to array
+      const logos = Array.from(logoMap.values());
       
       // Cache the results
       cachedLogos = logos;
@@ -99,14 +110,24 @@ export async function GET() {
     console.log(`Returning ${logos.length} logos`);
     return NextResponse.json(logos, {
       headers: {
-        'Cache-Control': 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=43200',
+        'Cache-Control': 'public, max-age=300, s-maxage=3600, stale-while-revalidate=1800',
+        'Vary': 'Accept-Encoding',
+        'Content-Type': 'application/json',
       },
     });
   } catch (error) {
     console.error('Error in API route:', error);
     return NextResponse.json(
       { error: 'Failed to fetch logos', details: error instanceof Error ? error.message : String(error) },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Content-Type': 'application/json',
+        }
+      }
     );
   }
 } 
