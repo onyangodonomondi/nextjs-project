@@ -517,7 +517,7 @@ export default function WebDevelopment() {
                   color: "bg-primary"
                 }
               ].map((process, index) => (
-                <motion.div 
+                <motion.div
                   key={process.step} 
                   className="flex flex-col items-center relative"
                   initial={{ opacity: 0, y: 20 }}
@@ -608,14 +608,14 @@ export default function WebDevelopment() {
                     {/* Circle with number */}
                     <div className={`w-10 h-10 ${process.color} rounded-full flex items-center justify-center text-white font-bold shadow-md z-10`}>
                       {process.step}
-                    </div>
+                      </div>
                     
                     {/* Content card */}
                     <div className="bg-white rounded-xl shadow-sm p-4 w-full border border-gray-100 mt-8">
                       <h3 className="font-semibold text-center mb-2">{process.title}</h3>
                       <div className="flex items-center justify-center mb-2">
                         <i className={`${process.icon} ${process.color} text-white p-1.5 rounded text-xs`}></i>
-                      </div>
+                    </div>
                       <p className="text-gray-600 text-xs text-center">{process.description}</p>
                     </div>
                   </motion.div>
@@ -631,8 +631,8 @@ export default function WebDevelopment() {
             </div>
             <p className="text-xs text-center text-gray-500 mt-1">Swipe to see more steps</p>
           </div>
-        
-          <motion.div 
+
+                  <motion.div
             className="mt-16 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -650,7 +650,7 @@ export default function WebDevelopment() {
               Start Your Project <i className="fas fa-phone ml-1"></i>
             </a>
           </motion.div>
-        </div>
+                    </div>
       </section>
 
       {/* Web Development Project Inquiry Form */}
@@ -667,7 +667,7 @@ export default function WebDevelopment() {
             <p className="mt-4 text-gray-600 max-w-3xl mx-auto">
               Fill out the form below to help us understand your project requirements, and we'll get back to you promptly
               </p>
-            </motion.div>
+                  </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -730,9 +730,9 @@ export default function WebDevelopment() {
                     <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
 
           {/* Second Row of FAQ Cards */}
           <div className="grid md:grid-cols-2 gap-6">
@@ -838,8 +838,8 @@ export default function WebDevelopment() {
               </div>
             </div>
                 </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
     </div>
   );

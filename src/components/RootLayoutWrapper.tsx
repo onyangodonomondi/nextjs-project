@@ -13,7 +13,7 @@ export default function RootLayoutWrapper({ children }: { children: React.ReactN
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const handleError = (event) => {
+    const handleError = (event: ErrorEvent) => {
       console.error('Unhandled error:', event.error);
       
       // You can add reporting/analytics here

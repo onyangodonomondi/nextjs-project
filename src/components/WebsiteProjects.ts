@@ -1,98 +1,51 @@
+// Sample website projects data
 export const websiteProjects = [
   {
     id: 1,
-    title: "Security Company Website",
-    description: "Custom Website for a security Company",
-    src: "/web/Mac-1024x683.jpg",
-    alt: "Security Company Website",
-    link: "https://top23security.com/"
+    title: "E-commerce Platform",
+    description: "A modern e-commerce platform with integrated payment systems",
+    src: "/images/portfolio/websites/ecommerce.jpg",
+    alt: "E-commerce Website Screenshot",
+    link: "/web-development",
   },
   {
     id: 2,
     title: "Corporate Website",
-    description: "Modern business website with dynamic features",
-    src: "/web/Macbook-1-1024x683.jpg",
-    alt: "Corporate Website",
-    link: "https://lsmsolutionsltd.com/"
+    description: "Professional website for a financial services company",
+    src: "/images/portfolio/websites/corporate.jpg",
+    alt: "Corporate Website Screenshot",
+    link: "/web-development",
   },
   {
     id: 3,
-    title: "StartUp Company Website",
-    description: "Custom Website for a StartUp Company",
-    src: "/web/Macbook-1024x683.jpg",
-    alt: "StartUp Company Website",
-    link: "https://nafrichemdistributors.co.ke/"
+    title: "Portfolio Site",
+    description: "Creative portfolio for a photography studio",
+    src: "/images/portfolio/websites/portfolio.jpg",
+    alt: "Portfolio Website Screenshot",
+    link: "/web-development",
   },
   {
     id: 4,
-    title: "Tourism Company Website",
-    description: "Custom Website for a Tourism Company",
-    src: "/web/Macbook-Pro-1024x683.jpg",
-    alt: "Tourism Company Website",
-    link: "https://drivestayexplore.com/"
+    title: "Restaurant Ordering",
+    description: "Online ordering system for a local restaurant",
+    src: "/images/portfolio/websites/restaurant.jpg",
+    alt: "Restaurant Website Screenshot",
+    link: "/web-development",
   },
   {
     id: 5,
-    title: "E-commerce Website",
-    description: "Custom Website for an E-commerce Company",
-    src: "/web/Macbook2-1024x683.jpg",
-    alt: "E-commerce Website",
-    link: "https://excaliburdealerslimited.com/"
+    title: "Fitness Tracker",
+    description: "Web application for tracking workouts and nutrition",
+    src: "/images/portfolio/websites/fitness.jpg",
+    alt: "Fitness App Screenshot",
+    link: "/web-development",
   },
   {
     id: 6,
-    title: "Crypto Trading Company Website",
-    description: "Custom Website for a Crypto Trading Company",
-    src: "/web/Macbook3-1024x683.jpg",
-    alt: "Crypto Trading Company Website",
-    link: "https://piggycryptoke.com/"
+    title: "Event Booking",
+    description: "Ticket booking platform for events and conferences",
+    src: "/images/portfolio/websites/events.jpg",
+    alt: "Event Booking Website Screenshot",
+    link: "/web-development",
   },
-  {
-    id: 7,
-    title: "Law Firm Website",
-    description: "Custom Website for a Law Firm",
-    src: "/web/Macbook4-1-1024x683.jpg",
-    alt: "Law Firm Website",
-    link: "https://wasongalaw.co.ke/"
-  },
-  {
-    id: 8,
-    title: "College Website",
-    description: "Custom Website for a College",
-    src: "/web/Macbook6-1024x683.jpg",
-    alt: "College Website",
-    link: "https://knowledgespringinstitute.ac.ke/"
-  },
-  {
-    id: 9,
-    title: "E-commerce Website",
-    description: "Custom Website for an E-commerce Company",
-    src: "/web/Macbook7-1024x683.jpg",
-    alt: "E-commerce Website",
-    link: "https://charloflexshippers.co.ke/"
-  },
-  {
-    id: 10,
-    title: "Corporate Website",
-    description: "Custom Website for a Corporate Company",
-    src: "/web/Macbook4-1024x683.jpg",
-    alt: "Corporate Website",
-    link: "https://icl.aero/"
-  },
-  {
-    id: 11,
-    title: "NGO Website",
-    description: "Custom Website for an NGO",
-    src: "/web/pure-1024x683.jpg",
-    alt: "NGO Website",
-    link: "https://pure-gift.org/"
-  },
-  {
-    id: 12,
-    title: "Corporate Website",
-    description: "Custom Website for a Corporate Company",
-    src: "/web/Macbook12-1024x683.jpg",
-    alt: "Corporate Website",
-    link: "https://reucherafricakenyaltd.co.ke/"
-  }
 ]; 

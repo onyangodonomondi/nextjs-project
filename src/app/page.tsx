@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import ClientCallbackForm from '@/components/ClientCallbackForm';
-import ClientPortfolioSection from '@/components/ClientPortfolioSection';
 
 // Export metadata directly in the page file
 export const metadata = {
@@ -43,10 +42,10 @@ export default function Home() {
                   className="bg-white hover:bg-gray-100 text-[#0A1929] px-8 py-4 rounded-full font-medium text-center transition-colors">
                   Get Started
                 </a>
-                <a href="#work" 
+                <Link href="/portfolio" 
                   className="border border-white/20 hover:bg-white/5 text-white px-8 py-4 rounded-full font-medium text-center transition-colors">
                   View Our Work
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -500,27 +499,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Work Showcase Section */}
-      <section className="py-24 bg-white" id="work">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-600 rounded-full text-sm font-medium mb-4">PORTFOLIO</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Our Recent Work</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore our portfolio showcasing the best projects across different categories
-            </p>
-          </div>
-
-          <ClientPortfolioSection />
-
-          <div className="text-center mt-16">
-            <Link href="/portfolio" className="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full transition-colors">
-              View All Projects
-            </Link>
           </div>
         </div>
       </section>
