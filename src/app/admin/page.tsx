@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { getImagesFromDirectory } from '@/utils/getImages';
 import type { ImageItem } from '@/utils/getImages';
 import toast from 'react-hot-toast';
-import { FiUpload, FiTrash2, FiLogOut, FiRefreshCw, FiImage, FiFolder, FiSearch, FiX, FiEye } from 'react-icons/fi';
+import { FiUpload, FiTrash2, FiLogOut, FiRefreshCw, FiImage, FiFolder, FiSearch, FiX, FiEye, FiMonitor, FiFileText } from 'react-icons/fi';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { inter } from '../fonts';
@@ -15,6 +15,7 @@ import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { ImageStats } from '@/components/admin/ImageStats';
 import { DropZone } from '@/components/admin/DropZone';
 import { ImageOptimizationSettings, type OptimizationOptions } from '@/components/admin/ImageOptimizationSettings';
+import BlogManager from '@/components/admin/BlogManager';
 
 interface Category {
   id: string;
@@ -66,6 +67,13 @@ const categories: Category[] = [
     path: '/images/portfolio/websites',
     description: 'Website designs and mockups',
     icon: <FiFolder className="w-6 h-6" />
+  },
+  {
+    id: 'blogs',
+    name: 'Blogs',
+    path: '/blogs',
+    description: 'Manage blog posts and articles',
+    icon: <FiFileText className="w-6 h-6" />
   }
 ];
 
@@ -820,42 +828,44 @@ function AdminDashboard() {
                 ))}
               </nav>
 
-              {/* Upload Section */}
-              <div className="space-y-4 pt-6 border-t">
-                <h3 className="font-medium text-gray-900">Upload Images</h3>
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleFileSelect}
-                  className="w-full"
-                />
-                {uploadingFiles.length > 0 && (
-                  <div className="space-y-2">
-                    {uploadingFiles.map((file) => (
-                      <div key={file.name} className="text-sm">
-                        <div className="flex justify-between text-gray-600">
-                          <span className="truncate">{file.name}</span>
-                          <span>{uploadProgress[file.name] || 0}%</span>
+              {/* Upload Section - Only show for image categories */}
+              {selectedCategory.id !== 'blogs' && (
+                <div className="space-y-4 pt-6 border-t">
+                  <h3 className="font-medium text-gray-900">Upload Images</h3>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleFileSelect}
+                    className="w-full"
+                  />
+                  {uploadingFiles.length > 0 && (
+                    <div className="space-y-2">
+                      {uploadingFiles.map((file) => (
+                        <div key={file.name} className="text-sm">
+                          <div className="flex justify-between text-gray-600">
+                            <span className="truncate">{file.name}</span>
+                            <span>{uploadProgress[file.name] || 0}%</span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                            <div
+                              className="bg-primary h-1.5 rounded-full transition-all duration-300"
+                              style={{ width: `${uploadProgress[file.name] || 0}%` }}
+                            />
+                          </div>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                          <div
-                            className="bg-primary h-1.5 rounded-full transition-all duration-300"
-                            style={{ width: `${uploadProgress[file.name] || 0}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                    <button
-                      onClick={handleUpload}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors"
-                    >
-                      <FiUpload className="w-5 h-5" />
-                      Upload {uploadingFiles.length} file(s)
-                    </button>
-                  </div>
-                )}
-              </div>
+                      ))}
+                      <button
+                        onClick={handleUpload}
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors"
+                      >
+                        <FiUpload className="w-5 h-5" />
+                        Upload {uploadingFiles.length} file(s)
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -869,7 +879,14 @@ function AdminDashboard() {
                 <p className="text-gray-500 mt-1">{selectedCategoryData?.description}</p>
               </div>
 
-              {renderImages}
+              {/* Show blog manager when blogs category is selected */}
+              {selectedCategory.id === 'blogs' ? (
+                <BlogManager />
+              ) : (
+                <>
+                  {renderImages}
+                </>
+              )}
             </div>
           </div>
         </div>
