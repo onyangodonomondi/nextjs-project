@@ -238,12 +238,12 @@ export default function Navbar() {
                   </Link>
                 )
               )}
-              <Link 
-                href="/contact" 
+              <a 
+                href="mailto:info@mockydigital.com" 
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors ml-2"
               >
                 Get Quote
-              </Link>
+              </a>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -380,8 +380,8 @@ export default function Navbar() {
             
             {/* Call-to-action button */}
             <div className="mt-6 pt-6 border-t border-gray-100">
-              <Link 
-                href="/contact"
+              <a 
+                href="mailto:info@mockydigital.com"
                 className="flex items-center justify-center w-full p-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
                 onClick={() => setIsOpen(false)}
               >
@@ -389,7 +389,7 @@ export default function Navbar() {
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
-              </Link>
+              </a>
             </div>
             
             {/* Contact info */}
